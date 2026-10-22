@@ -7,17 +7,24 @@ __pycache__/
 .ipynb_checkpoints/
 
 # Raw and processed real data are shared via the team drive, not git
-# data/raw/*/
-# data/interim/**
-# !data/interim/README.md
-# data/processed/**
-# !data/processed/README.md
+data/raw/*/
+data/interim/**
+!data/interim/README.md
+data/processed/**
+!data/processed/README.md
+
+# Large GIS source files (never commit)
+*.shp.zip
+*.osm.pbf
+*.gpkg.tmp
+data/raw/gis/**
+data/processed/gis/**
 
 # Generated results and logs (reproducible)
-# results/demo/**
-# results/real/**
-# !results/demo/README.md
-# !results/real/README.md
+results/demo/**
+results/real/**
+!results/demo/README.md
+!results/real/README.md
 logs/**
 # !logs/README.md
 

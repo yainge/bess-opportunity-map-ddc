@@ -13,6 +13,7 @@ dependencies = [
     "pyogrio>=0.9",
     "pyarrow>=15",
     "matplotlib>=3.8",
+    "folium>=0.17",
     "pyyaml>=6.0",
     "openpyxl>=3.1",
 ]
