@@ -32,7 +32,10 @@ def slug(value) -> str:
 
 
 def load(ctx: RunContext) -> Loaded:
-    return load_standardized(ctx.dataset(DATASET), "grid", "grid_input")
+    loaded = load_standardized(ctx.dataset(DATASET), "grid", "grid_input")
+    if "node_name" not in loaded.data.columns and "source_node_id" in loaded.data.columns:
+        loaded.data["node_name"] = loaded.data["source_node_id"]
+    return loaded
 
 
 def _canonical_ids(df: pd.DataFrame, default_operator: str) -> pd.Series:

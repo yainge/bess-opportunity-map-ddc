@@ -160,17 +160,30 @@ real:
   grid_nodes:
     domain: grid
     owner: Polo
-    path: null            # e.g. grid/ree_access_capacity_YYYY-MM.csv once delivered
-    format: csv
-    source_crs: null      # set to the CRS of the coordinate columns (e.g. EPSG:4326)
-    columns: {}           # map source columns -> canonical (see data_contract.md#grid)
+    path: Dataset_SusbtationNodes.xlsx
+    format: xlsx
+    source_crs: EPSG:4326
+    columns:
+      Node: source_node_id     # node name includes voltage level, e.g. "ASCÓ 400" – unique
+      "Coordinates y": x        # file labels lon as "Coordinates y"
+      "Coordinates x": y        # file labels lat as "Coordinates x"
+      Voltage kV: voltage_kv
+      "AvailableStorage CPE MPE [MW]": generation_available_mw
+      "Not occupied margin [MW]": demand_available_mw
+    units: {generation_available_mw: MW, demand_available_mw: MW}
     metadata:
-      dataset_name: Grid access capacity (transmission + distribution)
-      provider: REE (transmission); e-distribución (distribution)
+      dataset_name: REE transmission node access capacity, Catalonia
+      provider: REE (Red Eléctrica de España) – RETE access-capacity portal
       source_url: null
       publication_date: null
-      retrieval_date: null
-      verification_status: investigating
+      retrieval_date: "2026-10-22"
+      spatial_resolution: transmission node (117 nodes)
+      known_limitations: >-
+        Transmission (RdT) nodes only; e-distribución distribution nodes not included.
+        generation_available_mw is the BESS-specific CEP MPE storage margin (may be 0
+        even where general headroom exists); demand_available_mw is the general unoccupied
+        margin and is used as the primary capacity screening metric.
+      verification_status: to_verify
 
   demand_municipal:
     domain: demand
@@ -224,7 +237,7 @@ real:
   renewables_installations:
     domain: renewables
     owner: Isabella
-    path: null
+    path: null              # reserved for a future pre-merged single file
     format: csv
     source_crs: null
     columns: {}
@@ -232,49 +245,181 @@ real:
     options:
       status_map: {}
     metadata:
-      dataset_name: Existing and planned renewable installations
-      provider: Generalitat de Catalunya (ICAEN, environmental viewer)
+      dataset_name: Existing and planned renewable installations (combined)
+      provider: Generalitat de Catalunya
       verification_status: investigating
+
+  renewables_solar:
+    domain: renewables
+    owner: Isabella
+    path: renewables/ENERGIA_PARCSSOLARS_MULTIPOLI_20261015.csv
+    format: csv
+    source_crs: EPSG:25831
+    read_options: {sep: ";", encoding: utf-8-sig}
+    columns:
+      OBJECTID: source_installation_id
+      NOM: installation_name
+      POTENCIA: capacity_mw
+      ESTAT: status
+      X_UTM31N: x
+      Y_UTM31N: y
+    units: {capacity_mw: MW}
+    options:
+      status_map: &renewables_status_map
+        "En servei": operating
+        "Servei": operating
+        "Autoritzat": pipeline
+        "En tramitació": pipeline
+        "No autoritzat": unknown
+        "Desistit": unknown
+    metadata:
+      dataset_name: Ground-mounted solar PV installations, Catalonia (≥100 kW, post-2019)
+      provider: Generalitat de Catalunya – Departament de Territori (WFS ENERGIA_PARCSSOLARS_MULTIPOLI)
+      source_url: https://sig.gencat.cat/ows/ENERGIA/wfs
+      retrieval_date: "2026-10-15"
+      spatial_resolution: plant centroid (491 plants)
+      known_limitations: >-
+        Only plants permitted since November 2019 (Decret llei 16/2019); operating PV
+        built before that date is missing. No technology column in the source – technology
+        will be null for solar rows unless added by post-processing.
+      verification_status: to_verify
+
+  renewables_wind:
+    domain: renewables
+    owner: Isabella
+    path: renewables/ENERGIA_EOLICA_CATALUNYA_20261015.csv
+    format: csv
+    source_crs: EPSG:25831
+    read_options: {sep: ";", encoding: utf-8-sig}
+    columns:
+      SOURCE_ID: source_installation_id
+      NOM: installation_name
+      TECNOLOGIA: technology
+      POTENCIA_MW: capacity_mw
+      ESTAT: status
+      X_UTM31N: x
+      Y_UTM31N: y
+    units: {capacity_mw: MW}
+    options:
+      status_map: *renewables_status_map
+    metadata:
+      dataset_name: Wind farm installations and projects, Catalonia
+      provider: Generalitat de Catalunya – Departament de Territori (WFS ENERGIA_EOLICA_PARCS + ENERGIA_PARCSEOLICS_MULTIPUNT)
+      source_url: https://sig.gencat.cat/ows/ENERGIA/wfs
+      retrieval_date: "2026-10-15"
+      spatial_resolution: park centroid (120 parks/projects)
+      verification_status: to_verify
 
   gis_land_cover:
     domain: gis
     owner: Yuki
-    path: null
+    path: gis/land_cover.gpkg
     format: gpkg
-    layer: null
-    metadata: {dataset_name: Land cover map, provider: ICGC, verification_status: investigating}
+    layer: land_cover
+    columns:
+      land_class: land_class    # already canonical; identity mapping
+    metadata:
+      dataset_name: "Land cover map of Catalonia (MCSC) v1.0 2024"
+      provider: "Institut Cartogràfic i Geològic de Catalunya (ICGC)"
+      source_url: "https://datacloud.icgc.cat/datacloud/cobertes-sol/gpkg/cobertes-sol-v1r0-2024.zip"
+      publication_date: "2024"
+      retrieval_date: "2026-10-22"
+      spatial_resolution: "1 m (vector polygons derived from 1 m orthophoto)"
+      observation_period: "2024 (based on 2024 ICGC orthophotos)"
+      license: "CC BY 4.0 ICGC"
+      known_limitations: >-
+        Pipeline categories (agricultural_dryland, grassland_scrub, bare_industrial) cover
+        classes 111/113/114/115/116/224/228/230/231/347/349/350/352 of 41 MCSC classes.
+        Irrigated crops (112), forests (221-227,229), rocky areas (232), water (4xx) excluded.
+      verification_status: verified
   gis_protected_areas:
     domain: gis
     owner: Yuki
-    path: null
+    path: gis/protected_areas.gpkg
     format: gpkg
-    layer: null
-    metadata: {dataset_name: Protected areas (Natura 2000, PEIN), provider: Generalitat de Catalunya / MITECO, verification_status: investigating}
+    layer: protected_areas
+    columns: {}
+    metadata:
+      dataset_name: "Protected areas – PEIN + Xarxa Natura 2000, Catalonia"
+      provider: "Generalitat de Catalunya – Departament de Territori i Sostenibilitat (WFS ESPAIS_NATURALS)"
+      source_url: "https://sig.gencat.cat/ows/ESPAIS_NATURALS/wfs"
+      retrieval_date: "2026-10-22"
+      license: "Open Government Licence Generalitat de Catalunya"
+      known_limitations: >-
+        PEIN (749 features) + Xarxa Natura 2000 (663 features) dissolved into a single
+        union polygon (764 parts after explode) so overlaps are counted only once.
+        Source: Generalitat WFS (authoritative for Catalonia); not the MITECO national file.
+      verification_status: verified
   gis_flood_zones:
     domain: gis
     owner: Yuki
-    path: null
+    path: gis/flood_zones.gpkg
     format: gpkg
-    layer: null
-    metadata: {dataset_name: Flood zones, provider: Agència Catalana de l'Aigua, verification_status: investigating}
+    layer: flood_zones
+    columns: {}
+    metadata:
+      dataset_name: "Flood zones T100 (100-year return period), Catalonia"
+      provider: "Agència Catalana de l'Aigua (ACA)"
+      source_url: "https://sig.gencat.cat/ows/AIGUA/wfs"
+      wfs_layer: "AIGUA:AIGUA_LI100"
+      retrieval_date: "2026-10-22"
+      license: "Open Government Licence Generalitat de Catalunya"
+      known_limitations: "Official T100 flood inundation zones. Excludes T10 and T500."
+      verification_status: verified
   gis_zoning:
     domain: gis
     owner: Yuki
-    path: null
+    path: gis/zoning.gpkg
     format: gpkg
-    layer: null
-    metadata: {dataset_name: Mapa Urbanístic de Catalunya (MUC), provider: Generalitat de Catalunya, verification_status: investigating}
+    layer: zoning
+    columns:
+      zone_class: zone_class    # already canonical; identity mapping
+    metadata:
+      dataset_name: "Mapa Urbanístic de Catalunya (MUC) – land classifications"
+      provider: "Generalitat de Catalunya – Departament de Territori"
+      source_url: "https://sig.gencat.cat/ows/PLANEJAMENT/wfs"
+      wfs_layer: "PLANEJAMENT:MUC_CLASSIFICACIONS"
+      retrieval_date: "2026-10-22"
+      observation_period: "as of January 2025 (most municipalities)"
+      license: "Open Government Licence Generalitat de Catalunya"
+      known_limitations: >-
+        Only urban/urbanizable zones retained (SUC, SNC, SUD, SND = 12,119 features).
+        SNU (Sòl no urbanitzable, 2,883 features) excluded as it is the BESS target area.
+        Informative value only; no legal validity for planning purposes.
+      verification_status: verified
   gis_roads:
     domain: gis
     owner: Yuki
-    path: null
+    path: gis/roads.gpkg
     format: gpkg
-    layer: null
-    metadata: {dataset_name: Road network, provider: Generalitat de Catalunya / ICGC, verification_status: investigating}
+    layer: roads
+    columns:
+      road_class: road_class    # already canonical; identity mapping
+    metadata:
+      dataset_name: "Road network – Catalonia (OpenStreetMap via Geofabrik)"
+      provider: "Geofabrik / OpenStreetMap contributors"
+      source_url: "https://download.geofabrik.de/europe/spain/cataluna-latest-free.shp.zip"
+      retrieval_date: "2026-10-22"
+      license: "ODbL – OpenStreetMap contributors (https://www.openstreetmap.org/copyright)"
+      known_limitations: >-
+        Includes motorway, trunk (normalised to motorway) and primary road classes only.
+        Trunk roads (autovies) are mapped to road_class=motorway for accessibility metric.
+        OSM data quality varies; rural primary roads may be incomplete.
+      verification_status: to_verify
   gis_municipalities:
     domain: gis
     owner: Yuki
-    path: null
+    path: gis/municipalities.gpkg
     format: gpkg
-    layer: null
-    metadata: {dataset_name: Municipal boundaries, provider: ICGC, verification_status: investigating}
+    layer: municipalities
+    columns:
+      municipality_code: municipality_code    # already canonical
+    metadata:
+      dataset_name: "Municipal boundaries of Catalonia 1:5000"
+      provider: "Institut Cartogràfic i Geològic de Catalunya (ICGC)"
+      source_url: "https://geoserveis.icgc.cat/servei/catalunya/divisions-administratives/wfs"
+      wfs_layer: "divisions_administratives_wfs:divisions_administratives_municipis_5000"
+      retrieval_date: "2026-10-22"
+      license: "CC BY 4.0 ICGC"
+      known_limitations: "947 municipalities; CODIMUNI is a 6-digit INE/Idescat code."
+      verification_status: verified

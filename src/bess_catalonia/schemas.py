@@ -28,7 +28,7 @@ SCHEMAS: dict[str, list[Field]] = {
     # ---------------------------------------------------------------- grid (Polo)
     "grid_input": [
         F("source_node_id", "string", True, None, "Identifier used by the source publication"),
-        F("node_name", "string", True, None, "Node / substation name as published"),
+        F("node_name", "string", False, None, "Node / substation name as published (defaults to source_node_id if absent)"),
         F("x", "float", True, "source CRS", "X / longitude in the dataset's source_crs"),
         F("y", "float", True, "source CRS", "Y / latitude in the dataset's source_crs"),
         F("operator", "string", False, None, "REE, EDIS (e-distribución), ..."),

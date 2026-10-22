@@ -19,8 +19,8 @@ def test_dataset_spec_resolution(cfg):
     assert spec.path == cfg.root / "data/sample/grid/grid_nodes_synthetic.csv"
     assert spec.columns["kv"] == "voltage_kv"
     real = cfg.dataset("real", "grid_nodes")
-    assert real.path is None and not real.available
-    assert "not configured" in real.describe()
+    assert real.path is not None
+    assert real.columns["Node"] == "source_node_id"
 
 
 def test_unknown_mode_rejected(cfg):

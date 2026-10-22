@@ -90,7 +90,7 @@ the binding electrical constraint.
 Details and formulas: [docs/methodology.md](docs/methodology.md). Assumptions:
 [docs/assumptions.md](docs/assumptions.md).
 
-## C. System architecture
+# C. System architecture
 
 ```mermaid
 flowchart LR
@@ -133,14 +133,14 @@ Stage names and order: `grid`, `demand`, `congestion`, `renewables`, `gis`, `int
 
 ## D. Team and responsibilities
 
-| Member | Domain | Data sources | Expected outputs | Depends on | Integration responsibilities |
-|---|---|---|---|---|---|
-| **Polo** | Grid nodes | REE access capacity (transmission); e-distribución capacity (distribution) | `grid_nodes`: ids, names, **coordinates**, voltage, generation & demand access capacity | — (everyone depends on Polo) | Owns the canonical `node_id`; keeps source ids; resolves duplicate nodes |
-| **Fernando** | Demand | ICAEN / Idescat municipal electricity consumption by sector; industrial demand | `demand_municipal` long table + municipal summary | Yuki (municipal boundaries) | Preserves original geographic and temporal resolution; flags suppressed values |
-| **Hsiang Wei** | Congestion | REE / ESIOS ERNI, curtailment, constraint indicators | ERNI records, `node_matching`, 12-month ERNI per node | Polo (node list) | Preserves original congestion ids; maintains the reviewed crosswalk; resolves ambiguous matches |
-| **Isabella** | Renewables | Generalitat (ICAEN) installations; environmental viewer for planned projects | Installations with **coordinates**, capacity, technology, status (operating vs pipeline) | — | Validates coordinates; maintains the status mapping |
-| **Yuki** | GIS | ICGC land cover & DTM, MUC zoning, protected areas, ACA flood zones, roads, municipal boundaries | Node metrics: suitable land, constraint shares, conflicts, road distance; maps | Polo (nodes), Isabella (points) | CRS standards, spatial aggregation, map generation, GIS validation |
-| *Integration coordinator* | Integration | Processed outputs of all domains | `nodes_integrated`, scores, master GeoPackage | Everyone | **To be designated by the team.** Reviews shared-schema, integration and scoring PRs |
+| Member                      | Domain      | Data sources                                                                                     | Expected outputs                                                                                | Depends on                      | Integration responsibilities                                                                    |
+| --------------------------- | ----------- | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- | ------------------------------- | ----------------------------------------------------------------------------------------------- |
+| **Polo**              | Grid nodes  | REE access capacity (transmission); e-distribución capacity (distribution)                      | `grid_nodes`: ids, names, **coordinates**, voltage, generation & demand access capacity | — (everyone depends on Polo)   | Owns the canonical `node_id`; keeps source ids; resolves duplicate nodes                      |
+| **Fernando**          | Demand      | ICAEN / Idescat municipal electricity consumption by sector; industrial demand                   | `demand_municipal` long table + municipal summary                                             | Yuki (municipal boundaries)     | Preserves original geographic and temporal resolution; flags suppressed values                  |
+| **Hsiang Wei**        | Congestion  | REE / ESIOS ERNI, curtailment, constraint indicators                                             | ERNI records, `node_matching`, 12-month ERNI per node                                         | Polo (node list)                | Preserves original congestion ids; maintains the reviewed crosswalk; resolves ambiguous matches |
+| **Isabella**          | Renewables  | Generalitat (ICAEN) installations; environmental viewer for planned projects                     | Installations with **coordinates**, capacity, technology, status (operating vs pipeline)  | —                              | Validates coordinates; maintains the status mapping                                             |
+| **Yuki**              | GIS         | ICGC land cover & DTM, MUC zoning, protected areas, ACA flood zones, roads, municipal boundaries | Node metrics: suitable land, constraint shares, conflicts, road distance; maps                  | Polo (nodes), Isabella (points) | CRS standards, spatial aggregation, map generation, GIS validation                              |
+| *Integration coordinator* | Integration | Processed outputs of all domains                                                                 | `nodes_integrated`, scores, master GeoPackage                                                 | Everyone                        | **To be designated by the team.** Reviews shared-schema, integration and scoring PRs      |
 
 Grid-node coordinates come **only** from Polo and renewable-installation coordinates **only**
 from Isabella; nobody collects the same coordinate dataset twice unless validation shows a
@@ -150,56 +150,56 @@ need. How to work independently: [docs/team_workflow.md](docs/team_workflow.md).
 
 **Confirmed course milestones** (course introduction slides, 10 Sep 2026):
 
-| Milestone | Group 1 | Group 2 | Content |
-|---|---|---|---|
-| Conceptual proposal (session 3) | 1 Oct 2026 | 2 Oct 2026 | 5 min: idea, dataset exploration, mini value proposition |
-| **Intermediate presentation** (session 7) | **5 Nov 2026** | **6 Nov 2026** | 15 min: data-driven results, updated concept, track decision, roles, plan |
-| **Final presentation** (session 13) | **17 Dec 2026** | **18 Dec 2026** | 30 min: whole project, technical scope and business case; all members present |
-| Final report | not stated in the slides | | Complete project report |
+| Milestone                                       | Group 1                  | Group 2               | Content                                                                       |
+| ----------------------------------------------- | ------------------------ | --------------------- | ----------------------------------------------------------------------------- |
+| Conceptual proposal (session 3)                 | 1 Oct 2026               | 2 Oct 2026            | 5 min: idea, dataset exploration, mini value proposition                      |
+| **Intermediate presentation** (session 7) | **5 Nov 2026**     | **6 Nov 2026**  | 15 min: data-driven results, updated concept, track decision, roles, plan     |
+| **Final presentation** (session 13)       | **17 Dec 2026**    | **18 Dec 2026** | 30 min: whole project, technical scope and business case; all members present |
+| Final report                                    | not stated in the slides |                       | Complete project report                                                       |
 
 No classes on 29–30 Oct 2026 (exam period). Technological track: sessions 3–7; innovation /
 business track: sessions 8–12.
 
 **Phases** — internal timing is a *proposed working target*, not an agreed deadline:
 
-| Phase | Goal | Deliverables | Depends on | Done when | Responsible | Course link |
-|---|---|---|---|---|---|---|
-| 1. Foundation | Shared environment, pipeline, contracts | This repository v0.1.0 | — | Demo runs end-to-end, tests pass | Yuki (setup), all (review) | Technological track |
-| 2. Data acquisition | Collect and document real sources | Raw files in `data/raw/`, entries in `config/datasets.yaml`, manifest | Phase 1 | Each domain's `--validate` passes | Each data owner | Before intermediate |
-| 3. Integration M1 | Grid coordinates + access capacity + ERNI | `nodes_integrated` (M1) | Polo, Hsiang Wei | Matching report reviewed; no unresolved ambiguities for key nodes | Polo, Hsiang Wei, coordinator | Intermediate (5/6 Nov) |
-| 4. Integration M2–M3 | Add renewables, demand, land feasibility | `nodes_integrated` (M3) | Isabella, Fernando, Yuki | All five domains integrated | All | After intermediate |
-| 5. Exploration & scoring | Justify indicators and weights | Updated `scoring.yaml`, notebooks | Phase 4 | Choices recorded in `docs/decisions.md` | Team | — |
-| 6. Sensitivity & case studies | Ranking stability, candidate areas | Sensitivity results, case-study maps | Phase 5 | Top candidates robust or caveated | Team | — |
-| 7. Business & final | Innovation track, report, slides | Business case, final report, presentation | Phases 5–6 | Submitted | All | Final (17/18 Dec) |
+| Phase                         | Goal                                      | Deliverables                                                              | Depends on               | Done when                                                         | Responsible                   | Course link            |
+| ----------------------------- | ----------------------------------------- | ------------------------------------------------------------------------- | ------------------------ | ----------------------------------------------------------------- | ----------------------------- | ---------------------- |
+| 1. Foundation                 | Shared environment, pipeline, contracts   | This repository v0.1.0                                                    | —                       | Demo runs end-to-end, tests pass                                  | Yuki (setup), all (review)    | Technological track    |
+| 2. Data acquisition           | Collect and document real sources         | Raw files in `data/raw/`, entries in `config/datasets.yaml`, manifest | Phase 1                  | Each domain's `--validate` passes                               | Each data owner               | Before intermediate    |
+| 3. Integration M1             | Grid coordinates + access capacity + ERNI | `nodes_integrated` (M1)                                                 | Polo, Hsiang Wei         | Matching report reviewed; no unresolved ambiguities for key nodes | Polo, Hsiang Wei, coordinator | Intermediate (5/6 Nov) |
+| 4. Integration M2–M3         | Add renewables, demand, land feasibility  | `nodes_integrated` (M3)                                                 | Isabella, Fernando, Yuki | All five domains integrated                                       | All                           | After intermediate     |
+| 5. Exploration & scoring      | Justify indicators and weights            | Updated `scoring.yaml`, notebooks                                       | Phase 4                  | Choices recorded in `docs/decisions.md`                         | Team                          | —                     |
+| 6. Sensitivity & case studies | Ranking stability, candidate areas        | Sensitivity results, case-study maps                                      | Phase 5                  | Top candidates robust or caveated                                 | Team                          | —                     |
+| 7. Business & final           | Innovation track, report, slides          | Business case, final report, presentation                                 | Phases 5–6              | Submitted                                                         | All                           | Final (17/18 Dec)      |
 
 **Progress** (verified repository facts only; detailed tasks live in Notion):
 
-| Workstream | Owner | Current status | Next deliverable | Known blockers |
-|---|---|---|---|---|
-| Framework & tooling | Yuki | v0.1.0 implemented; test suite passes on synthetic data | Team onboarding | — |
-| Grid | Polo | Module implemented; no real data in the repository yet | Access-capacity file + column mapping | Source format to confirm |
-| Demand | Fernando | Module implemented; a local ICAEN-format file (2013–2024, 947 municipalities) processes in real mode | Confirm source URL and publication date | Provenance not yet verified; spatial use needs municipal boundaries |
-| Congestion | Hsiang Wei | Module and node matching implemented; no real data yet | ERNI file + crosswalk | — |
-| Renewables | Isabella | Module implemented; no real data yet | Installation file + status mapping | — |
-| GIS | Yuki | Module implemented; no real layers yet | Land cover, protected areas, flood zones, roads, municipalities | Layer sizes / formats to decide |
-| Integration coordinator | *to be designated* | — | Designate coordinator | — |
+| Workstream              | Owner                | Current status                                                                                        | Next deliverable                                                | Known blockers                                                      |
+| ----------------------- | -------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------- |
+| Framework & tooling     | Yuki                 | v0.1.0 implemented; test suite passes on synthetic data                                               | Team onboarding                                                 | —                                                                  |
+| Grid                    | Polo                 | Module implemented; no real data in the repository yet                                                | Access-capacity file + column mapping                           | Source format to confirm                                            |
+| Demand                  | Fernando             | Module implemented; a local ICAEN-format file (2013–2024, 947 municipalities) processes in real mode | Confirm source URL and publication date                         | Provenance not yet verified; spatial use needs municipal boundaries |
+| Congestion              | Hsiang Wei           | Module and node matching implemented; no real data yet                                                | ERNI file + crosswalk                                           | —                                                                  |
+| Renewables              | Isabella             | Module implemented; no real data yet                                                                  | Installation file + status mapping                              | —                                                                  |
+| GIS                     | Yuki                 | Module implemented; no real layers yet                                                                | Land cover, protected areas, flood zones, roads, municipalities | Layer sizes / formats to decide                                     |
+| Integration coordinator | *to be designated* | —                                                                                                    | Designate coordinator                                           | —                                                                  |
 
 ## F. Data sources
 
-| Source organisation | Category | Owner | Expected format | Intended use | Status |
-|---|---|---|---|---|---|
-| REE (Red Eléctrica) | Transmission access capacity | Polo | CSV / XLSX | Generation & demand access capacity per node | investigating |
-| e-distribución | Distribution access capacity | Polo | CSV / XLSX | Node capacity (distribution) | investigating |
-| REE / ESIOS | ERNI, curtailment | Hsiang Wei | CSV / XLSX | Congestion indicator | investigating |
-| Generalitat de Catalunya – ICAEN | Existing renewable installations | Isabella | CSV / JSON | Operating capacity near nodes | investigating |
-| Generalitat – environmental viewer | Planned renewable / battery projects | Isabella | GIS / CSV | Development pipeline | investigating |
-| ICAEN via Dades Obertes / Idescat | Municipal electricity consumption by sector | Fernando | CSV | Local demand context | **file in hand, source to verify** |
-| ICGC | Land cover; terrain (DTM) | Yuki | SHP / GPKG / raster | Suitable land; slope (later) | investigating |
-| Generalitat – MUC | Urban planning / zoning | Yuki | SHP / GML | Zoning exclusions | investigating |
-| MITECO / Generalitat | Protected areas (Natura 2000, PEIN) | Yuki | SHP / GeoJSON | Hard constraint | investigating |
-| Agència Catalana de l'Aigua | Flood zones | Yuki | SHP / WMS | Hard constraint | investigating |
-| Generalitat / ICGC | Roads | Yuki | SHP | Accessibility | investigating |
-| ICGC / Idescat | Municipal boundaries; population | Yuki / Fernando | SHP / CSV | Spatial demand allocation; social context (later) | investigating |
+| Source organisation                 | Category                                    | Owner           | Expected format     | Intended use                                      | Status                                   |
+| ----------------------------------- | ------------------------------------------- | --------------- | ------------------- | ------------------------------------------------- | ---------------------------------------- |
+| REE (Red Eléctrica)                | Transmission access capacity                | Polo            | CSV / XLSX          | Generation & demand access capacity per node      | investigating                            |
+| e-distribución                     | Distribution access capacity                | Polo            | CSV / XLSX          | Node capacity (distribution)                      | investigating                            |
+| REE / ESIOS                         | ERNI, curtailment                           | Hsiang Wei      | CSV / XLSX          | Congestion indicator                              | investigating                            |
+| Generalitat de Catalunya – ICAEN   | Existing renewable installations            | Isabella        | CSV / JSON          | Operating capacity near nodes                     | investigating                            |
+| Generalitat – environmental viewer | Planned renewable / battery projects        | Isabella        | GIS / CSV           | Development pipeline                              | investigating                            |
+| ICAEN via Dades Obertes / Idescat   | Municipal electricity consumption by sector | Fernando        | CSV                 | Local demand context                              | **file in hand, source to verify** |
+| ICGC                                | Land cover; terrain (DTM)                   | Yuki            | SHP / GPKG / raster | Suitable land; slope (later)                      | investigating                            |
+| Generalitat – MUC                  | Urban planning / zoning                     | Yuki            | SHP / GML           | Zoning exclusions                                 | investigating                            |
+| MITECO / Generalitat                | Protected areas (Natura 2000, PEIN)         | Yuki            | SHP / GeoJSON       | Hard constraint                                   | investigating                            |
+| Agència Catalana de l'Aigua        | Flood zones                                 | Yuki            | SHP / WMS           | Hard constraint                                   | investigating                            |
+| Generalitat / ICGC                  | Roads                                       | Yuki            | SHP                 | Accessibility                                     | investigating                            |
+| ICGC / Idescat                      | Municipal boundaries; population            | Yuki / Fernando | SHP / CSV           | Spatial demand allocation; social context (later) | investigating                            |
 
 "Investigating" = identified in project planning, not yet downloaded and verified. Always use
 the newest official publication at the time of retrieval and record its dates. Detailed
@@ -212,13 +212,13 @@ project's `.venv`; you never install packages or activate environments manually)
 (optional, separate desktop install) to inspect maps.
 
 **1. Install uv once** (official instructions:
-<https://docs.astral.sh/uv/getting-started/installation/>):
+[https://docs.astral.sh/uv/getting-started/installation/](https://docs.astral.sh/uv/getting-started/installation/)):
 
-| OS | Command |
-|---|---|
-| macOS (Homebrew) | `brew install uv` |
+| OS                                 | Command                                             |
+| ---------------------------------- | --------------------------------------------------- |
+| macOS (Homebrew)                   | `brew install uv`                                 |
 | macOS / Linux (official installer) | `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
-| Windows | `winget install --id=astral-sh.uv -e` |
+| Windows                            | `winget install --id=astral-sh.uv -e`             |
 
 Open a new terminal afterwards. The start scripts never download installers themselves; if
 uv is missing they stop with these instructions.
@@ -283,8 +283,7 @@ Behaviour:
   (exit code 1) naming the expected file. With `--all`, `demand`, `congestion`, `renewables`
   and `gis` are *optional* — skipped and reported; `grid`, `integrate`, `score` and `export`
   are required. Real mode never falls back to synthetic data.
-* A stage can run on its own when its upstream outputs already exist (e.g. `--steps
-  congestion` reuses an earlier `grid` output); otherwise it names the stage to run first.
+* A stage can run on its own when its upstream outputs already exist (e.g. `--steps congestion` reuses an earlier `grid` output); otherwise it names the stage to run first.
 * `--dry-run` prints WOULD RUN / UP TO DATE / SKIP / BLOCKED per stage with its input files.
 * Exit codes: `0` success, `1` a stage failed or was blocked, `2` invalid usage or
   configuration, `127` uv not installed.
@@ -311,22 +310,22 @@ committing (*Edit → Clear Outputs of All Cells*).
 
 ## H. Repository structure
 
-| Path | Purpose |
-|---|---|
-| `start.sh`, `start.ps1` | Entry points: bootstrap `.venv`, forward to the CLI |
-| `config/` | `project.yaml` (paths, modes, rules), `datasets.yaml` (inputs, mappings, provenance), `spatial.yaml` (buffers, constraints), `scoring.yaml` (indicators, scenarios) |
-| `src/bess_catalonia/` | Python package: core (`cli`, `config`, `pipeline`, `schemas`, `quality`, `provenance`, `io`, `units`, `demo`) and one sub-package per stage |
-| `data/raw/<domain>/` | Official source files — immutable, **not in git** (share via the team drive) |
-| `data/processed/` | Reproducible real-mode outputs per stage (not in git) |
-| `data/sample/` | Synthetic demo inputs (generated deterministically on the first demo run; not committed) |
-| `data/manifests/` | Data-version manifests (checksums of inputs) |
-| `results/demo/`, `results/real/` | GeoPackage, maps, tables, quality reports — strictly separate |
-| `results/reports/` | Hand-written analysis reports and figures for presentations |
-| `notebooks/` | Exploration notebooks (synthetic data by default) |
-| `tests/` | `unit/`, `integration/`, `fixtures/` |
-| `qgis/` | QGIS instructions (project and style files later) |
-| `docs/` | Architecture, data contract, inventory, methodology, assumptions, decisions, workflow, future features |
-| `logs/` | Run logs and run records (not in git) |
+| Path                                 | Purpose                                                                                                                                                                     |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `start.sh`, `start.ps1`          | Entry points: bootstrap `.venv`, forward to the CLI                                                                                                                       |
+| `config/`                          | `project.yaml` (paths, modes, rules), `datasets.yaml` (inputs, mappings, provenance), `spatial.yaml` (buffers, constraints), `scoring.yaml` (indicators, scenarios) |
+| `src/bess_catalonia/`              | Python package: core (`cli`, `config`, `pipeline`, `schemas`, `quality`, `provenance`, `io`, `units`, `demo`) and one sub-package per stage               |
+| `data/raw/<domain>/`               | Official source files — immutable, **not in git** (share via the team drive)                                                                                         |
+| `data/processed/`                  | Reproducible real-mode outputs per stage (not in git)                                                                                                                       |
+| `data/sample/`                     | Synthetic demo inputs (generated deterministically on the first demo run; not committed)                                                                                    |
+| `data/manifests/`                  | Data-version manifests (checksums of inputs)                                                                                                                                |
+| `results/demo/`, `results/real/` | GeoPackage, maps, tables, quality reports — strictly separate                                                                                                              |
+| `results/reports/`                 | Hand-written analysis reports and figures for presentations                                                                                                                 |
+| `notebooks/`                       | Exploration notebooks (synthetic data by default)                                                                                                                           |
+| `tests/`                           | `unit/`, `integration/`, `fixtures/`                                                                                                                                  |
+| `qgis/`                            | QGIS instructions (project and style files later)                                                                                                                           |
+| `docs/`                            | Architecture, data contract, inventory, methodology, assumptions, decisions, workflow, future features                                                                      |
+| `logs/`                            | Run logs and run records (not in git)                                                                                                                                       |
 
 ## I. Data contracts and integration
 
@@ -388,18 +387,19 @@ Deferred features: [docs/future_features.md](docs/future_features.md).
 
 ## L. Documentation and changelog
 
-| Document | What it records |
-|---|---|
-| [CHANGELOG.md](CHANGELOG.md) | Software, schema and methodology changes (Keep a Changelog) |
-| `data/manifests/*.json` | Exact dataset versions (checksums) — separate from the changelog |
-| `logs/runs/*.json` | What each pipeline run read and wrote — separate from the changelog |
-| [docs/architecture.md](docs/architecture.md) | Stages, modules, execution model |
-| [docs/data_contract.md](docs/data_contract.md) | Every canonical column, type and unit |
-| [docs/dataset_inventory.md](docs/dataset_inventory.md) | Sources, provenance, verification status |
-| [docs/methodology.md](docs/methodology.md) | Formulas and spatial methods |
-| [docs/assumptions.md](docs/assumptions.md), [docs/decisions.md](docs/decisions.md) | Assumptions; decision log |
-| [docs/team_workflow.md](docs/team_workflow.md) | Branches, PRs, reviews, contributing data |
-| [docs/future_features.md](docs/future_features.md) | Deliberately deferred work |
+| Document                                                                         | What it records                                                      |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| [CHANGELOG.md](CHANGELOG.md)                                                      | Software, schema and methodology changes (Keep a Changelog)          |
+| `data/manifests/*.json`                                                        | Exact dataset versions (checksums) — separate from the changelog    |
+| `logs/runs/*.json`                                                             | What each pipeline run read and wrote — separate from the changelog |
+| [docs/architecture.md](docs/architecture.md)                                      | Stages, modules, execution model                                     |
+| [docs/data_contract.md](docs/data_contract.md)                                    | Every canonical column, type and unit                                |
+| [docs/dataset_inventory.md](docs/dataset_inventory.md)                            | Sources, provenance, verification status                             |
+| [docs/methodology.md](docs/methodology.md)                                        | Formulas and spatial methods                                         |
+| [docs/assumptions.md](docs/assumptions.md), [docs/decisions.md](docs/decisions.md) | Assumptions; decision log                                            |
+| [docs/team_workflow.md](docs/team_workflow.md)                                    | Branches, PRs, reviews, contributing data                            |
+| [docs/future_features.md](docs/future_features.md)                                | Deliberately deferred work                                           |
+| [docs/data_pipeline_overview.md](docs/data_pipeline_overview.md)                  | Data pipeline: per-domain table (dataset, source, variables, cleaning, processing, usage, outputs, status) and Mermaid flowchart |
 
 **Keeping documentation current is part of every change.** Whenever code, architecture,
 responsibilities, workflow, scope or significant progress changes, update the relevant README

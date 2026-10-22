@@ -7,6 +7,11 @@ All notable changes to this project are documented here. Format:
 
 ## [Unreleased]
 
+### Added
+- `docs/data_pipeline_overview.md`: data pipeline overview table and Mermaid flowchart covering
+  all five data categories (grid nodes, congestion, demand, renewables, GIS/land) — dataset,
+  source, variables, cleaning, processing, usage, outputs and implementation status per domain.
+
 ### Changed
 - Project (distribution) and virtual-environment prompt renamed from `bess-catalonia` to
   `bess-opportunity-map-ddc` to match the repository; the Python import package stays

@@ -21,10 +21,23 @@ from bess_catalonia.quality import QualityReport
 from bess_catalonia.schemas import order_columns
 
 DATASET = "renewables_installations"
+DATASET_SOLAR = "renewables_solar"
+DATASET_WIND = "renewables_wind"
 CATEGORIES = ("operating", "pipeline")
 
 
 def load(ctx: RunContext) -> Loaded:
+    split_keys = [k for k in (DATASET_SOLAR, DATASET_WIND) if ctx.available(k)]
+    if split_keys:
+        parts = [load_standardized(ctx.dataset(k), "renewables", "renewables_input")
+                 for k in split_keys]
+        combined = pd.concat([p.data for p in parts], ignore_index=True)
+        report = parts[0].report
+        for extra in parts[1:]:
+            report.issues.extend(extra.report.issues)
+            report.metrics.update(extra.report.metrics)
+        report.metrics["source_rows"] = len(combined)
+        return Loaded(parts[0].spec, combined, report)
     return load_standardized(ctx.dataset(DATASET), "renewables", "renewables_input")
 
 
@@ -62,7 +75,8 @@ def validate(loaded: Loaded, ctx: RunContext) -> list[QualityReport]:
     unknown = cat == "unknown"
     if unknown.any():
         report.warning("status_map", "Statuses not in options.status_map -> 'unknown'",
-                       int(unknown.sum()), sorted(set(df.loc[unknown, "status"].astype(str))))
+                       int(unknown.sum()), sorted(set(df.loc[unknown, "status"].astype(str)),
+                                                  key=str))
     if df["capacity_mw"].isna().any():
         report.warning("missing_values", "Installations without capacity (kept null)",
                        int(df["capacity_mw"].isna().sum()))

@@ -30,7 +30,7 @@ optional_stages_in_all: [demand, congestion, renewables, gis]
 
 grid:
   # node_id = "<operator>-<source_node_id>" (upper-case, non-alphanumerics -> "_").
-  default_operator: UNKNOWN
+  default_operator: REE
   # Headroom proxy min(generation, demand) is computed only when both values are present,
   # non-negative and (if capacity dates are supplied) published for the same date.
   require_same_capacity_date: true
