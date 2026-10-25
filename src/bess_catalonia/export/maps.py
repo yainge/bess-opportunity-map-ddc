@@ -1,11 +1,16 @@
-"""Static maps (matplotlib). Every demo map carries a SYNTHETIC watermark."""
+"""Map outputs: static PNG (matplotlib) and interactive HTML (folium).
+
+Every demo map carries a SYNTHETIC watermark.
+"""
 
 from __future__ import annotations
 
 from pathlib import Path
 
+import folium
 import geopandas as gpd
 import matplotlib
+import pandas as pd
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
@@ -96,3 +101,205 @@ def score_map(nodes, scores, scenario: str, context, mode: str, path: Path) -> P
                         textcoords="offset points", fontsize=7, zorder=7)
     title = f"Opportunity score - {scenario.replace('_', ' ')} (illustrative)"
     return _finish(fig, ax, title, mode, path, handles)
+
+
+# ---------------------------------------------------------------------------
+# Interactive HTML maps (folium) — style inspired by hhw2002/data-driven-challenge-project
+# ---------------------------------------------------------------------------
+
+_SCORE_COLORS = ["#d73027", "#fc8d59", "#fee08b", "#1a9850"]  # red → green (low → high)
+_GREY = "#8a8a86"
+
+
+def _to_wgs84(gdf: gpd.GeoDataFrame) -> gpd.GeoDataFrame:
+    if gdf.crs is None or gdf.crs.to_epsg() == 4326:
+        return gdf
+    return gdf.to_crs(epsg=4326)
+
+
+def _swatch(color: str) -> str:
+    return (
+        f'<span style="display:inline-block;width:12px;height:12px;border-radius:50%;'
+        f'background:{color};border:1px solid #fff;box-shadow:0 0 0 1px #9a9a96;'
+        f'margin-right:6px;vertical-align:-1px;"></span>'
+    )
+
+
+def _folium_legend(title: str, subtitle: str, classes: list[dict], watermark: str = "") -> str:
+    rows = "".join(
+        f'<div style="margin-top:4px;">{_swatch(c["color"])}{c["label"]}'
+        + (f'<span style="color:#6b6b68;"> · {c["count"]}</span>' if "count" in c else "")
+        + "</div>"
+        for c in classes
+    )
+    wm = (
+        f'<div style="color:#c0392b;font-size:10px;font-style:italic;margin-top:6px;">'
+        f"{watermark}</div>"
+    ) if watermark else ""
+    return (
+        '<div style="position:fixed;bottom:24px;left:12px;z-index:1000;'
+        "background:#fff;color:#1f1f1e;padding:10px 12px;border-radius:6px;"
+        "box-shadow:0 1px 4px rgba(0,0,0,0.3);font:13px/1.3 'Open Sans',Arial,sans-serif;"
+        'max-width:280px;">'
+        f"<b>{title}</b>"
+        + (f'<div style="color:#6b6b68;">{subtitle}</div>' if subtitle else "")
+        + f"{rows}{wm}</div>"
+    )
+
+
+def _save_html(m: folium.Map, path: Path) -> Path:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(f".{path.name}")
+    m.save(str(tmp))
+    tmp.replace(path)
+    return path
+
+
+def node_overview_map_html(nodes, context: dict, mode: str, path: Path) -> Path:
+    n4 = _to_wgs84(nodes)
+    center = [n4.geometry.y.mean(), n4.geometry.x.mean()]
+    m = folium.Map(
+        location=center, zoom_start=8,
+        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Canvas/MapServer/tile/{z}/{y}/{x}",
+        attr="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
+    )
+
+    if (mun := context.get("municipalities")) is not None:
+        folium.GeoJson(
+            _to_wgs84(mun).__geo_interface__,
+            name="Municipalities",
+            style_function=lambda _: {"fillOpacity": 0, "color": "#aaaaaa", "weight": 0.8},
+        ).add_to(m)
+
+    level_col = n4.get("network_level")
+    level_styles = {
+        "transmission": ("#1f3b73", 7, "Transmission node"),
+        "distribution": ("#e67e22", 5, "Distribution node"),
+    }
+    classes = []
+    for lvl, (color, radius, label) in level_styles.items():
+        sub = n4[level_col == lvl] if level_col is not None else n4.iloc[0:0]
+        if not len(sub):
+            continue
+        layer = folium.FeatureGroup(name=f"{_swatch(color)}{label}", show=True)
+        for _, row in sub.iterrows():
+            name = row.get("node_name") or row["node_id"]
+            folium.CircleMarker(
+                location=[row.geometry.y, row.geometry.x],
+                radius=radius, color="#fff", weight=1.5,
+                fill=True, fill_color=color, fill_opacity=1.0,
+                tooltip=name,
+                popup=folium.Popup(
+                    f"<b>{name}</b><br>ID: {row['node_id']}<br>Level: {lvl}", max_width=240
+                ),
+            ).add_to(layer)
+        layer.add_to(m)
+        classes.append({"color": color, "label": label, "count": len(sub)})
+
+    other = n4[~level_col.isin(list(level_styles))] if level_col is not None else n4
+    if len(other):
+        layer = folium.FeatureGroup(name=f"{_swatch(_GREY)}Other node", show=True)
+        for _, row in other.iterrows():
+            name = row.get("node_name") or row["node_id"]
+            folium.CircleMarker(
+                location=[row.geometry.y, row.geometry.x],
+                radius=5, color="#fff", weight=1.5,
+                fill=True, fill_color=_GREY, fill_opacity=0.75,
+                tooltip=name,
+                popup=folium.Popup(
+                    f"<b>{name}</b><br>ID: {row['node_id']}<br>Level: other", max_width=240
+                ),
+            ).add_to(layer)
+        layer.add_to(m)
+        classes.append({"color": _GREY, "label": "Other node", "count": len(other)})
+
+    folium.LayerControl(collapsed=False).add_to(m)
+    wm = "SYNTHETIC DEMO DATA" if mode == "demo" else ""
+    m.get_root().html.add_child(
+        folium.Element(_folium_legend("Grid nodes", "by network level · count", classes, wm))
+    )
+    return _save_html(m, path)
+
+
+def score_map_html(nodes, scores, scenario: str, context: dict, mode: str, path: Path) -> Path:
+    s = scores[scores["scenario"] == scenario][["node_id", "score", "rank"]]
+    g4 = _to_wgs84(nodes.merge(s, on="node_id", how="left"))
+    center = [g4.geometry.y.mean(), g4.geometry.x.mean()]
+    m = folium.Map(
+        location=center, zoom_start=8,
+        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Canvas/MapServer/tile/{z}/{y}/{x}",
+        attr="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
+    )
+
+    if (mun := context.get("municipalities")) is not None:
+        folium.GeoJson(
+            _to_wgs84(mun).__geo_interface__,
+            name="Municipalities",
+            style_function=lambda _: {"fillOpacity": 0, "color": "#aaaaaa", "weight": 0.8},
+        ).add_to(m)
+
+    ranked = g4[g4["rank"].notna()].copy()
+    unranked = g4[g4["rank"].isna()]
+
+    # Unranked layer
+    if len(unranked):
+        layer = folium.FeatureGroup(
+            name=f"{_swatch(_GREY)}Unranked (excluded / insufficient data)", show=True
+        )
+        for _, row in unranked.iterrows():
+            name = row.get("node_name") or row["node_id"]
+            folium.CircleMarker(
+                location=[row.geometry.y, row.geometry.x],
+                radius=5, color="#fff", weight=1.5,
+                fill=True, fill_color=_GREY, fill_opacity=0.6,
+                tooltip=name,
+                popup=folium.Popup(
+                    f"<b>{name}</b><br>ID: {row['node_id']}<br>Status: unranked", max_width=240
+                ),
+            ).add_to(layer)
+        layer.add_to(m)
+
+    legend_classes: list[dict] = [{"color": _GREY, "label": "Unranked", "count": len(unranked)}]
+
+    if len(ranked):
+        q1, q2, q3 = ranked["score"].quantile([0.25, 0.5, 0.75]).round(2)
+        score_classes = [
+            {"label": f"≤ {q1:.2f}", "color": _SCORE_COLORS[0]},
+            {"label": f"{q1:.2f} – {q2:.2f}", "color": _SCORE_COLORS[1]},
+            {"label": f"{q2:.2f} – {q3:.2f}", "color": _SCORE_COLORS[2]},
+            {"label": f"> {q3:.2f}", "color": _SCORE_COLORS[3]},
+        ]
+        ranked["_cls"] = ranked["score"].apply(
+            lambda v: 0 if v <= q1 else (1 if v <= q2 else (2 if v <= q3 else 3))
+        )
+        for cls_idx, cls in enumerate(score_classes):
+            sub = ranked[ranked["_cls"] == cls_idx]
+            if not len(sub):
+                continue
+            layer = folium.FeatureGroup(
+                name=f"{_swatch(cls['color'])}{cls['label']}", show=True
+            )
+            for _, row in sub.iterrows():
+                name = row.get("node_name") or row["node_id"]
+                rank_str = f"#{int(row['rank'])}" if pd.notna(row["rank"]) else ""
+                folium.CircleMarker(
+                    location=[row.geometry.y, row.geometry.x],
+                    radius=7, color="#fff", weight=1.5,
+                    fill=True, fill_color=cls["color"], fill_opacity=1.0,
+                    tooltip=f"{name} {rank_str}: {row['score']:.3f}",
+                    popup=folium.Popup(
+                        f"<b>{name}</b><br>ID: {row['node_id']}<br>"
+                        f"Rank: {rank_str}<br>Score: {row['score']:.3f}",
+                        max_width=240,
+                    ),
+                ).add_to(layer)
+            layer.add_to(m)
+            legend_classes.append({**cls, "count": len(sub)})
+
+    folium.LayerControl(collapsed=False).add_to(m)
+    wm = "SYNTHETIC DEMO DATA" if mode == "demo" else ""
+    title = f"Opportunity score · {scenario.replace('_', ' ')}"
+    m.get_root().html.add_child(
+        folium.Element(_folium_legend(title, "score range · node count", legend_classes, wm))
+    )
+    return _save_html(m, path)

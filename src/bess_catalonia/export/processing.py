@@ -8,7 +8,13 @@ from __future__ import annotations
 import geopandas as gpd
 import pandas as pd
 
-from bess_catalonia.export.maps import SYNTHETIC_NOTE, node_overview_map, score_map
+from bess_catalonia.export.maps import (
+    SYNTHETIC_NOTE,
+    node_overview_map,
+    node_overview_map_html,
+    score_map,
+    score_map_html,
+)
 from bess_catalonia.io import read_vector, write_csv, write_gpkg, write_text
 from bess_catalonia.pipeline import RunContext, StageResult
 from bess_catalonia.quality import QualityReport
@@ -85,11 +91,15 @@ def run(ctx: RunContext) -> StageResult:
         outputs.append(write_csv(scores, res / "tables" / "scores_long.csv"))
     maps = ctx.paths.maps_dir
     outputs.append(node_overview_map(nodes, context, ctx.mode, maps / "grid_nodes_overview.png"))
+    outputs.append(node_overview_map_html(nodes, context, ctx.mode,
+                                          maps / "grid_nodes_overview.html"))
     if scores is not None:
         for scen in scores["scenario"].unique():
             outputs.append(score_map(nodes, scores, scen, context, ctx.mode,
                                      maps / f"score_{scen}.png"))
+            outputs.append(score_map_html(nodes, scores, scen, context, ctx.mode,
+                                          maps / f"score_{scen}.html"))
     outputs.append(write_text(res / "summary.md", summary_markdown(ctx, nodes, scores)))
+    n_maps = sum(p.suffix in (".png", ".html") for p in outputs)
     return StageResult(outputs=outputs,
-                       record_counts={"gpkg_layers": len(layers),
-                                      "maps": sum(p.suffix == ".png" for p in outputs)})
+                       record_counts={"gpkg_layers": len(layers), "maps": n_maps})
