@@ -126,10 +126,11 @@ flowchart LR
   source into a standardised, validated dataset with a quality report.
 * **Integration** (`integrate`) joins everything onto the canonical grid nodes.
 * **Analysis** (`score`) is separate from preparation and fully configurable.
+* **ML** (`ml`) trains a Random Forest to identify opportunity nodes by learning from existing renewable developer siting decisions (optional, requires `integrate` + `renewables`).
 * **Presentation** (`export`) writes the GeoPackage, tables, maps and a run summary.
 
 Stage names and order: `grid`, `demand`, `congestion`, `renewables`, `gis`, `integrate`,
-`score`, `export`. Full design: [docs/architecture.md](docs/architecture.md).
+`score`, `ml`, `export`. Full design: [docs/architecture.md](docs/architecture.md).
 
 ## D. Team and responsibilities
 
@@ -281,7 +282,7 @@ Behaviour:
   configuration, upstream outputs and code are unchanged; `--force` overrides.
 * **Missing data:** a stage requested with `--steps` whose data is missing is an **error**
   (exit code 1) naming the expected file. With `--all`, `demand`, `congestion`, `renewables`
-  and `gis` are *optional* — skipped and reported; `grid`, `integrate`, `score` and `export`
+  `gis`, and `ml` are *optional* — skipped and reported; `grid`, `integrate`, `score` and `export`
   are required. Real mode never falls back to synthetic data.
 * A stage can run on its own when its upstream outputs already exist (e.g. `--steps congestion` reuses an earlier `grid` output); otherwise it names the stage to run first.
 * `--dry-run` prints WOULD RUN / UP TO DATE / SKIP / BLOCKED per stage with its input files.

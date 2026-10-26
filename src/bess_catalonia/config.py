@@ -17,7 +17,7 @@ from typing import Any
 import yaml
 
 MODES = ("demo", "real")
-CONFIG_FILES = ("project", "datasets", "spatial", "scoring")
+CONFIG_FILES = ("project", "datasets", "spatial", "scoring", "ml")
 
 
 class ConfigError(ValueError):
@@ -96,6 +96,7 @@ class Config:
     datasets: dict[str, Any]
     spatial: dict[str, Any]
     scoring: dict[str, Any]
+    ml: dict[str, Any]
 
     # -- paths --------------------------------------------------------------------------
     def mode_paths(self, mode: str) -> ModePaths:

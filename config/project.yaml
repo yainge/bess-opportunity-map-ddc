@@ -26,7 +26,7 @@ manifests_dir: data/manifests
 # During `--all`, these stages are skipped (and reported) when their input data is not yet
 # available. Stages not listed here are required: missing data is an error.
 # Stages requested explicitly with `--steps` are always required.
-optional_stages_in_all: [demand, congestion, renewables, gis]
+optional_stages_in_all: [demand, congestion, renewables, gis, ml]
 
 grid:
   # node_id = "<operator>-<source_node_id>" (upper-case, non-alphanumerics -> "_").

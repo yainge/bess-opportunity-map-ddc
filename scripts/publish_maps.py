@@ -19,6 +19,7 @@ MAP_TITLES = {
     "score_renewable_absorption": "Score: renewable absorption",
     "score_connection_readiness": "Score: connection readiness",
     "score_load_grid_support": "Score: load & grid support",
+    "ml_opportunity": "ML: opportunity nodes (classifier)",
 }
 
 

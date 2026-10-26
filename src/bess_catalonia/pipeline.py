@@ -30,7 +30,7 @@ from bess_catalonia.provenance import (
 from bess_catalonia.quality import DataValidationError, QualityReport
 
 STAGE_ORDER = ("grid", "demand", "congestion", "renewables", "gis", "integrate", "score",
-               "export")
+               "ml", "export")
 MANIFEST = "_stage.json"
 logger = logging.getLogger("bess_catalonia")
 
@@ -87,9 +87,14 @@ STAGES: dict[str, StageSpec] = {
                   config_keys=(("scoring", "indicators"), ("scoring", "scenarios"),
                                ("scoring", "exclude_if_true"),
                                ("scoring", "min_weight_coverage"))),
+        StageSpec("ml", "Team", "Opportunity classifier: learn from renewable developer siting decisions",
+                  "bess_catalonia.ml.processing",
+                  upstream=("integrate", "renewables"),
+                  config_keys=(("ml", "features"), ("ml", "label"), ("ml", "model"),
+                               ("ml", "opportunity_threshold"))),
         StageSpec("export", "Yuki", "Master GeoPackage, CSV, maps, run summary",
                   "bess_catalonia.export.processing", optional_datasets=("gis_municipalities",),
-                  upstream=("integrate",), optional_upstream=("score", "gis")),
+                  upstream=("integrate",), optional_upstream=("score", "gis", "ml")),
     )
 }
 
@@ -169,6 +174,9 @@ def stage_fingerprint(ctx: RunContext, spec: StageSpec) -> str:
     cfg = ctx.config
     datasets = {}
     for key in spec.required_datasets + spec.optional_datasets:
+        if key not in cfg.dataset_keys(ctx.mode):
+            datasets[key] = {"checksum": None, "spec": None}
+            continue
         d = cfg.dataset(ctx.mode, key)
         datasets[key] = {
             "checksum": ctx.checksum(d.path) if d.available else None,
@@ -341,7 +349,8 @@ def print_plan(ctx: RunContext, planned: list[PlannedStage]) -> None:
         spec = STAGES[p.name]
         print(f"  {p.name:<11} {labels[p.action]:<16} {p.reason}")
         for k in spec.required_datasets + spec.optional_datasets:
-            print(f"      - {ctx.config.dataset(ctx.mode, k).describe()}")
+            if k in ctx.config.dataset_keys(ctx.mode):
+                print(f"      - {ctx.config.dataset(ctx.mode, k).describe()}")
     print()
 
 

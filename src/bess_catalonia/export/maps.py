@@ -147,6 +147,13 @@ def _folium_legend(title: str, subtitle: str, classes: list[dict], watermark: st
     )
 
 
+_ML_COLORS = {
+    "opportunity": "#e67e22",  # orange: high probability, no existing project
+    "existing": "#2980b9",     # blue: has operating renewable nearby
+    "other": _GREY,            # grey: low probability, no project
+}
+
+
 def _save_html(m: folium.Map, path: Path) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_name(f".{path.name}")
@@ -301,5 +308,76 @@ def score_map_html(nodes, scores, scenario: str, context: dict, mode: str, path:
     title = f"Opportunity score · {scenario.replace('_', ' ')}"
     m.get_root().html.add_child(
         folium.Element(_folium_legend(title, "score range · node count", legend_classes, wm))
+    )
+    return _save_html(m, path)
+
+
+def ml_opportunity_map_html(
+    nodes: gpd.GeoDataFrame,
+    ml_preds: pd.DataFrame,
+    context: dict,
+    mode: str,
+    path: Path,
+) -> Path:
+    """Interactive map of ML opportunity nodes coloured by classifier category."""
+    merged = _to_wgs84(nodes.merge(ml_preds[["node_id", "ml_label",
+                                              "ml_opportunity_prob", "ml_opportunity"]],
+                                   on="node_id", how="left"))
+    center = [merged.geometry.y.mean(), merged.geometry.x.mean()]
+    m = folium.Map(
+        location=center, zoom_start=8,
+        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Canvas/MapServer/tile/{z}/{y}/{x}",
+        attr="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
+    )
+
+    if (mun := context.get("municipalities")) is not None:
+        folium.GeoJson(
+            _to_wgs84(mun).__geo_interface__,
+            name="Municipalities",
+            style_function=lambda _: {"fillOpacity": 0, "color": "#aaaaaa", "weight": 0.8},
+        ).add_to(m)
+
+    categories = [
+        ("opportunity", "ML opportunity (no project yet)", 9),
+        ("existing", "Has existing renewable project", 7),
+        ("other", "Low probability", 5),
+    ]
+
+    legend_classes = []
+    for key, label, radius in categories:
+        color = _ML_COLORS[key]
+        if key == "opportunity":
+            sub = merged[merged["ml_opportunity"].fillna(False)]
+        elif key == "existing":
+            sub = merged[merged["ml_label"].fillna(0) == 1]
+        else:
+            sub = merged[~merged["ml_opportunity"].fillna(False) & (merged["ml_label"].fillna(0) == 0)]
+        if sub.empty:
+            continue
+        layer = folium.FeatureGroup(name=f"{_swatch(color)}{label}", show=True)
+        for _, row in sub.iterrows():
+            name = row.get("node_name") or row["node_id"]
+            prob = row.get("ml_opportunity_prob")
+            prob_str = f"{prob:.3f}" if pd.notna(prob) else "n/a"
+            folium.CircleMarker(
+                location=[row.geometry.y, row.geometry.x],
+                radius=radius, color="#fff", weight=1.5,
+                fill=True, fill_color=color, fill_opacity=1.0,
+                tooltip=f"{name} · p={prob_str}",
+                popup=folium.Popup(
+                    f"<b>{name}</b><br>ID: {row['node_id']}<br>"
+                    f"ML prob: {prob_str}<br>Label: {int(row['ml_label']) if pd.notna(row['ml_label']) else 'n/a'}",
+                    max_width=240,
+                ),
+            ).add_to(layer)
+        layer.add_to(m)
+        legend_classes.append({"color": color, "label": label, "count": len(sub)})
+
+    folium.LayerControl(collapsed=False).add_to(m)
+    wm = "SYNTHETIC DEMO DATA" if mode == "demo" else ""
+    m.get_root().html.add_child(
+        folium.Element(_folium_legend("ML opportunity nodes",
+                                     "classifier: learn from developer decisions",
+                                     legend_classes, wm))
     )
     return _save_html(m, path)

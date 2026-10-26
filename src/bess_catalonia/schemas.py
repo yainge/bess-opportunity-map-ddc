@@ -164,6 +164,19 @@ SCHEMAS: dict[str, list[Field]] = {
         F("lat", "float", True, "deg"),
         F("geometry", "geometry", True, None, "Point, EPSG:25831"),
     ],
+    # ---------------------------------------------------------------- ML (Team)
+    "ml_predictions": [
+        F("node_id", "string", True),
+        F("ml_label", "int", True, None, "1 if node has an operating renewable within label radius"),
+        F("ml_opportunity_prob", "float", True, "0-1", "Random Forest predicted probability"),
+        F("ml_opportunity", "bool", True, None,
+          "True if probability ≥ threshold and no existing project nearby"),
+    ],
+    "ml_feature_importance": [
+        F("feature", "string", True, None, "Indicator name"),
+        F("importance", "float", True, None, "Mean decrease in impurity (Gini importance)"),
+        F("rank", "int", True, None, "1 = most important feature"),
+    ],
     # ---------------------------------------------------------------- scoring
     "scores": [
         F("node_id", "string", True),

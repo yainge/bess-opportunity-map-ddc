@@ -10,6 +10,7 @@ import pandas as pd
 
 from bess_catalonia.export.maps import (
     SYNTHETIC_NOTE,
+    ml_opportunity_map_html,
     node_overview_map,
     node_overview_map_html,
     score_map,
@@ -70,6 +71,9 @@ def run(ctx: RunContext) -> StageResult:
     if ctx.has_output("score"):
         scores = pd.read_csv(ctx.upstream_file("score", "scores_long.csv"))
         scores["rank"] = scores["rank"].astype("Int64")
+    ml_preds = None
+    if ctx.has_output("ml"):
+        ml_preds = pd.read_csv(ctx.upstream_file("ml", "ml_predictions.csv"))
     context = _context_layers(ctx)
 
     layers = {"nodes_integrated": nodes}
@@ -84,6 +88,9 @@ def run(ctx: RunContext) -> StageResult:
     if ctx.has_output("renewables"):
         path = ctx.upstream_file("renewables", "renewable_installations.gpkg")
         layers["renewable_installations"] = gpd.read_file(path)
+    if ml_preds is not None:
+        ml_geo = nodes[["node_id", "node_name", "geometry"]].merge(ml_preds, on="node_id")
+        layers["ml_opportunity"] = ml_geo
 
     outputs = [write_gpkg(layers, res / "bess_master.gpkg"),
                write_csv(nodes, res / "tables" / "nodes_integrated.csv")]
@@ -99,6 +106,9 @@ def run(ctx: RunContext) -> StageResult:
                                      maps / f"score_{scen}.png"))
             outputs.append(score_map_html(nodes, scores, scen, context, ctx.mode,
                                           maps / f"score_{scen}.html"))
+    if ml_preds is not None:
+        outputs.append(ml_opportunity_map_html(nodes, ml_preds, context, ctx.mode,
+                                               maps / "ml_opportunity.html"))
     outputs.append(write_text(res / "summary.md", summary_markdown(ctx, nodes, scores)))
     n_maps = sum(p.suffix in (".png", ".html") for p in outputs)
     return StageResult(outputs=outputs,

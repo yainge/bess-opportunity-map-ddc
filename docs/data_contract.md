@@ -230,6 +230,27 @@ Output `scores_long.csv` (one row per node × scenario) and `scores_wide.csv`.
 | `missing_indicators` | string |  |  |  |
 | `excluded_reason` | string |  |  | Why the node is unranked |
 
+## ML Opportunity Classifier
+
+Output `ml_predictions.csv` (one row per node) and `ml_feature_importance.csv`.
+
+### `ml_predictions`
+
+| column | type | required | unit | description |
+|---|---|---|---|---|
+| `node_id` | string | yes |  |  |
+| `ml_label` | int | yes |  | 1 if node has an operating renewable within label radius |
+| `ml_opportunity_prob` | float | yes | 0-1 | Random Forest predicted probability |
+| `ml_opportunity` | bool | yes |  | True if probability ≥ threshold and no existing project nearby |
+
+### `ml_feature_importance`
+
+| column | type | required | unit | description |
+|---|---|---|---|---|
+| `feature` | string | yes |  | Indicator name |
+| `importance` | float | yes |  | Mean decrease in impurity (Gini importance) |
+| `rank` | int | yes |  | 1 = most important feature |
+
 ## Data-quality indicators
 
 Tracked separately from opportunity scores (no combined confidence score in v0.1):

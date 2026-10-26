@@ -1,0 +1,37 @@
+# ML stage configuration: Option 1 – learn from where developers already built.
+#
+# The classifier is trained on binary labels derived from existing renewable
+# installations: a grid node is labelled 1 if any operating installation lies
+# within LABEL_RADIUS_KM, 0 otherwise. The Random Forest's feature importances
+# become data-driven weight suggestions; predicted probabilities identify nodes
+# that look like developer-chosen sites but have no project nearby yet.
+#
+# STATUS: illustrative defaults tuned for the synthetic demo dataset.
+# Re-tune n_estimators, max_features and opportunity_threshold with real data.
+status: illustrative
+
+label:
+  radius_km: 10                 # same radius as integration aggregation
+  status_category: operating    # only confirmed operating installations
+
+# Features passed to the classifier.
+# renewable_mw_10km and renewable_pipeline_mw_10km are deliberately excluded:
+# they are derived from the same installation dataset used for labels, so
+# including them would make the label trivially predictable from one feature.
+features:
+  - bess_headroom_proxy_mw
+  - generation_available_mw
+  - demand_available_mw
+  - erni_12m_gwh
+  - nearby_demand_mwh_10km
+  - suitable_land_ha_5km
+  - distance_to_major_road_km
+
+model:
+  n_estimators: 300
+  random_state: 42
+  class_weight: balanced
+
+# A node is flagged ml_opportunity = true when its predicted probability exceeds
+# this threshold AND it has no existing operating renewable project nearby.
+opportunity_threshold: 0.5
