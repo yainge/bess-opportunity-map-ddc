@@ -28,6 +28,18 @@ from bess_catalonia.schemas import order_columns
 DOMAINS = ("congestion", "renewables", "demand", "gis")
 
 
+def normalise_municipality_code(codes: pd.Series) -> pd.Series:
+    """Return 5-digit INE municipality codes.
+
+    ICGC / Idescat boundaries use a 6-digit code (5-digit INE code + 1 check digit,
+    e.g. 080018 for Abrera), while ICAEN demand uses the 5-digit INE code (08001).
+    Six-digit codes lose their check digit; shorter codes are left-padded with zeros.
+    """
+    s = codes.astype("string").str.strip().str.replace(r"\.0$", "", regex=True)
+    s = s.where(s.str.len() != 6, s.str[:5])
+    return s.str.zfill(5)
+
+
 def _join_attributes(nodes, table: pd.DataFrame, report: QualityReport, label: str):
     dup = table["node_id"].duplicated()
     if dup.any():
@@ -68,9 +80,16 @@ def add_demand(nodes, ctx: RunContext, radius_km: float, report: QualityReport):
                           dtype={"municipality_code": str})
     mun = read_vector(ctx.dataset(mun_cfg["dataset"]), ctx.config.analysis_crs, report)
     code = mun_cfg["code_column"]
-    mun[code] = mun[code].astype(str).str.zfill(5)
+    mun[code] = normalise_municipality_code(mun[code])
+    summary["municipality_code"] = normalise_municipality_code(summary["municipality_code"])
     joined = mun.merge(summary, left_on=code, right_on="municipality_code", how="left")
     no_demand = joined["total_mwh"].isna()
+    report.metrics["demand_municipalities_matched"] = int((~no_demand).sum())
+    if no_demand.all():
+        report.error("demand_match", "No municipal boundary matched any demand row - check "
+                     "that both sides use the same municipality code format",
+                     int(no_demand.sum()), mun[code].head(5).tolist())
+        return nodes
     if no_demand.any():
         report.warning("demand_match", "Municipalities without demand data", int(no_demand.sum()))
     orphan = ~summary["municipality_code"].isin(mun[code])

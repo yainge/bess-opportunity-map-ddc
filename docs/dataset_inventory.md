@@ -14,19 +14,24 @@ distinct. Do not infer currency from an old document's date — check the provid
 
 ## Real datasets
 
-| Dataset key | Name | Provider | Owner | Status | Publication | Retrieved | Observation period | Notes |
+Updated 2026-11-02 from `config/datasets.yaml` (authoritative). "In pipeline" means the file is
+configured and processed in real mode.
+
+| Dataset key | Name | Provider | Owner | Status | In pipeline | Retrieved | Observation period | Notes |
 |---|---|---|---|---|---|---|---|---|
-| `grid_nodes` | Access capacity, transmission + distribution | REE; e-distribución | Polo | investigating | — | — | — | Need ids, names, coordinates (+ CRS), voltage, generation & demand available MW, publication date |
-| `demand_municipal` | Electricity consumption by municipality and sector | Believed ICAEN via Dades Obertes de Catalunya — **to verify** | Fernando | to_verify | unknown | 2026-09-17 (file date) | 2013–2024, annual | Local file `export.csv` (54,611 rows, 947 municipalities, sectors PRIMARI…USOS DOMESTICS). Values in kWh with "." thousands separator; 10,099 values suppressed ("Dada subjecta a secret estadístic"); some rows note "Inclou el consum del sector energètic". Record the official URL and publication date. |
-| `congestion_erni` | Non-integrated renewable energy | REE / ESIOS | Hsiang Wei | investigating | — | — | — | Keep original node ids and names; monthly or finer |
-| `congestion_crosswalk` | ERNI node → grid node | Project team | Hsiang Wei | investigating | — | — | — | Manual, reviewed; columns `congestion_source_node_id`, `grid_source_node_id`, `note` |
-| `renewables_installations` | Existing + planned installations | Generalitat (ICAEN, environmental viewer) | Isabella | investigating | — | — | — | Need coordinates + CRS, capacity + unit, technology, status text |
-| `gis_land_cover` | Land cover map | ICGC | Yuki | investigating | — | — | — | Define `suitable_classes` from the legend |
-| `gis_protected_areas` | Natura 2000, PEIN | MITECO / Generalitat | Yuki | investigating | — | — | — | Hard constraint |
-| `gis_flood_zones` | Flood zones | ACA | Yuki | investigating | — | — | — | Choose return period |
-| `gis_zoning` | MUC urban planning | Generalitat | Yuki | investigating | — | — | — | Define excluded classes |
-| `gis_roads` | Road network | Generalitat / ICGC | Yuki | investigating | — | — | — | Define major classes |
-| `gis_municipalities` | Municipal boundaries | ICGC | Yuki | investigating | — | — | — | Needed for spatial demand; code column must match demand codes |
+| `grid_nodes` | Access capacity, transmission nodes | REE (access-capacity portal) | Polo | to_verify | Yes (`Dataset_SusbtationNodes.xlsx`, 117 nodes) | 2026-10-22 | snapshot | e-distribución distribution nodes exist as interim tables in `data/interim/grid/` but are not in the contract yet |
+| `demand_municipal` | Electricity consumption by municipality and sector | Believed ICAEN via Dades Obertes de Catalunya, **to verify** | Fernando | to_verify | Yes (947 municipalities, joined to boundaries since 2026-11-01) | 2026-09-17 | 2013 to 2024, annual | Values in kWh with "." thousands separator; suppressed values ("Dada subjecta a secret estadístic") kept null. Record the official URL and publication date |
+| `congestion_erni` | Non-integrated renewable energy (ERNI) | REE / ESIOS | Hsiang Wei | investigating | **No** | - | - | Monthly PDF "Publicación mensual por nudo de la ERNI" on ESIOS (api.esios.ree.es/documents/&lt;id&gt;/download). Only the top 30 nodes have GWh values; the chart lists more nodes |
+| `congestion_crosswalk` | ERNI node to grid node | Project team | Hsiang Wei | investigating | No | - | - | Manual, reviewed; columns `congestion_source_node_id`, `grid_source_node_id`, `note` |
+| `renewables_solar` | Solar parks (polygons) | Generalitat, Departament de Territori (WFS) | Isabella | to_verify | Yes | 2026-10-15 | snapshot | Some installations lack coordinates or capacity (kept, flagged) |
+| `renewables_wind` | Wind parks | Generalitat, Departament de Territori (WFS) | Isabella | to_verify | Yes | 2026-10-15 | snapshot | 610 installations with valid coordinates across solar + wind; 120 operating, 435 pipeline |
+| `renewables_installations` | Combined installation registry | Generalitat | Isabella | investigating | No | - | - | Superseded in practice by the solar and wind files |
+| `gis_land_cover` | Land cover map 2024 | ICGC | Yuki | verified | Yes | 2026-10-22 | 2024 | |
+| `gis_protected_areas` | Natura 2000, PEIN | Generalitat (WFS ESPAIS_NATURALS) | Yuki | verified | Yes | 2026-10-22 | snapshot | Hard constraint |
+| `gis_flood_zones` | Flood zones (T100) | ACA | Yuki | verified | Yes | 2026-10-22 | snapshot | Hard constraint |
+| `gis_zoning` | MUC urban planning | Generalitat | Yuki | verified | Yes | 2026-10-22 | January 2025 (most municipalities) | Excluded classes are hard constraints |
+| `gis_roads` | Road network | Geofabrik / OpenStreetMap | Yuki | to_verify | Yes | 2026-10-22 | snapshot | Motorway, trunk and primary only |
+| `gis_municipalities` | Municipal boundaries 1:5000 | ICGC | Yuki | verified | Yes | 2026-10-22 | snapshot | `municipality_code` is 6-digit (INE + check digit); normalised to 5 digits at integration |
 
 ## Synthetic datasets (demo)
 

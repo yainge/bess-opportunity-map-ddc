@@ -18,6 +18,10 @@ All commands go through the start scripts, which bootstrap `.venv` via `uv` and 
 ./start.sh --mode real --validate                # load + validate inputs, write quality reports
 ./start.sh --mode real --steps <stage> --force   # re-run even if up to date
 
+# Analysis scripts (after a real run)
+uv run python scripts/sensitivity.py --mode real   # weight sensitivity tables
+uv run python scripts/make_figures.py --mode real  # presentation figures
+
 # Development
 ./start.sh --test                                # full test suite
 ./start.sh --test -m "not slow"                  # unit tests only (fast)
@@ -31,6 +35,7 @@ uv run ruff format src tests
 Stages in dependency order: `grid → demand → congestion → renewables → gis → integrate → score → export`.
 
 The `BESS_PROJECT_ROOT` environment variable overrides root detection (used in tests).
+`BESS_HTML_MAPS=0` makes the `export` stage skip the interactive HTML maps (about a minute each on real data); PNG maps, tables and the GeoPackage are still written.
 
 ## Architecture
 

@@ -1,26 +1,32 @@
 {
   "stage": "export",
   "mode": "demo",
-  "run_id": "20261013T192148Z-7caf31",
-  "finished_at": "2026-10-13T19:21:49+00:00",
-  "fingerprint": "bfe1bc1c01ab2b43",
+  "run_id": "20261026T011119Z-5dba2e",
+  "finished_at": "2026-10-26T01:11:23+00:00",
+  "fingerprint": "f766fb35fc0ef133",
   "upstream_runs": {
-    "integrate": "20261013T192148Z-7caf31",
-    "score": "20261013T192148Z-7caf31",
-    "gis": "20261013T192148Z-7caf31"
+    "integrate": "20261026T011119Z-5dba2e",
+    "score": "20261026T011119Z-5dba2e",
+    "gis": "20261026T011119Z-5dba2e",
+    "ml": "20261026T011119Z-5dba2e"
   },
   "outputs": [
     "results/demo/bess_master.gpkg",
     "results/demo/tables/nodes_integrated.csv",
     "results/demo/tables/scores_long.csv",
     "results/demo/maps/grid_nodes_overview.png",
+    "results/demo/maps/grid_nodes_overview.html",
     "results/demo/maps/score_renewable_absorption.png",
+    "results/demo/maps/score_renewable_absorption.html",
     "results/demo/maps/score_connection_readiness.png",
+    "results/demo/maps/score_connection_readiness.html",
     "results/demo/maps/score_load_grid_support.png",
+    "results/demo/maps/score_load_grid_support.html",
+    "results/demo/maps/ml_opportunity.html",
     "results/demo/summary.md"
   ],
   "record_counts": {
-    "gpkg_layers": 8,
-    "maps": 4
+    "gpkg_layers": 9,
+    "maps": 9
   }
 }

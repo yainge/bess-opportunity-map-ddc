@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./start.sh --test -k \"test_real_mode_optional_stages_skipped\")",
+      "Bash(grep -i \"\\\\`score\\\\`\\\\|\\\\`export\\\\`\\\\|\\\\`integrate\\\\`\")",
+      "Bash(./start.sh --test)",
+      "Bash(git add *)"
+    ]
+  }
+}

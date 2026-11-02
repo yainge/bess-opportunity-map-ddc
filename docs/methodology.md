@@ -91,9 +91,18 @@ For scenario *s* with weights *w_i* over indicators *i*:
 Opportunity (score), data quality (completeness, match reliability, …) and ranking stability
 (sensitivity) are kept conceptually separate; no combined confidence score is computed.
 
-## 9. Sensitivity (planned)
+## 9. Sensitivity
 
-`score_scenario` is a pure function taking weights and indicator specs explicitly, so
-sensitivity analysis (weight perturbation, alternative normalisation, leave-one-indicator-out,
-rank-stability statistics) can be added as a new module without restructuring. Deferred until
-real-data scoring exists; notebook 03 shows an exploratory example.
+`bess_catalonia.scoring.sensitivity` (run with `uv run python scripts/sensitivity.py --mode real`)
+uses the pure `score_scenario` function for two checks per scenario:
+
+* **Weight perturbation:** each weight multiplied by an independent factor in [0.8, 1.2],
+  500 draws; per node the median rank, 5th to 95th percentile rank and share of draws in the
+  top 10 (`results/real/tables/sensitivity_rank_stability.csv`).
+* **Leave one indicator out:** top-10 overlap and Jaccard index with the base ranking when each
+  indicator is dropped (`sensitivity_leave_one_out.csv`).
+
+First real results (2026-11-02): top-10 lists are stable under ±20% weight changes, but removing
+a single indicator can change them a lot (connection readiness keeps 5 of 10 without the headroom
+proxy; load & grid support keeps 3 of 10 without nearby demand). Alternative normalisation is not
+yet tested.

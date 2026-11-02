@@ -9,6 +9,7 @@ from bess_catalonia.config import DatasetSpec
 from bess_catalonia.congestion.matching import match_nodes, normalise_name
 from bess_catalonia.demand.processing import summarise
 from bess_catalonia.grid.processing import headroom_proxy, slug
+from bess_catalonia.integration.processing import normalise_municipality_code
 from bess_catalonia.io import load_standardized
 
 FIXTURES = Path(__file__).resolve().parents[1] / "fixtures"
@@ -93,3 +94,9 @@ def test_real_demand_format_parsing_and_summary():
     assert a["year"] == 2024 and a["n_suppressed_sectors"] == 1 and a["total_is_lower_bound"]
     assert a["industrial_mwh"] == 66_604.371  # 2023 value not mixed in
     assert not s.loc["25002", "total_is_lower_bound"]
+
+
+def test_normalise_municipality_code_handles_icgc_and_ine_formats():
+    codes = pd.Series(["080018", "08001", "8001", "250019", "8001.0"])
+    assert normalise_municipality_code(codes).tolist() == [
+        "08001", "08001", "08001", "25001", "08001"]

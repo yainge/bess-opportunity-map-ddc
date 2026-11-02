@@ -154,10 +154,11 @@ need. How to work independently: [docs/team_workflow.md](docs/team_workflow.md).
 | Milestone                                       | Group 1                  | Group 2               | Content                                                                       |
 | ----------------------------------------------- | ------------------------ | --------------------- | ----------------------------------------------------------------------------- |
 | Conceptual proposal (session 3)                 | 1 Oct 2026               | 2 Oct 2026            | 5 min: idea, dataset exploration, mini value proposition                      |
-| **Intermediate presentation** (session 7) | **5 Nov 2026**     | **6 Nov 2026**  | 15 min: data-driven results, updated concept, track decision, roles, plan     |
+| **Intermediate presentation** (session 7) | **5 Nov 2026**\*   | **6 Nov 2026**  | 15 min: data-driven results, updated concept, track decision, roles, plan     |
 | **Final presentation** (session 13)       | **17 Dec 2026**    | **18 Dec 2026** | 30 min: whole project, technical scope and business case; all members present |
 | Final report                                    | not stated in the slides |                       | Complete project report                                                       |
 
+\*The team is preparing for 5 Nov; an updated course deck (14 Oct) lists 19 Nov, to be confirmed in class.
 No classes on 29–30 Oct 2026 (exam period). Technological track: sessions 3–7; innovation /
 business track: sessions 8–12.
 
@@ -173,17 +174,17 @@ business track: sessions 8–12.
 | 6. Sensitivity & case studies | Ranking stability, candidate areas        | Sensitivity results, case-study maps                                      | Phase 5                  | Top candidates robust or caveated                                 | Team                          | —                     |
 | 7. Business & final           | Innovation track, report, slides          | Business case, final report, presentation                                 | Phases 5–6              | Submitted                                                         | All                           | Final (17/18 Dec)      |
 
-**Progress** (verified repository facts only; detailed tasks live in Notion):
+**Progress** (verified repository facts only; detailed tasks live in Notion; updated 2026-11-02):
 
-| Workstream              | Owner                | Current status                                                                                        | Next deliverable                                                | Known blockers                                                      |
-| ----------------------- | -------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------- |
-| Framework & tooling     | Yuki                 | v0.1.0 implemented; test suite passes on synthetic data                                               | Team onboarding                                                 | —                                                                  |
-| Grid                    | Polo                 | Module implemented; no real data in the repository yet                                                | Access-capacity file + column mapping                           | Source format to confirm                                            |
-| Demand                  | Fernando             | Module implemented; a local ICAEN-format file (2013–2024, 947 municipalities) processes in real mode | Confirm source URL and publication date                         | Provenance not yet verified; spatial use needs municipal boundaries |
-| Congestion              | Hsiang Wei           | Module and node matching implemented; no real data yet                                                | ERNI file + crosswalk                                           | —                                                                  |
-| Renewables              | Isabella             | Module implemented; no real data yet                                                                  | Installation file + status mapping                              | —                                                                  |
-| GIS                     | Yuki                 | Module implemented; no real layers yet                                                                | Land cover, protected areas, flood zones, roads, municipalities | Layer sizes / formats to decide                                     |
-| Integration coordinator | *to be designated* | —                                                                                                    | Designate coordinator                                           | —                                                                  |
+| Workstream              | Owner                | Current status                                                                                                   | Next deliverable                                        | Known blockers                                   |
+| ----------------------- | -------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------ |
+| Framework & tooling     | Yuki                 | v0.1.0 plus ML stage, sensitivity script and figure script; unit tests pass                                      | Keep `main` green                                       | -                                                |
+| Grid                    | Polo                 | Real: 117 REE transmission nodes with generation and demand access capacity (`Dataset_SusbtationNodes.xlsx`)     | Add e-distribución nodes (interim tables exist)         | Distribution nodes not yet in the data contract  |
+| Demand                  | Fernando             | Real: ICAEN municipal consumption 2013 to 2024, all 947 municipalities joined to boundaries (fixed 2026-11-01)       | Confirm source URL and publication date                 | Provenance still `to_verify`                     |
+| Congestion              | Hsiang Wei           | Module and node matching implemented; **no real ERNI yet**                                                       | ERNI by node from REE / ESIOS monthly reports           | Reports are PDFs; only top-30 nodes have GWh     |
+| Renewables              | Isabella             | Real: Generalitat solar parks and wind (2026-10-15), 610 installations with valid coordinates (120 operating)    | Status mapping review                                   | -                                                |
+| GIS                     | Yuki                 | Real: land cover 2024, Natura 2000 + PEIN, ACA flood zones, MUC zoning, OSM roads, municipal boundaries          | Slope (DTM)                                             | -                                                |
+| Integration coordinator | *to be designated* | Integration runs on grid, demand, renewables and GIS (congestion missing)                                          | Designate coordinator                                   | -                                                |
 
 ## F. Data sources
 
@@ -370,20 +371,20 @@ More: [docs/assumptions.md](docs/assumptions.md).
 
 ## K. Project status and next steps
 
-**Implemented and tested (synthetic data):** environment and locking, start scripts, CLI,
-configuration validation, five domain stages with validation and quality reports, auditable
-node matching, spatial metrics (buffers, land, constraints, roads), area-weighted demand,
-partial integration with milestone tracking, illustrative three-scenario scoring, master
-GeoPackage, maps, run records, data manifests, up-to-date detection, three runnable notebooks.
+**Real-data results (2026-11-02):** 117 REE nodes integrated with grid, demand, renewables and
+GIS indicators; three illustrative scenario rankings; ML opportunity classifier (out-of-fold,
+CV ROC AUC 0.90, 11 flagged nodes); weight-sensitivity tables
+(`results/real/tables/sensitivity_*.csv`); presentation figures (`results/real/figures/`).
 
-**Being developed:** acquisition of real datasets by each owner (see the progress table).
+**Fixed on 2026-11-01:** municipal demand never joined (6- vs 5-digit municipality codes, D8);
+ML probabilities were in-sample and could not flag any node (D9).
 
-**Blocked / waiting:** real grid data (blocks real integration and scoring); municipal
-boundaries (blocks spatial demand); integration coordinator not yet designated.
+**Missing / blocked:** real ERNI (congestion) data; e-distribución nodes in the canonical
+pipeline; validated scoring weights; integration coordinator not yet designated.
 
-**Next steps:** (1) each owner adds their source and mapping and runs `--validate`;
-(2) M1 integration (grid + ERNI) ahead of the intermediate presentation; (3) exploratory
-analysis to justify weights; (4) sensitivity analysis; (5) case studies and business case.
+**Next steps:** (1) ERNI from REE / ESIOS monthly reports; (2) revisit weights, especially the
+land weight in *load & grid support*, where dense urban substations currently rank highest;
+(3) validation against proposed BESS projects; (4) case studies and business case.
 Deferred features: [docs/future_features.md](docs/future_features.md).
 
 ## L. Documentation and changelog

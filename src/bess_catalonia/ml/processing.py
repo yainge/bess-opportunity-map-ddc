@@ -60,10 +60,15 @@ def run(ctx: RunContext) -> StageResult:
     report.metrics["features_absent"] = len(absent)
 
     threshold = float(cfg.get("opportunity_threshold", 0.5))
-    predictions, feat_imp = train_and_predict(
+    predictions, feat_imp, cv_metrics = train_and_predict(
         nodes, labels, features, cfg["model"],
         opportunity_threshold=threshold,
     )
+    report.metrics.update(cv_metrics)
+    if cv_metrics["cv_folds"] == 0:
+        report.warning("no_cross_validation",
+                       "Too few nodes in one class for cross-validation - probabilities are "
+                       "in-sample and will mostly repeat the labels", 0)
 
     n_opp = int(predictions["ml_opportunity"].sum())
     report.metrics["opportunity_nodes"] = n_opp

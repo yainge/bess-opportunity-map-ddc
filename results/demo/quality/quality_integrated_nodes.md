@@ -20,7 +20,7 @@
 | gis_nodes_joined | 24 |
 | domains_included | grid,congestion,renewables,demand,gis |
 | milestone | M3: grid + ERNI + renewables + demand + land feasibility |
-| upstream_runs | grid=20261013T192148Z-7caf31, congestion=20261013T192148Z-7caf31, renewables=20261013T192148Z-7caf31, demand=20261013T192148Z-7caf31, gis=20261013T192148Z-7caf31 |
+| upstream_runs | grid=20261026T011119Z-5dba2e, congestion=20261026T011119Z-5dba2e, renewables=20261026T011119Z-5dba2e, demand=20261026T011119Z-5dba2e, gis=20261026T011119Z-5dba2e |
 
 ## Checks
 

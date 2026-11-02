@@ -4,7 +4,7 @@ Deliberately not implemented in v0.1, with the reason and the intended hook.
 
 | Feature | Why deferred | How it fits |
 |---|---|---|
-| Sensitivity analysis (weight perturbation, alternative normalisation, leave-one-out, rank stability) | Needs real-data scoring first | New `scoring/sensitivity.py` calling the pure `score_scenario`; notebook 03 has an exploratory example |
+| Sensitivity: alternative normalisation | Weight perturbation and leave-one-out are done (`scoring/sensitivity.py`) | Add a normalisation option to `rank_stability` |
 | Slope / terrain constraints | DTM not yet available; avoid heavy raster work early | Add `rasterio` (`uv add rasterio`), zonal slope per buffer in `gis/`, new constraint in `spatial.yaml` |
 | Explicit data refresh / download commands | Acquisition must stay separate from processing | A future `--refresh <dataset>` that downloads to a new dated file and updates the manifest; never run implicitly |
 | Combined confidence score | Opportunity, data quality and stability must first be understood separately | Quality indicators already recorded per node and per dataset |

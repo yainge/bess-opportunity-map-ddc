@@ -10,6 +10,20 @@ Template:
 Context: ...   Decision: ...   Alternatives considered: ...   Consequences: ...   Decided by: ...
 ```
 
+## D9 - Out-of-fold probabilities for the ML opportunity classifier (2026-11-01)
+Context: in-sample Random Forest probabilities reproduce the training labels, so no node
+without a nearby operating plant could exceed the threshold. Decision: score every node with
+stratified k-fold `cross_val_predict` (k = min(5, smallest class)); feature importances come
+from a final fit on all nodes. Consequences: first real run gives CV ROC AUC 0.90 and 11
+flagged nodes. The label is renewable siting, not BESS value, so flags are exploratory.
+Decided by: Yuki (to confirm with team).
+
+## D8 - Normalise municipality codes to 5-digit INE (2026-11-01)
+Context: ICGC boundaries carry a 6-digit code (INE + check digit); ICAEN demand uses 5 digits.
+Decision: drop the check digit and zero-pad both sides before joining. Alternatives: fix only
+the download script (rejected: other boundary sources may use either format).
+Consequences: all 947 municipalities match. Decided by: Yuki.
+
 ## D7 - Area-weighted allocation of municipal demand (2026-10-08)
 Context: a first centroid-in-radius implementation gave 0 MWh for nodes with no municipal
 centroid within 10 km, which reads as "no demand". Decision: allocate municipal demand by the

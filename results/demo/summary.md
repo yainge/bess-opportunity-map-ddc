@@ -1,6 +1,6 @@
 # Run summary (demo)
 
-Run id: `20261013T192148Z-7caf31`
+Run id: `20261026T011119Z-5dba2e`
 
 > **SYNTHETIC DEMO DATA - fictional, not a real Catalan BESS opportunity.**
 

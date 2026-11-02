@@ -8,6 +8,25 @@ All notable changes to this project are documented here. Format:
 ## [Unreleased]
 
 ### Added
+- `bess_catalonia.scoring.sensitivity` and `scripts/sensitivity.py`: weight perturbation
+  (±20%, 500 draws) and leave-one-indicator-out checks, written to
+  `results/<mode>/tables/sensitivity_*.csv`.
+- `scripts/make_figures.py`: presentation figures (rank stability, leave-one-out, nodes ranked
+  across scenarios, ML feature importance, ML flags vs pipeline capacity) in
+  `results/<mode>/figures/`.
+- `BESS_HTML_MAPS=0` environment variable to skip the slow interactive HTML maps in `export`.
+
+### Fixed
+- Integration: municipal demand never joined in real mode. ICGC boundaries use 6-digit
+  municipality codes (INE code + check digit, e.g. `080018`) while ICAEN demand uses 5-digit
+  INE codes (`08001`), so all 947 municipalities failed to match and every node got 0 MWh
+  nearby demand. Codes are now normalised to 5 digits on both sides
+  (`normalise_municipality_code`), and a complete join failure is reported as an error.
+- ML stage: probabilities were in-sample, so the Random Forest mostly repeated its training
+  labels and could never flag an unlabelled node. Probabilities are now out-of-fold
+  (stratified 5-fold), and the cross-validated ROC AUC is reported in the quality report.
+
+### Added
 - `docs/data_pipeline_overview.md`: data pipeline overview table and Mermaid flowchart covering
   all five data categories (grid nodes, congestion, demand, renewables, GIS/land) — dataset,
   source, variables, cleaning, processing, usage, outputs and implementation status per domain.

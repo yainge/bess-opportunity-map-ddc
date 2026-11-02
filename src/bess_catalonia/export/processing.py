@@ -5,6 +5,8 @@
 
 from __future__ import annotations
 
+import os
+
 import geopandas as gpd
 import pandas as pd
 
@@ -63,8 +65,18 @@ def summary_markdown(ctx: RunContext, nodes, scores) -> str:
     return "\n".join(lines)
 
 
+def html_maps_enabled() -> bool:
+    """Interactive HTML maps are slow (about a minute each on real data) and large.
+
+    Set ``BESS_HTML_MAPS=0`` to skip them; PNG maps, tables and the GeoPackage are
+    always written.
+    """
+    return os.environ.get("BESS_HTML_MAPS", "1").strip().lower() not in ("0", "false", "no")
+
+
 def run(ctx: RunContext) -> StageResult:
     res = ctx.paths.results_root
+    html = html_maps_enabled()
     nodes = gpd.read_file(ctx.upstream_file("integrate", "nodes_integrated.gpkg"),
                           layer="nodes_integrated")
     scores = None
@@ -98,15 +110,17 @@ def run(ctx: RunContext) -> StageResult:
         outputs.append(write_csv(scores, res / "tables" / "scores_long.csv"))
     maps = ctx.paths.maps_dir
     outputs.append(node_overview_map(nodes, context, ctx.mode, maps / "grid_nodes_overview.png"))
-    outputs.append(node_overview_map_html(nodes, context, ctx.mode,
-                                          maps / "grid_nodes_overview.html"))
+    if html:
+        outputs.append(node_overview_map_html(nodes, context, ctx.mode,
+                                              maps / "grid_nodes_overview.html"))
     if scores is not None:
         for scen in scores["scenario"].unique():
             outputs.append(score_map(nodes, scores, scen, context, ctx.mode,
                                      maps / f"score_{scen}.png"))
-            outputs.append(score_map_html(nodes, scores, scen, context, ctx.mode,
-                                          maps / f"score_{scen}.html"))
-    if ml_preds is not None:
+            if html:
+                outputs.append(score_map_html(nodes, scores, scen, context, ctx.mode,
+                                              maps / f"score_{scen}.html"))
+    if ml_preds is not None and html:
         outputs.append(ml_opportunity_map_html(nodes, ml_preds, context, ctx.mode,
                                                maps / "ml_opportunity.html"))
     outputs.append(write_text(res / "summary.md", summary_markdown(ctx, nodes, scores)))
