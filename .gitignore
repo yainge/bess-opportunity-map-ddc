@@ -5,6 +5,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .ipynb_checkpoints/
+.env
 
 # Raw and processed real data are shared via the team drive, not git
 data/raw/*/

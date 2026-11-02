@@ -5,12 +5,27 @@ Every demo map carries a SYNTHETIC watermark.
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import folium
 import geopandas as gpd
 import matplotlib
 import pandas as pd
+from dotenv import load_dotenv
+
+load_dotenv()
+
+_STADIA_KEY = os.environ.get("STADIA_KEY", "")
+_TILE_URL = (
+    f"https://tiles.stadiamaps.com/tiles/alidade_smooth/{{z}}/{{x}}/{{y}}{{r}}.png"
+    + (f"?api_key={_STADIA_KEY}" if _STADIA_KEY else "")
+)
+_TILE_ATTR = (
+    '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a> '
+    '&copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> '
+    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+)
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
@@ -165,11 +180,7 @@ def _save_html(m: folium.Map, path: Path) -> Path:
 def node_overview_map_html(nodes, context: dict, mode: str, path: Path) -> Path:
     n4 = _to_wgs84(nodes)
     center = [n4.geometry.y.mean(), n4.geometry.x.mean()]
-    m = folium.Map(
-        location=center, zoom_start=8,
-        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Canvas/MapServer/tile/{z}/{y}/{x}",
-        attr="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
-    )
+    m = folium.Map(location=center, zoom_start=8, tiles=_TILE_URL, attr=_TILE_ATTR)
 
     if (mun := context.get("municipalities")) is not None:
         folium.GeoJson(
@@ -232,11 +243,7 @@ def score_map_html(nodes, scores, scenario: str, context: dict, mode: str, path:
     s = scores[scores["scenario"] == scenario][["node_id", "score", "rank"]]
     g4 = _to_wgs84(nodes.merge(s, on="node_id", how="left"))
     center = [g4.geometry.y.mean(), g4.geometry.x.mean()]
-    m = folium.Map(
-        location=center, zoom_start=8,
-        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Canvas/MapServer/tile/{z}/{y}/{x}",
-        attr="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
-    )
+    m = folium.Map(location=center, zoom_start=8, tiles=_TILE_URL, attr=_TILE_ATTR)
 
     if (mun := context.get("municipalities")) is not None:
         folium.GeoJson(
@@ -324,11 +331,7 @@ def ml_opportunity_map_html(
                                               "ml_opportunity_prob", "ml_opportunity"]],
                                    on="node_id", how="left"))
     center = [merged.geometry.y.mean(), merged.geometry.x.mean()]
-    m = folium.Map(
-        location=center, zoom_start=8,
-        tiles="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Canvas/MapServer/tile/{z}/{y}/{x}",
-        attr="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ",
-    )
+    m = folium.Map(location=center, zoom_start=8, tiles=_TILE_URL, attr=_TILE_ATTR)
 
     if (mun := context.get("municipalities")) is not None:
         folium.GeoJson(
