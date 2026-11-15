@@ -8,6 +8,15 @@ All notable changes to this project are documented here. Format:
 ## [Unreleased]
 
 ### Added
+- `bess_catalonia.ml.clustering`, `scripts/clustering_experiment.py` and `config/clustering.yaml`:
+  exploratory node clustering (Ward) comparing features-only against geographically
+  contiguous clusters, with silhouette, bootstrap stability and contiguity per k. Writes
+  `clustering_*.csv` tables and `fig_clustering_*.png`. Not a pipeline stage yet; a
+  third variant clusters along approximate transmission lines.
+- `scripts/build_line_edges.py`: node-to-node line links from the PyPSA-Eur OSM prebuilt
+  network (Zenodo record 23896564, ODbL), written to `data/interim/grid/line_edges.csv`.
+  84 of 117 REE nodes match an OSM bus within 10 km; the rest fall back to nearest
+  neighbours. OSM-derived adjacency, not official REE topology.
 - `bess_catalonia.scoring.sensitivity` and `scripts/sensitivity.py`: weight perturbation
   (±20%, 500 draws) and leave-one-indicator-out checks, written to
   `results/<mode>/tables/sensitivity_*.csv`.

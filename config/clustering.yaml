@@ -1,0 +1,37 @@
+# Node clustering experiment (exploratory, not a pipeline stage yet).
+# Run: uv run python scripts/clustering_experiment.py --mode real
+#
+# Clusters are similarity groups, not diagnoses of congestion or curtailment.
+status: exploratory
+
+# Node attributes used for similarity. Coordinates are deliberately NOT features:
+# geography enters only through the neighbour graph of the constrained variants.
+features:
+  - bess_headroom_proxy_mw
+  - renewable_mw_10km
+  - renewable_pipeline_mw_10km
+  - nearby_demand_mwh_10km
+  - nearby_industrial_demand_mwh_10km
+  - suitable_land_ha_10km
+  - distance_to_major_road_km
+
+# All of these are right-skewed, so log1p before standardising.
+log_transform: true
+
+k_range: [2, 8]          # cluster counts to test (inclusive)
+k_override: null         # set an integer to force the same k for every variant
+
+spatial_graph:
+  k_neighbours: 6        # geographic neighbours per node (EPSG:25831 distances)
+
+stability:
+  draws: 100             # bootstrap repetitions
+  sample_share: 0.8      # share of nodes kept per draw
+  random_state: 42
+
+# Line topology for variant C (from_node_id,to_node_id per row, matching node_id).
+# Built by scripts/build_line_edges.py from the PyPSA-Eur OSM prebuilt network (approximate,
+# not official REE topology). Nodes absent from that source fall back to their nearest
+# geographic neighbours. Set to null to skip variant C.
+line_edges_csv: data/interim/grid/line_edges.csv
+line_fallback_neighbours: 3
