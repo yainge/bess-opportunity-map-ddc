@@ -1,0 +1,41 @@
+{
+  "k": 4,
+  "n_sites": 74,
+  "n_rows": 108,
+  "features": [
+    "mw",
+    "dist_substation_km",
+    "dist_substation_400kv_km",
+    "dist_distribution_substation_km",
+    "demand_mwh_10km",
+    "renewables_10km_mw",
+    "urban_land"
+  ],
+  "k_selection": [
+    {
+      "k": 2,
+      "silhouette": 0.433,
+      "min_size": 3
+    },
+    {
+      "k": 3,
+      "silhouette": 0.191,
+      "min_size": 3
+    },
+    {
+      "k": 4,
+      "silhouette": 0.198,
+      "min_size": 3
+    },
+    {
+      "k": 5,
+      "silhouette": 0.214,
+      "min_size": 3
+    },
+    {
+      "k": 6,
+      "silhouette": 0.238,
+      "min_size": 3
+    }
+  ]
+}

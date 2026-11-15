@@ -1,0 +1,8 @@
+{
+  "0": "Remote, weak grid (nearest node without capacity)",
+  "1": "Mountain / protected, outside grid reach",
+  "2": "Renewable integration zone",
+  "3": "Saturated node surroundings",
+  "4": "Future 400 kV nodes (planned, capacity not yet used)",
+  "5": "Load centre"
+}

@@ -1,0 +1,54 @@
+{
+  "k": 6,
+  "n_pixels": 128436,
+  "features": [
+    "dist_substation_km",
+    "dist_substation_400kv_km",
+    "access_capacity_nearest_node_mw",
+    "node_occupation_share",
+    "node_storage_room_mw",
+    "renewable_operating_mw_10km",
+    "renewable_pipeline_mw_10km",
+    "demand_mwh_10km",
+    "distribution_load_mw_10km",
+    "dist_distribution_substation_km"
+  ],
+  "k_selection": [
+    {
+      "k": 3,
+      "silhouette": 0.227,
+      "stability_ari": 0.992,
+      "inertia": 806564
+    },
+    {
+      "k": 4,
+      "silhouette": 0.221,
+      "stability_ari": 0.994,
+      "inertia": 718856
+    },
+    {
+      "k": 5,
+      "silhouette": 0.226,
+      "stability_ari": 0.996,
+      "inertia": 659083
+    },
+    {
+      "k": 6,
+      "silhouette": 0.234,
+      "stability_ari": 0.912,
+      "inertia": 617811
+    },
+    {
+      "k": 7,
+      "silhouette": 0.205,
+      "stability_ari": 0.759,
+      "inertia": 582659
+    },
+    {
+      "k": 8,
+      "silhouette": 0.217,
+      "stability_ari": 0.841,
+      "inertia": 544292
+    }
+  ]
+}

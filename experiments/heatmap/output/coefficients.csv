@@ -1,0 +1,10 @@
+feature,coef_standardised,ci_low,ci_high,odds_ratio_per_sd,transform,significant_95
+dist_substation_400kv_km,-1.226,-1.73,-0.639,0.29,capped 50 km,True
+dist_major_road_km,-1.172,-2.344,-0.09,0.31,capped 50 km,True
+renewable_operating_mw_10km,1.019,0.492,1.404,2.77,log1p,True
+demand_mwh_10km,0.911,0.595,1.578,2.49,log1p,True
+dist_distribution_substation_km,-0.762,-2.296,0.035,0.47,capped 50 km,False
+renewable_pipeline_mw_10km,-0.62,-1.068,-0.084,0.54,log1p,True
+dist_substation_km,-0.6,-2.024,0.016,0.55,capped 50 km,False
+suitable_land_share_1km,0.517,0.22,0.951,1.68,none,True
+access_capacity_nearest_node_mw,-0.507,-1.19,1.965,0.6,log1p,False

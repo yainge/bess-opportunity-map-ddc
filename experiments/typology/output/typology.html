@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_5eb7a78aee5e57435e76297085b8c736 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    
+            
+                <style>
+                    .leaflet-image-layer {
+                        /* old android/safari*/
+                        image-rendering: -webkit-optimize-contrast;
+                        image-rendering: crisp-edges; /* safari */
+                        image-rendering: pixelated; /* chrome */
+                        image-rendering: -moz-crisp-edges; /* firefox */
+                        image-rendering: -o-crisp-edges; /* opera */
+                        -ms-interpolation-mode: nearest-neighbor; /* ie */
+                    }
+                </style>
+            
+        
+    
+            
+                <style>
+                    .leaflet-image-layer {
+                        /* old android/safari*/
+                        image-rendering: -webkit-optimize-contrast;
+                        image-rendering: crisp-edges; /* safari */
+                        image-rendering: pixelated; /* chrome */
+                        image-rendering: -moz-crisp-edges; /* firefox */
+                        image-rendering: -o-crisp-edges; /* opera */
+                        -ms-interpolation-mode: nearest-neighbor; /* ie */
+                    }
+                </style>
+            
+        
+</head>
+<body>
+    
+    <div style="position:fixed;bottom:20px;left:20px;z-index:1000;background:white;padding:10px 12px;border:1px solid #999;font:12px sans-serif;max-width:340px"><b>BESS location typology (local test)</b><br>k-means, k=6, on grid, renewables and demand features per 500 m pixel. Darkened = protected / flood / urban.<br><div><span style="background:#1b9e77;padding:0 10px;margin-right:6px">&nbsp;</span>Remote, weak grid (nearest node without capacity) <small>(16% of land, 0 projects)</small></div><div><span style="background:#d95f02;padding:0 10px;margin-right:6px">&nbsp;</span>Mountain / protected, outside grid reach <small>(13% of land, 0 projects)</small></div><div><span style="background:#7570b3;padding:0 10px;margin-right:6px">&nbsp;</span>Renewable integration zone <small>(16% of land, 3 projects)</small></div><div><span style="background:#e7298a;padding:0 10px;margin-right:6px">&nbsp;</span>Saturated node surroundings <small>(9% of land, 1 projects)</small></div><div><span style="background:#66a61e;padding:0 10px;margin-right:6px">&nbsp;</span>Future 400 kV nodes (planned, capacity not yet used) <small>(16% of land, 0 projects)</small></div><div><span style="background:#e6ab02;padding:0 10px;margin-right:6px">&nbsp;</span>Load centre <small>(30% of land, 72 projects)</small></div></div>
+    
+            <div class="folium-map" id="map_5eb7a78aee5e57435e76297085b8c736" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_5eb7a78aee5e57435e76297085b8c736 = L.map(
+                "map_5eb7a78aee5e57435e76297085b8c736",
+                {
+                    center: [41.7, 1.7],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 8,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_5cd5ef059a2075c02100e3abc579d9e8 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_5cd5ef059a2075c02100e3abc579d9e8.addTo(map_5eb7a78aee5e57435e76297085b8c736);
+        
+    
+            var image_overlay_830dd29ead83ec2aa3ead3d45676c936 = L.imageOverlay(
+                "data:image/png;base64,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",
+                [[40.51830895442654, 0.06289649464905889], [42.88460041825734, 3.323239258162543]],
+                {
+}
+            );
+        
+    
+            image_overlay_830dd29ead83ec2aa3ead3d45676c936.addTo(map_5eb7a78aee5e57435e76297085b8c736);
+        
+    
+            var image_overlay_3a22c0b0e481e88bf66cc09e3746431c = L.imageOverlay(
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAmEAAAG6CAYAAABA5JE6AAAAOnRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjExLjIsIGh0dHBzOi8vbWF0cGxvdGxpYi5vcmcvgI3uAAAAAAlwSFlzAAAPYQAAD2EBqD+naQAARXpJREFUeJztnY2y7ahuble6zkv6Cf2at5Kbmfg4BiSQhIAxqrqq95o2YMzPhyTw3x8AAAAAAAAAAAAAAAAAAAAAAAAArML13/8BAABAIv5jdgHAFKnYuql3AACAufwzOX+YA5YxAACAySDCzhVWTzclogwAACAY3JFnuSCvgjvyncZd+A03JgAAgBGIsDNjwL7EmNYahiADAAAYABG2PqOuxHsg/S9xhzgDAAAQgAjbA4+YrpLAkuSFEAMAAGiACFsfrSiKCsJHiAEAAFT4V+1H2IJZYoiAfgAAgApYwvbgagiwLEdQYB0DAAD4bxBh67OKANMIstqRGQAAAFvAYa1r0xJY0QLsVgimS/F3vn8JAADbgQhbl9bREVktYE/eZVyhzAAAACbgjtzXDVm7xguJFexKUB7OMwMAgOkgws4iQgCNHP4aDbFmAAAwDUTYWYx8mqh05MRXmggxAACABoiwc8j2bchMFrEnWMcAACAEDmtdlx4LlJSThQjxYgAAEAK7I9dEc7yDVlidLMCyW+kAAGAjcEfuJxDugTQjBdgKQgdBCgAAbiDC1sfTLenNpdwIkPHIDQAAgC4QYXuwshDTgAgDAIBtICZsX3b71M9OzwIAAIAIO4BrMyGj+T7lKDvUFwAAJAV35F5Id0fOCMT3OkYiw1cAWqxe3wAA4AAi7Lydk7Vg+FXJJsQ8drC+093hvQEAHA0ibB9GhMjqE3qWj4L3pvO0lF2HvkMAgONAhO3FiULM4pmtvqk5i1XfHQDA0fDZIlg5nsnKaqS1QGUQXgAAsDhYwvYhoxtL+h1GqdDzED/ZrFq9ZBTJAABQARG2D9cBE7e1SNpFgK38TgEAjgURtj5X0knbw41pJZTeZdpFgD1BjAEAJAcRtgdZhJjF55Na4i1aiI3sWMwAYgwAICl8tmgP7o3K9TsRvyaKLE/Nr33e6ZfHvfE7AgCASbA7ErLuhIwI0s9q4doxVg0AAF5gCYMva1CWif9XLgs35/M+iYvRWohK69T6c0xZ3iUAALwgJmxPvOKmtHlax3WNBtTfieq0VF9eoimDdRMAAB4gwvblCpy4e75ZOcqIxcji240WRH6E/J0nAABMBnck1MjsEpsRv/a1KeCekAYAAGwAlrC98XZLZok3ihYxX18CaO2wbKUXBYIPACAJiLC9ySKSorEUSJZ1nUHMIsIAAJLAERWwI5fxty09OVUoAwAcDzFhcDpfR2BcGwup2uG0AAAQCCIMTufr9H3P3ZwAAAD/BSJsb5j4c9TdnfAdYQ0DAJgMgflw+sTs+fHynvQJ0gcAOAQsYXC65ewyCvC3KEe0CD5RdAMApIHdkQBzREwWAZRhhygAwJFgCQOw/0h4i95PLSGWAAA2AhEGGa0zs9C6BCOF0a9sCDEAgE3AHQlP7o0FmcexE7W8NNfNqmsEHQDARBBhcApfH/x+WpZ+/38FCJsR8bWbOAYAOBbckXCyy/EpmO5FrEPZywcAAEI4JwxOtbz0nN9Vu6cnXiuibn/WvdpHzRF2AAATQITBScKr5hKUCJG3+7KUrlSQZalnRBgAwASICYPTsbZeZRFWT0pWMMQXAMBEsIRBdgHhRa8A0R5hMZqGJc+NBwgwAIDJEJgP14ECLAJrkWNxJhnvGAAgEYiwszlZgF2DYqgliDLX6c7nwQEALAMxYWcTeYDpDsw4sd7rQNdneuyUBACYAJawc7GY1Ff/nuGMD3Bfgvp7W6o8BRgAAEwCS9h5lCwg2T+xM8vCdQn+VjuDq1aPX+l4iC4AAEgIuyPPpGeSXzkGKkpolj6JtFqdrWzdBABYBtyRIOUtGL6sOKtP3pZWqNXqgmB9AIBgcEdCaxLWHvS5o9vy65lGnzND/awmFAEAtgJ35Lm04po88xolUuhpXYoZvx/Zs1MWgQYA4AwiDDyPZvAQGJogeOs8r0Sn8XuRXXxpvsuZ/VkA4HBwR4KELAJsl6MssoqDrOXSCqyd2h4AbAwiDLKyemzZJRQRM59vFdGlOWC2dQTLas8MABuDOxK8sfjg9Vc6M3fztfLOILBqrCpEZrxn3JoA4AYiDLIciCqN8+kVYZafaPoqa1bBtZMoy1DHq9QVACwAIuwMWsdKrE5PwHzJsiYVdKNlycYKbSNL3a5QVwBZYNd1BUQYZGDU5eOxa3FEjGURCzsJC0sr5rVxPQFkQfL5tr+O/rhVHyQwH2ZzBa6WrC2CX+JxBQFm6Zr1GJwz1eGMAR/LAWTFagzN1MengiUMTuzUUgtWS2B9fSvyPYFmG2xKZYoSG9l3gyKAAGT9o9W3PPv6/bcJWMIgA3eS9CWxXq3B5v17FiF2T9hZmk3QSNzeWd4XwEy0fZc+0wkiDLK4ImvfZ5SkMUvIlQaf5zNlntgjLWAZhJj3Fw9WeUaAlbl26Wu4I2El83bGDjlybMYpcU0SIoXqFoM3gBOZzmTcvj8jwmBnEWfhDhvdSRcZFzF6vIYlvTuedhVinN4PWendXb7Slz+urGINEQar09v5b8f0LVeO2oEjixDrrbco0TvbOphyQnBi93MKV6fVZ2YsYHuwODIovI0iwmB1vM98miXCrM9Nyyq8nrRW1c/fJZ8Uau129eZdvt3FiHZ38fOaUwXqrgJMm48lmvF3+qfJEGGwMhYd+55w9MVIeaREC5CId7ECbxfNqs+kEfLSQzlb17byAds+3yPANJ+Y0x5bcQvLZclThE3pr4gw2AGLmIbRtL/S70mjlo6WqEFl1FqYiZ4628WK4zX5jbiZV65Pb0YF7TVw3wqLuh4QYRDGjq4R61V2dFD+yu8iddyFIaf2m9nsVN9ZLM5fbVnSvjWL12zxZPcrj+ntinPCziRF41uEXhP5ChPbDFZvd6uXf1VOHLO8x5Cv+pTU8fQ4KiNShA0gws5k9c4zMmBpOlyG7dc7sVu722EimonUWvy7rtd9Bv71JDm0OjPXrHIiwmD1uJeegXmVgWEnVopzk+bREzuWqd1Jd4555i/dEStJS3P9jtTeV2S9aNrN1bDIeW34mb1z+n8gMB9Wi1uyOgeq95iDCGbXceat7t5IBudsYqqXTBZezVEVPRPoiu/MYmweEacWdSYZX+/G7zsJ1P8DIgxWCaiWTvKaQac24HtOUJJBZ7UJ40fKgW6Rc9ZOFWK71m1kH5ohMjV5Pse10R3IWwXo/zMrY1iKO8FAWcu/t2wl4TVLgGWp6xHuj/9mT/ajea/8Pr74xVedJMAyPKv3uJGZ2+moknvAypcCYsLOprXiz2bCb1m7Rs+r8o6BOZErQXtqubVuQ0tlVktm1nYd1SayvY8dKFm1Rg90Pco6jQiDJ5rJaEdmbAnflW0HTWFA8ep4WjAzWEdXoifUYiZRMXrX4P3vtKbUKzFhZ5N1x2OL0uqrhDY+zJIM9apZmY6UeYd4sF2w3nDjtUsN+uvb87gJz3c1agHz2iWJCAMYRCvEZsZ+ZWN3y5U3WawUtVPQS0QFSc+um9WI2jQ1XYhMCMZvpR9WD1jCYCe0k413J1+FnQVY1LliT3p3gHljNemM9rNs9ZL9iBYLMaY5+sPy/Yz0g6vxuyaGt2fsD2mniDDYjVkHUK42sUjPSVsdz+db1f1qKRh2FvBZzlocSV/TRq0tYqPpXYW/lzaPRSyqzds7Igy+GtYOg2h00O8OdbYqvathbdrSwb4n3uVeyDLmafWJpmTFfP9Nk8YoVqJCa/155jtqubMScbfiGu+zxCTXqUGEgecElgl2Pu5H1t11mkn73jSOcvZzzXDzZUNb5mzv7HJ0ZUp4ewqkfUUl4hFhMNJYZ3XakdiFyC332Qa1Hcg86UmtSCu2i4hg/OjNDSu0pRE86tHCSqax1N0D+VhYyJ6W0ZFQluJzIMLgtB1PrUGEeDFZHb5h4oyvi0xxhSvWx24iLGs9v2ktVq/C36NFWMSO+hsRBpaN615w4tCamp/p7Fg/1kKs5XprrYy9d7RGsdO7f+MtwiIs35ojPTIy0yvRu9vyEsbiee3aTNEmEGHg0ciyTzha87LkeXaKlZHQGx+hZfXJMWJC0ZBhQrPM09qq7bV72poVxhGNCIt0p2YCSxiEbe2djTYWoXe3W20Qz1gvqw9iq9CyuHrvJtPE8rQsFCPcC1n0M7f1VcaSmhC7BPffQXlHiu9/Kw+WMLg2GCQkJvFeLHfnSC1qmQfYzBNTZnrd3qV7eoXClyu+lGdETEyrHF/s5KbuJfMYYRWfdXfmpUnLIuheymcZEGEwEsPzvGZWsPa12UA3213V4rTJLiujk8bMrf8a17NlKMBuZBwj3gLZYiPUrcjbMw2Xd/KvwQzhvMG9Z8u59j5pmjuT6biLU+p8FZfVaFvo7cMntXmw4X3WVg+X4eaOJ7fjkRTvfIv1gCUMrIgIspwpBjwnhBkWDQ2IsO86n1UvFq64rEIsq5UuM/dCQfjWsWHXoFhq7cge7VvNhQUiDCyxsqC10ppF9I6yLIOx5jiPE5hdDx7xUDNF2Yjomv0usjBbiPV6Pa6BPEffvdeROKp38U9HBgA9XBsMlJfTgPX7L+sgbFE+8CPaymyRn1W7h3XH16vzvju55VSVLjFh0NOwIs5uGjUxZx6QmHhghJk7aK0mTgsirWBeu6932NhzGbse3zFUpfRr+UjbxjW4+UyabvF9IMJAyrMzXEFma+mZW1+d0VOIeWw4WIFsEw7YEnX0Q/ZjWDxij06n19J6GVjJrILrXSAmDGY1yF0Cyu+NLQ0jwbO7Tlal1b2lpaR3h7JHbFjvuUuSa63Yta2tPMaOivnbISheco/mPg1YwmAYBroYtINPlEXhvXW7Jj52bivac5C+3uftNDFEB0SPlgHWxyqW9TJexPUKsHeZ3OsISxhk3xHl4bqwfJbZq/z7kHaSWdjNbMs7xhj1kLl9PIl0ad6JXNrvfvwlvq7Xb8+/SdHc26of952R/wkxYeehaZhZtqJnJeJ5VopD8SznCmJsx/a/SpkzB85rdvOtHnv2Fldfoqz29y809WG5aJXMhcPjEpYwiO7spQ44w3owGvQ5gx7XVjTPFa11nFLWyanXLZvx/WXBuu/PaDu7vd9W/KNmXC+FOfw5hjvcAZuyVO0WEQbvhmVJLa4lw+A0EjeQ9bgQqYk9+pksB87RzQut4PGRdjHal1or62xtMdWEZlgeLTUx8UxfKjSyMlrer3d+vf6tSUNDynpGhMHK8VJWhPj+HRgJZp0VL7KahUlrebSIa/milV7vhPY3QbRnFh6rjgVRjLaHtwi7gmK1JOlOARF2DtKBb6apd4arzspykYnMYqz2jrSW0p5jHLJYAbyFaGYRlhkLEaZ1r2XHw4MxElZxdeSXtt4RYTBzdeG98zEyWDdLJ4+Mc+tZxbbut0gny7uImEC83ZaIMJ9YV/jf9nUX2p1VGMLv/aQEEQa7NfBMgdtvc/vXvz0mRO+VopUVxtKtmE2I7Sz0f6wsOqw3j9R2CD7/vydurOealbk+6updl1rS1hci7Aw0AdvbNO5kgsyi3rSDr5VVTBN7Vruud8Lrbbv3Zu0wy/PsLAas4/fA7h3cwusk96YBEXYGHi66nq3Is8gmxkaCWnutZxq+hNTIrj1vEZLZiruTRexpoUg7qW0qlrNZeiO4Xv8uxdhFxUe6gAg7A4nlwtOaYDFoa+OPZgqvLJ1+xLoZMbBZCP/MIsezDWZY1EQtxDx2w14LvpeaRTqiPUTnZxWCkWU8/oQT8/fn2rXxJrFw7WAZeAvxK8jCaRl4m40VJ3nvetjp/c54N+/0owSZ1BouTet2CJG4V21fWMLAYpebN1k7V6Y6srAgZIkL1CwMslrCtohXWbTfRhxN05vvrjsXM3CteCwIljB4krWxWqxyRsRG1nrJLGRGVua19+09qN7BbXbFtrW6APMi/YSv4Frkea/G77PL1wRLGEQy2mmtArCzWHw8qB2J4cE9KRbI4n2W0rNqzyu7+nexXM+IG529cSIiD+tNGpfBDv4l+xSWMIjiCnCZSjcXaMXJKp37SjYZfp2XZMUzTW1sjNVOs577VmlLqzPbIhYdsP/LI1KIWXI38mvddyW32BVBhMEqSDrRvZm7SDN4aM7yWoWe57FuJ9aknhCUZDh+5vR38FcIUPd6vtoO5S9BpLFu3R9/k5Zj2feJOxKiWHXAnoHGUlMa8KRn6FjQOjrCI9A9ezs61RWZYQEw6tbyZOd3XxJjX+NS6d/HgQiDaI7vdIL6eSN1qz2vt55oaqvUmsXKcoBdSdjNOFPpdPE1e3eklPugMfdLmEWW5Xrlnw7ckRBN2s4wGWk8W+v6531WE03LTRAVA2OVpuQ5aKfyely5rpY9X0pBVKxYLe8d2ooL//gkC1Dk2SEt8Urz/Z8HraBSzfVPLAa8u+P37APtHeiyyl4XVvWY6dwt7/6602Iusp3s3Be6wRIGuxDVwS1XlD2ThMXxGiUXQe+zrTq4elpBWnF8q9bZFzMWJ9YWmigidklidVoIYsIgmlUGCO8VpfaIDO1k4REzJclHWm9f55nNiJUpkb19ZmAFS5Pm6ANPq56kPKu35dmxZ/fH39L3ZUQYzCC7JcBzQOsRUz2TwteAVNrFqIk7i955FnHmkVdeI3WRuX/0xCc+r5UcZTDbHZzJvdoiy1E70nE98iyz67///f7/NCDC9qY04KVriEnwHswiLQeS83x+f5MKq0y7zrK23+uAZ1yhr0jcwdoFyMoizLsMGrxE2DV41tgUiAnbnyuRVSp6JSLJL6qzjsRy9caOvcvdu008xWB14E5Gj75pkabG8tWbxgjR1mrIFxd3v/7dumfaGIIIO5drgjiK3g4esTtw1mp+NN3fwLODgGlZeb9cEm+kg/bq9eXRJ7STmPcYIHWje7lAYR0DxHQhhjtyb7KKgMxYum17Y7neA4JHbJGnS2BXJG5cieDryS87lm3WgztBeSMtQF+/RZRjNtfAvYgwMMViUJm1a2021s88Gujfun8k/aj3m21SbiGZzErXnUiPG2gGkTFgmvyj2W1cv5zSda8jLGH7kTXWIuXOlMCyeh550ZP2rJiqLJNzzy6uE+LQMk+G3pseegPca/2vp81EjJUrjccSSguk9NZoRNh+ZBVhO66+eqhZU3oHxhGBN8O6U5qY3tvKrTm97UXhHVdnZeUfSVsSTxa1QcEqZGLl/nE5pu1aL4iw/cjcGBFh/1sPnvUc6SqNYPZEBXJaxz5kEGBaq5bEojUSd5XNWrPajvnrzxdEGIQ3Ro9O7ZX2qmQRYplE2NeAPLNNs2iwqzPLuowMov/aaCGxovW2N2nZVh9TLcad6+OekhjOJnT/Byxhe+EdM9HL6gPGrEEoot4yijBraHNxPF3Kmh2JPRNvFLPaT+9xKpnbu2b38C1Iq7Zgi4gjHAYRtg9RbshSJ5J0GMl1J6CNH/Gsu9kizDoOjPaVg2tiu17aPWW0UeBOKrCeAv0SivKaoG+lYd0WzOsVEbYPWXadtTh9kuzdybijAGuVQcrpbSojmgnVK18p2sk6Q9+QipRItJsarsFdqtLNEamtYZyYvwerCLDZcTYzdgK2kOQ/u4yZoW7ssbBQvV1mv37v/b7esVteC41Mlv0vi1AGodi65zbKO8M76AZL2B6sJMIy7QKcabLPWI6/RQbxv+SDLwH9/14XX0RYw97ipDZpa9uhJFB/lF6LUASRge6XQT6S8W6KZwBL2B54+L53ECQZ3G1PVnxHsCdRQnHG2NSaeK2Oypgtvv6EAtMSyVEdrWD5yN3RV+W3u7O9mr57LGF7cOLkLokHkN4bhaSMGS1QGSabLBawLVwgE0RE5I7fWjlaefdYxCLj6bzybCERU6Pv9irca715Z2QHpjmIsL04TYz1dMzZk2cW69xMEbZyMH5tMsINKauH0XpquRUlO+5KaWqZYXnSWJe0abeu/RpzvV3L96sMo0ifVXr9ELgj98LSjLsCmSxLEq7Dy5Hl+S372Nekn6nNzaA1UY/WT+sIBC1ZBVh0vm/BYxE75/mst1MsX6gLHUvYulitJk8gy6QYFQzv9W4tyleanFezaO7urrRkljCtHVlgYV25N2lPT3ef1ko0O4TiHrDqf41F4c+HCFubqA66OlkmRAtX5Iz34SG+WmnP2FWXUXBk2U074ubKJMJ6d859pRkpPiKsrTWX48zYvlHXaOuaVswZIgyKZBgQvsoyk5Y5PQuawWNGfUfGgUmFWOb36cWKMWjW723kOUf7ibZf1sqQ8V1FjCdegvGu/Pvr2pRu5388E4dQfvEpsybn0nbfWWQe8DQWj1p9135fhVbMx+rPN0KtL1/BY8rl+ByebnqP9qNtlye34RmbFq6V3gOB+WDJe7WRxTqWka+VWe+KuWRebzH7/TCRlZEIk6gF16W0cL3vG90w5GXxk9ShlRUrpQBYjKvzvtG+4mpxJiZsXSzii97p3YP59QRIZg+MjWDGys3C+tAzQa3gmsnAirFgva4gaTC4lUvya9ESFReZ9R2+46ysRb51XOnduKYnhKM2JyHCQNyYeibEaFodJOtA5U1UDJT0vWtF+anvLfsCaxatOB2PuKqvTQF/SURYBNmt4F5C2qtvuS8acUfmZ5fgZM0uuF2eeVcBVrsWS1de4RX9bm6H8kk3Bml2ZUrcpRoLS9ZYWIlA9UbTBq9gt7ukLOYgwnKjbXw9sUTZTM5fMLHHop24tPfuyirupgzPVnL91NrVMzbt6/7WbjmrZ5DGkVnvEP1ixOpVewdXgvZ4O5SnJrinWAeJCcuNh9ViJB+LcnhsGQcZnrvQvvLK9K68hbxF+pl3dXm/T62FxCPcwWMSrlnkelyHLaEpuXckNsqDW2kNs7QMf72f0HAALGF5iRJgvzQiOtzs3Xg7IXXdSLEeXDTuoB3w7EMZ6vEOaL/SNiMRCa14NM/6fKfdEyT+u+YWWgdbcW7a9plBgH21D0ukAuzd3kzbD5awXPT4wC2sYFYT+eigM5L+bkQK1hPr09Midie3Uu5GzUoyY+GnsW5ZCkXJRggpEdawO0H/Lbmt33hZ47CEJSR60LgXdV0wKemhzsCyD/a2KQ/XsPfCz5o7eKzUiNNMVuwr2Gp5VaxfX3//SkMFlrB8zHQheZbLa0DMMFB4gOXQt06ztZtMO+wsg85r7h5Pa8Y7r1F6LENai1ikC1UbrG9Nj5Xvx1d78u4v7/dkliciLCcZXROjbsksZu0VySrMVyK7yMksEHtFWM160LpXU44IAdYqu2cwt+Wkfy24eL4S9Am394sIy0voDg0BvTEFI2mM5rcLGUX5SkStlqME4uxJSVJeSYDzvUkcmMR65B2725PeD+uYYC33wL2aOLgRwW/Zdv8NdkfmJcos7FGeW5DG2/wuTfdKOjF5sutzRbJTHd4LlkO6yy27YP4b3OnYi5UVzGLTQObNLJdBecIE2H+CJSw/Gd0oEZYZ6a4V63wBomjF5ayMpeuxlK7VTsBoMrxfya547U59S+6P8nik+0xfahE0fX//WCYGRxDVKe8FB7aT28TvP+98dmfndiy1GEWEYnztGPTGM09tH2yJnHtiPf29niXLuOJSD7gjc7P7pLOzC/E0It7jbm1lpqXBm1bowPO62jWazT2auiyJjuvANjsaCuLJ5Zhe63iK999dnh8RlpNrceEiKeNXw+59ruz1sSOr7OaDHEhjwiRB/pbtzavtzrCyaUXC6X34UlzbOkKkG0RYPjKvjEdWmpp7tLutZrNiMPHKrLAQmT64O6Itr6ULcYW+O+tdrtSGMnAr5im3eRkRth6zOlpGcdg6hyiqrt67Pk9g9nPuJHzvTcurcTXWrpMQcZ7VyM7wjGhdsLu7z6c8N7sj85LR8jM7KN/irDJYn1rsxsxFyqrtLcIt9a4fjYj2EG1/Qqt7LYB95fddEhaa97E6d4ZFHyIsL4gwWZ28yTQxwxmsaJWL2IHYyt/TvVhDKzRWeq+Rc8zqYuzO0A4QYTnJavaO6HS34QCy4uQIa5NZ9E/dir/gOJr5XX4hGe++Dh/967A0eu0mjUBrUXWN20SE5STzYGnlErQQSK1B5Gl2X2kwBbBidJK06jdffTC6X77dcNoF3wpjiObQ0S80964kxG7FtaHtEhG2x9bZKKxiLrR5auM2spHRtQz7ERGcnkEURbLaAq5kxfn6992xYF3VGnZnfefsjsyJx26M0YY1q6PVAkhX6PyjZV1tEoA5lNpXbaLsPVvqnnCm4Mw+kFkkvrk7r/n9rSXEahsVZnIrztjMUub/AktYXrK5JC3ckFpTeMvaNSu4972alFjlZgdCw770tL/nZKtpm1Z9biVhE4VkvCv95lGWkfjcKO5Bi91X+w9tk1jCctHTmGevEjUmae0qxDOerMSlvOZ9PZPLmVj0w96jGHrz7bEKaCY9sG1Pmaw4z7Y6yy15f5Tl/dv7+q92OrVesYTlY6QxeA5+tUFWE/M0OoG8O5ylCPXoiNIBquZ2hfxYie9a/+gROjU3pfUubOlGGdDVodRlW6rz0vtopde7czRK0NwCN/yTWizcNBBhueltzJ6ipDdI3tudmS3ezSN2ggnsDBE26oqSTEzWY0vEAmL6hBmItj6/Fqet+2ttytpFF7Fp5OoYd6e3J0RYfmYIMc0gPrJSrjFi4tYIOC9TtIeJfvqAAUu5NS0XBlEu0lqapfRLi8D0E7AAqSWrZQm7gy1zmjR7eMflPinF65bSmQoiLA+tFfAovW6/2v09nVHTQaJj0DIzfbCAEPG0ogB7p1uL1aldP1K+nnFltz6lbT8a4WwZ81cSdhJa89BysYmIsFz0mFM1jFqtPGM8dhFL3iwxsMA0JNajKOu6xN1l4SLdvX9ZxTK12oY0zZFxX+Mm1bjCPWKEQ0CEzeOaMABpVgszgsStrX4jboqvez3f0ckreM8V9agLPYoIK9gvj9mxpl9kEGB/iduHhZWnJny1bkbttTXujjSsNiBMBxGWh5mDUERgppTR2C2ptU6yKtTmLUnLm6UGIAWXYwyJNbPEnmSi0rbHU4TXKv1ottgouf40i/rWNXfl3hUXWFUQYbmIsoZpLUHPv68SkKrNq7WysnQVW1gjpEHLq+O5aSJbfI6VJazWXqVxP3+Dgd4a11ZWShbxDMxcJPeIMOu8f2R9P2IQYfmxcouNCoglG3hS93Hve6zlrwmGzo73xLyjCLMSUFbuXMnzZBZgEW3naZkccS9Gxe16cz3+/10v77a3vPj6gQhbFwsRlcUtsSLXJAtlLf/W5Jr9HWYTX6MByFIRYi2+/pSxcpq0SvfuKMAiY2B7g+yfYqUkVGa7Ld9//+uwpl2V8S/7uFYFEbYulgLqq4FLB+5amUZWeSsQ6T7usWSuUO/ZhJcVrQnQcoKMtIz3WsFGNwVkxGLR0ysmaiLnKXBGBNlIG/26tzQ/1P7/h0TQLQkibB6rKfnaoHKqa7M3tk7L12pXc29Gep+jNpA/r8tirYiM1SlhFZsldWNaue1XwFJEj4qw3jixltWqp2zP+ywXjFfnfWlBhM0hU0PqiRMpXT8abL4aEUHjPRaKVYL2e625qyxgSn1r1EJRyueLmlXB2vrVm/7q3MkXL7U2Jv1NGw/4lX+pfFK0IRhLgAiLJ4t7rtQxpOLKyir2TlM6oVgHyGrTjIgJ01i+NKI4Q/uzcqNlpuRekbjpNUJzZGIu/a4FEfbvdeFhke11bY8uWnrjDjXcyrxXGgeqIMLi+HInZbCAfXEHujgssLIiaK2Bf5Ndje903mS3iK3gWu2xWllYurUTudaqeAVMgjvGgUW3z6/255lfqQwR3IK8M4xbpiDCYsgivDSxTBnK0UNP3E7t/hUmkN54Cs29Hli6w0bL0CMqapbZ57X34VbFFfrQCF71+G47tf7b6zqUlmMG9yP/DPOmC4iwGLKZVLOIsDfvwSNyYpF2dMsBqeSm6klHQyYLWaayjODhJu/JX0qkMDwlUN87RKK2mPf0tMx8ZzciDHacZDKWaYUVfobBSHLd32KWsdVXutks3RYxZtYT+M7B+lGWsN/fnnm2Austyjbjnd1/h/Cv2QXYnKwDTmlCz9jwe4KSZ07qnjEw1gHVWSZG73cV1R4inqM3n5l9e7e4sLd1KlKE34q6zTKeW8UYbwnuyDPdfr27I60C4Gt5WaYvyUfybN4TiJUYOnYgc4j7kqbRuv6HpWVpFdFaCypfkd7didnf9RdRsbH33+EgwuLwECEjnbR39ZTZdWQpYmr18w6CbcV2tSYiK0tB1veyGpI2/hUI/fv3+5r330fKlTk9aV4rIt09ainUWvf0jsWtOFTps45yG6e3JIiws1khlmVkgvQkwwp/lXe2GppNGm/Rtdo76RUHpfafoW9mFGHP62s7Gp/pvK8dEfgSQSdJj8WiMYiwtQbCFQd5ayxWf9mRWMZObwcetCYiyYTr2UdnLpqk/UcjCLJjabX6utazPLV8Ja7GHtEpGbNm7yJOB4H5sBq9nVcyqUbxZUVoPVfmQSuLRXVUAL3F76xAYkkslfVkZr2T7l48UF9rCe3dLCGJKYyoL2mso3QjQGlMyDyOTQFLWEww7RezdyeyIqnXSyRemyE8KblVTmkD92LWJ20+o4uWld2SmrKX3NFWbegr/tQLTfpe8WrHgSVsfpzPrFUhHaRcL1kmiJkbN1rcSetsVTwWgDN3/n61vRkTcymmyqpMV7Bwnr3gKcWm9brvjwdLmIyVtyCDHMQwSNqHRSC0ZfvrCbZuuVprgeAjRAr253N4jOHWQepfZbQIyPd45tJ73NU67gYiTI5noyqtGCJF2sqCsKfsWSw3q9b5qXhvorEUYqVJssdak6W/aHiLL+u4t3detd+1lKyIms0jPc9csmCW8vu6b+W5JBxEmJxdlX30c2WoR88JRTrJ7daOTiJ6cTSDTBtZtNSsfpbxc951JBFZX7/XLGktSta41t+eIpGxTQEi7P9DwzmT2i6fnsHUyzoC+ZG+W+nOshnxqc+yfE32q4owK5Hw5bHwXtBpyjLKl7Xtq0wILkMQYbkmxyzl2I1avWoH0VZ8Bu/wTDdjzY3Ti2SStxRIEpEiFYjSOLXexY6kHD1uta/rn3l60Iqv+iqX9h4J0noEQxBhuSiZmi3N6SCr/xLU/7nU4l4yuA1HFhSjcUIlwdISEu97W/e8kaRfS0MqKFsB6b2MiCmpQF8pVOQ4EGHr0LOKKwV3wnfdfoGFa38s+0W0GOuxOI3ECElFTEuIjUz4pRgliRWzVR5tcPwoJRHrZcHycGPCAIgwyMaMQWK2GR5L5zw0YkDiqpvBlzDwaLs9eUgsUpY7Fkc8CKW2MDMWThIgX7OGfgXOv//+ThMCQYTtQ5bOZBH42rMSHFlRl/Cqy1n5wr/X/0g7zTRRa9yAnq5ZraCVXvu8vsfFKXVZerkctUja1uhigDEmCYiwnFitVjzcj1nEXi9ecTMWZVi1Tk9AIpxnCzHP9qOJgZNaZt7XjmJpXZv9Lp9ohaU0PUgAny3yo2Yel6xiboOO49XZVu3EV8eg5+EqzBDQDXu9N+8+WQtg1/z2FHMWQumZhtaqdid/16Xy3QeO3duCCPPjNrwvU8fxdNFFPqdFQKxlOSA3EuvOLCRWOEvLUEscSN2Co33ewjOQcbOSpH5r18FC4I6MJ2OnPwWNm1fqbtHmPZrOKLNF5y5kDOKuYWV16g20r417WdrkpRCU3q5pyU7PWtsrlYE+n4xTRdhsIeSdf6aVUqayjMa6SAfH9/XWgg7yklGE3QFj1VegviS90bGwZ3zRiBXNJgyPuMA7cOyCCZzqjrwPiN/IOBlkWfE+0a5yv6jdm1GAZRfGqyKZ3FdDatWKaEuaflaz2pViPr+opfNO73l96XfNDkxN8H02FzkIOdUStjPSFakkHctVdLaJv1U3rV1dFmSpC7CxBP11urc9mGVpf7stW27bnrguaZ+8hWXSLJQkO5trY0dLWGk3F/zume3dgU4QYfmoxSBoTNOj+VukJxmw3tdp3QqR8VmRrgaYj6Z9tdzQkZYxy4VPTURpY7++0n1yG15fu2+UlrWrln9PrNf771i9NgIRlgvJgGEZT1Erg2by0Q6eT0Ytddq0pcJQm5cWBFguRhcCmVyPFpbw3jGhde1XfUnEXEmESTYKWBNt3a9Z7hhHFgcRlg+NaMnm4ivhuUunZ4LQ5r+jBWyVtuNJKyC79FsrnRlWr6/y9FpdWve809ZYxb5iorQWNcnz1SxHI8yOfYsqAwRxamB+ZiQD+DXoTpw9AWtdPNKg2FY677+dOpg96+PUeuiZmFuB3lnGCam7fyQe6+u33oXNVz+vibffs0dawSxCM3qs7Sf2zaPAEpaT1VZuNUYn+VHBqAm67Ulj1ffTCpx+X7cbPe+05EbzFAOtRZmFi/B5jeQ6ifXty50oWWBax4RKAth7yiQVVdLwEVyMh4IlbH9mW71G0U5urTiSWrqtazPF/YyisYisvkq33rQi/U3aFjUxR5fDs/WUrXT/lxvwab3Spv3Oo8fVW9tU0GsRleSpsRyu0pfAGETYfGqDaI+guDa2aEgGP8vntBJdmUVcb11FByOPUHIhWroka9eUrBxvMVATcZ5oLKItQV4SSyMi6isdLaWQhDcSkS19hnuhcQAmgTtyLTQma89g+GhmxXhEDJYrvJOothRttR19v5ogfmt3UyuovVa+nvxrabRcj6X//ypjyWqlsWrX0iqV/+v6r3JIr5ekA4AlbDF6XGirM3PV2OtOkqa5CtaWRY96ncWoa6w3z5ZVylI41wRkyUr1JdoswggkaJ5fKqjersOax+HruqcVDeB/wBIG2ckcFM+qtq/OZrwviTXIWxBaT8DS9icJIpcEjEvqreVyKwXH1/L0tGxL6kUbzI/QAjHEhMWxeoD8bs/jFWsE7TqLtn5dwglWM9FalWN0c4REiI0IntEYrihK9SAtS8tVOVrPAJ9gCbOnFY+gWbHRqefFg8E+7rxWMHnPvT1oY5uk5bB0cX7lWdo8cBkH/z/zkKbdK17f92vyY3wGM/6xSwoEMREnxnRFIFmhPv+DfEjf0airSiIirskT7XscGRGCV+G/N7dCpHyl8bYmlurc+t0+LVXSHYrvNqDZ6fgTiYwjYAKWMDtGVtsZyBjfpN0Gbr0DDebSssSMpi2Ng5LQu4PveW9tF6G0DNZWQKmlSLtRoGZ101rYRl2VpWd8l4UxBcxBhOUQXyt09AiRNmLlaE2qs+rVYqdXZrRB1pmfpySM3r+9eV9T+rc031Z+rXJ8pVu6thU+8fttdENFqR1o6rzXndtr1cy4MIXNQITZ0COiNB1cs8J8lsHSpeJplXimryX7ICm15q1uSY0UYZ6TY6vPlPrbyELqLTx6A8xvw7gqSxEmpSa+vv4uSat2n7VoA1CDCOsncoWfTaB4DVJa9+NK9FolVrCSvvEWlBLrTe13SWC4tBw1gXB3uMRqeVlawp73SMrWar/awPavfEdcsV/5vNOtXQMwBURYfkbdAKX0sgxAkpV/lrKOMBqbo7k+mkjx/NVeZk2yrZiikTLU3rnUJTcaU1ayfltYxb5cj5Zp/+hxXwKEgQjzWY1ncNOtMtBkE4UZhYpWhGWy0nqJL0m8VkSMoCS4uyfvWjrersGRuLQM6Uvz2H3MgQVAhPXTWiVaD/KjMOCcZS2yTK+U/ps7IMD/K3aqN1hbU97a9SU3cu94oHFdl35vpaO51yMmzMsNWUq7dg3ANBBh/qt0q/RHYdCZi3R3mGU+kQuB6PZVEmGt+LrS5N+T/5sRN6nEzVr7vSce7J22NCBeY8mqCasIIZbdlQ+HgwjLTStQu4eIgYiBr14nX+/BWriP0NPGspa9JdRW2FxS6k+tfqaJs2otImtCSuKSjnShei6IAUxBhMVR2hHUk44FUXFCDIC56yaLlVVrlapZv6TpeLhtvWKQRtqNZuei5nrpvZEi7AkCDNLDZ4v8uAoDZ4aJ9894UPyyPoy6R3blq25mcSWsl1432vu+999K4sBbgD3zuBxExvO/WdyVOvVs619jarZFDkCVf9V/hg6+JgOrgH3rgdbKElCy8DEI1utsJlnd2pZWntJCQOuOHJ3Yr0XCF7x3K464NL/uaY25AOlBhMWImq8VuZdLoQeLQat1P4PiOrQCsr/wtECMLhZ6ylZ7dklQ/vPaZ32W+prkGTP2oVtgobw775Xk+b42Yx0BFCEmTEbPivlP4IboSbOUxqirwyM+xhtWvH11NkJNQNSu6aVlvZqxieCrTF//luYt7XsWz26Jph5bddISthrhC7AMWML0WIoVywlRa9LfwXW4Ypl3C8D3tkI827Wl6LawSP3S+OpL0vq+BqzqM9GWq2VFlVi/VlwoAlTBEqZDMghY717Uuj606Y+AG2ANvHbUelrANFgHvHuPBV8WnlrdWli7Z4iwt3BqCV9NfgBbgCVMh2QgsHaVaAYfyQrccjCbMTnggtTXV2/w8xPtDjSNQB99pyPtsBTMPtLXR5/3HUeWUYyVnsHSXYrwgu05QYR5mrCt0/YcdLzSjhZgEFN3UkvH+7eeRYRl/xndZScti8Sa9VWe0jWtOLN3XrOpCbCa8K+5HhFdcBwniLARd4N2J1XPKtB64CkNcCvGU2jjZaBddy16RIilUIh+t8/87k5hVhN/NTecJj1Ll/KVLEiffgzHQkxY2x3RinXQEjngzBjsrIOnWzCA6+vsL1GMmHTn8Ig4G92d3HOdZsejxqL0FaDes+CzjKOLjkUF2AZE2P+lJcB6mDnwRMdQWQbrz7ImrsgMN5VkR5uHOOoVZB6LktH+pW3jWdyRPdBPAV4gwsrsIMBW5jpY5GrTzDoxa3fx9oiqpzjRij7vOMm3SP2yIEmEbNb3q4FxEOCD00VYa4Ds3RH1HFxPHnyirQQrULPi9LhfZ0/QbxHU+3wzrLWRljBJnruKsZX6J0Aop4qwr5gKqbm/J+4D5uzo88BLWPcKTs19lpO4haXO83319E0LC2Qt7qolwFrCdUWXJGMjQIWTRFhrUCYIPD8agbwa2SbW0oQ/GofVk4Y3vcH3v799ITme4p1G7fdVLWHZ3jVAKk44ouJv0A0guR9iWHUiqpHxeUrHT0jKupJ1+GoIndZRFdJFQeneryMxdmLX5wIw4yRL2MlWlki0k7B0N2VrW/4O7+eaLF5L7jBNfOMq/UhyrlfrmTXuyFIYQ6sdR1rBLPPJ8p4BUrOzCLPeYcagAh7tTtr+vGnFMvUIEkleKy0a3qJKGutWE10tSmeEZSfTOwZIyz9/+8IgANHssBv2LTRKAqwmQO6O3yTlsbxWUqbr8d/vWmlekoD6X97PMrz/v5QmAGzAbpawnklwx2MQTiGTS7LW9kbEWcvaksV9JLESrdaHRuq2FgMmOcZjVQG22jsGmMpOIkwSWzQ6kDHAzEfrNrY8x2nl88UijluRxvf9HSbGpOd/tURZ5l2SO71vgDB2EmEzVrcQj/WBn1nE16grs9cV93XviNWuZsGxTDcC7TlgWiSWsFoZsoix2X0HYFlOFGHZDwOFGCFWsipI3EBZ3Z6/36VI3GOacpXSH2WGCHu7Dy3Fl5VFM4NVjDERYABEmHzVCXmQ7kqT3N9zj+Y+6/JIDvaUcgcK4pKQ6j2iZDa9saQty1bp/5/XSqxlEWR5FwDLgghjIFkVCyH1db/E6tIrCHrP6hrZADAqWCW0YpVuYfmyTuqWbseSCJP8vSXKosn6vgCW4XQRBudgEbz+TueesAvXagew1wQ625rsYTHrjbcrtRVNW2gF5s8SYQgwAAMQYXACXpaM0hlamvy9J7MZbrxo0RcpKHsYiSdrHXUR6ZJEeAEYc9K3I73JFrOyItYT6uVQLq3lQSvAMogmj12mXxYdCzILsK+yaUTTl/Xr3f5mB+YDwACIMDsQX3q+JhDpmUqtd3EFveue934Hlj3K0lb6d+v6nvxK4lVrkfwShJ7tRrtpQiuOM+yWBAAFuCPXZ9YZSiOsPFGMxmNlfFcjOypbQfmatEbadyuAXZJf6xnujut7N2NYHkUySsY2C7AFWMLWZ6UBsneyX1W0jZQ7yi1p8U5axy7U8pZYd1pE7AB95zdSrlZ6rTorgSUMYDEQYeCJhXi6NrI8ao/SyCCwrd2tI+laWxlr4k0idr6EU+kYiVZ+FqzkxgYA3JHgSDbxJGHEfbSCoIp6VzWrjrfgGD0zTkNLhEnciXfS/mW9gQIADosJYwCZV+8rI7GCrCSwoo9i0MZVSSjtDBxN95m2FW+rVynAXjM+1TYjePDejQkATuwqwiTn5zC4/N86KzFyKOkOsV27t52o92JtBfNwac4U9Vq8Rdhu7RwgHbuKsAyHZK7GFTSQj+QTeTBlqwwWzN45mUl8Sa09tcNLNYzs6vQ4bLVFdJtnfAQIYHcR9ifcwQW+cUGSd6FNawchNlOERVgsPQSrheUo2y7C0aMzrGFcBAjiZBHGQCOrJwtGRNSMs5Jm7Ga7E1mHR+vVUyhJBYtG2LzzmuFCL5UXAQawMaccUYEA66sn6/p/nzQvya/k0vQULVeweLonWonuyUH3lunNFI8rCvI3LEwBgjlFhD1hoJnHWzz1WhwyvcMvi0p0+XriirSWl6j4ytvxUNR3Pq24sBlWqExuUgBw5hR3JDt95PUUhTZgX3P9jAD+keDwaGoHi2qwcg1q+EpzxG2M6NHVFwAYcooljMFlfTxdYSNiZOTcqx7Xq4Vr/V7wLKn3c5dOpJdYI2vxYFIs48Zm7/plfASYxCmWMKiTIfh35gTkZQnyjk+0sKTVrEg9FqZ3YL32jDmtm/RLDNbEYeng1Oe/a/mtDoILIBGIsHPJtOoeEUGj545JLGy1XXpfAuB2OhNrdJfhPVEctsqgEU4j8WS7iqsWiC+AhCDCzo0hmzEZWW/DH3EJaSw9s86Yi2iHI8dAvK+VnD2mCbwfcRO+D0U9kd3HMIDlQYTF7fo66UwwbazQLEHYI9x2ozeuq+bC07z3krWqV0B9lSWbCPMo045tE2B7EGGywXCnAc5y8O+tl9WsFFrXWjRfwftW76bXKtZzT0RbaFnnPMthJb6ytDsAGOSU3ZHSnWbQV5/aSb92bTbLxb1IGa3K83yfknerFdM9oq2XUvlnvjsEFAAcawnrOR9px0HTyw05uwxegfnZY71GzsmSpNc6NqOWTq2vjYgjbf5fv9XSsl6w7TiOAMAgJ4kw7/if1YL5rXckrijCWsx8ny0BIQ2I78lXu6vSup5GF0e9FlpJelJWGgsAYBKIsPgBNEM8UQZLWMsykWn35ghf52ZZChernZu9FsEvgSIVj9ry1NyLFjFxtTPENLtpAQBEnCTCes8b0qaffUDOEJifSYTdwQLa0jrj6YIspVuyummPp9CUa+S+Wj0RJA8AUzlBhI0MtB6TbZRQsxA1rfs8rTmjRJV9hFHLkKc18ittrQAbPf6ix7rVE3Zg6c4FADh6d2QWa9TXBPXbcRZNrwBbjZWOvfhzjqWatfPwWQ7J0R41d6rUzdgTs1XKEwAgjB0sYZ4T7qoD84jokm7pj6obqzOvLMrxt7mI7gk8l1jPJDFjrfqV7nQ8pY8DwAasLsK8LR6rD9CliW+XAONIYaTJyzvwXoLnblWtxbFlEdNa8N5HX8w6agQAYIgd3ZFQx0OARbiAv/KInFg1sVslwRtZ3p6zvLSMugB/efdsjniWoQTCCwBSgwjbl/dkNTpZ/k2e7FaZUK2PoJDm2Sv4RsvZs/nkKd5q1tp7w/YBALClCKsNwqsEaltg+awn1Zsl96RdntbHU4xYyJ7p9u4A3cVtDgCwpQhjMP53djngdAbebsNSkLokv9EjH2ZYlq4JcW0AAEuxemC+lp4zhLzK4Xk8gQaLHWcrTpbv4O4flgep1nYFRsaKSfL6Cnav/f7FyHl0AADHcZoIy+Li6BFh0jOWZrpwV5pMvQ7orB2Saxkvpk1Hcv3VeR7YDu0BACCcE0VYBnonRGusz11acdL1tkh5ibAoWqISAAA6QYTlxEuASY8skKYz8xBXawujR/lraZfOympZJyWn0Gvv11hEEV4AAEasHpi/CzOtXpGsZEWxEDw1ep7/656fdarkrq7tnnweE9Gy0mV/XwAAy4EIO9vqJb3PSjxpT1q3ptfaVBI8799K/37vFLSM63uWq1WmGm9B1pMGAAAowB05D08hEj1xakTa7Jgoy12ftecu7ZCUpFvKy7puR468AACAQRBh+4mxGRPqanFDmri3LAHtFvFuX2R/VwAA2/LP7AKAKRET6tsdpxVgs0/hf4qZlltypKylIPyau1d6Mn6NUnzYO61SWQAAIAgsYTnocZHNDHIfOWst2h05GkxvZRF7B77XyqWpI8m5ZM9/AwBAEhBh+Sh92uZPsPttBjMm+V5hpbXS9T7PVzoagSd9vksRjza7nQAAQBIRxsQwVne1z8vsEgfWaiNezy61UNXeQ80aVUr7qwxf19bEueSYCgAAOFiEWcS9QK5zs35Euxk9DlbVWJ9Kokd7sK3UTfkuB5YuAICFiRZhGXdrzbYUrGAVrB238CZrvJdlfr88pbF82msBAOAAEGFzGAlsj+Ta4NgMq7x3OtcNAAASkM0dudOEJHHfZX92S+Gh3e032zrpcbp/tvcLAAAHnRO2mgjppXSO1gpWGQ80z53h/KrbuDxaMQ4AAAfAERXrfCLnnW7UwayjaHY3RjyXRBRLPxHUorZjEgAADmdlETY7oH6GAPN4Zo8PSveQ7V32isSvw1mzt1UAAJjAyiIsM1ohY33o6Axr12g60eeBWR6jkiGODQAAFoNvR9rx+2aftyXJeqLPIhwuBwEmeRead/YVrE98FwAAdIElLGbX4xc94sL7lPgM3MFHgHxZGDUbSLCCAQBAF4iwOeIli/Xpb9NYMI8NBauc7QYAAIuACJsz0VseVZEtPkwbJ+Z1fpjH1xk0H+EGAACogghbR4Ct5oos7Sz0dt9FuAdxQQIAwDD/Gk9iW0qiZ6dvAEa6IH/1gTgCAABgd6SInp1wHkIju6gbEayWZYiopwyn+gMAwOLgjpx36r01I/FKnifjS/Puic9CCAEAwLLgjlyfSylwPMRLayfhiZZBAACAKoiw+VawiB1378/nWLsJe0/zlwpCrF4AALAduCNjPz3USt8ijVUoxZC9RSLfXgQAgC3JLsJmWUAiAvBPEmGtD4TjWgQAgOPIKsI0n41ZMV8rIRIlwr6sU9L8tR8n194LAACwJKuKsIjvDFrn08rLMqbM+8BVbRlqrsev+xFfAACwPVlFmLdA8o730uY5mr6HELudvxaA9QsAAI7mn7/ctMRJlAvvCoxtm/kh7ed/EflJ/gYAALAl2S1hVt8d1B41YR2zVbMAlX6LCtIfidkazQ83JAAAHMsqIqyXEbejNBBduvNPIiCtRIlFTJ3nh70RXwAAcDy7ijCtCGm5C0etTBLRYXl0g1W81eV8oj7uRwAAOJYdRdhoMP9bIFgLMM01lueQzToCA6EFAADwwYmfLdKIKw8B1vrO4tdv0ULGWnyNxLoBAABsyWkiLFKAWaY78uWA2afwr3KqPwAAQCg7ibArmSiYLT4yWpwylgkAAGAKu4iwaAFWO8ZitvjKxKxvfwIAAKRnp8B8a/HzFdPU2uXnLcAiBM3oM4yc5wYAAHAMiLCccVQl7gUEGAAAABwiwrzOsuohmyWs95iK0n1v9yLuRgAAgE4QYXbWmwhrmNUnhjQf58a6BQAA4MDpIsxSYEQG5I8cg6G5V3riP+eAAQAAHLo7soeVLTyebkCNte3eqE4BAABCWd0S5mEFG/3cTwaLmPVnkFrPhPgCAABQ8s/fOlwTxYs27dmi5A4UYAAAALCpJczz/C9JPpIYKk9RZxGgPyoKR2LMAAAAYKGYsGuDvGYKsJ5rJemMumoBAAAgqSUs+piHkeMcVjw3zApOxAcAANjUEuaJRhidbOmpuVlPrhcAAIDtLGHZAsAzW8CsAu2lsWWILgAAgE13R2YTYKN4i5ZIUfT8IDcAAABsJsKysZvl5xrYMYklDAAAYHN35F+gxSX6sztRx2zU8t5NWAIAACxNNhH2N9n15SVUvqxJtXPJah/SxjIFAACwASeKsNKZV8/fMjDzo9gIPQAAAGdOO6JixSDzGcIwkxgFAADYkhMtYRHigzgsAAAAWE6EzRRinEAPAAAAIZzmjvQWYJpYqtXcogAAAGAIIsxGWGkFFR/CBgAAOJys7sgZlqLRzxQ9g/5HrWrsTgQAANiczCJs5uGtpXKUhJaF+PI8MuMp6mYefQEAAAD/De5IGU+xUjt09Uusfd0Tybt8CC8AAIAEZBZhKweuv8tes5RFPScCDAAAIBFZRdi18SGwkc+G8AIAAEhKVhG2E7fis0mWIgoBBgAAkBhEmJ0V7CtQfyTNU6yIAAAAR5JNhK0qIEqiacSK1ZPGO/asZQ3LsnkAAADgODKIsFWFVwup+PHKt5bH12987xIAAOCwc8IyiLA70TNbfT5Jk6bnGWUAAADwwT9ffwRTWgLnfv3nVQat8MsgjgEAALYFS1iMxadkmaoF9EusV7XYr5KI0saYYREDAADYMCZstrVltsAYDdz/iaRbkbZE6M1+LwAAANsTbQnLNrnPigWTuP9agf0WHwlfRawCAABsx38cLMCyiYu3hUp73IRV3ivUFQAAwPL8x0GC6+8j/iq7sIg6x0v6vrLXFwAAwLG7I7OKr9UFxZ0k/ZXeLwAAwFGWsMyT9Eqia6alDqsYAADAou7IbEJsNfGVAYQYAADApjFhz8BzTxBgcQH7FueSAQAAHIPXOWFMvD6fF+pJ888wD07WBwAA2OTEfC9r2Eoi0Dv2y/s7la18VnoXAAAAYfDtSP/vMkp+a6Uxwtd3KiVlWzkOEAAAID07WsJWsLzMsBpZuz454BUAAGDhb0f+AvStvmGIAPOvH6xeAAAAm7gj78VFlYaZp/RbHMjK9yYBAAA2cUee7vqqfdA7I4gwAACAjSxhEloiZSURcx3g4lvlfQAAAExjFUtYpiMQeq1XHmeCReN5BhkAAMBRzA7Ml5LZUtQSZdchYmXHZwIAADjaEhZ12KiHNS5T2XvA8gUAAHCoJWxUxDzvz7Ar0SoQX5OOlft0JfEIAACQnn8dIsB+/x4VEK2PVX9db+1K7U1Pcx7b13WILwAAgEPckb2xVFHHWUiEi8SdJxWHnp81wuoFAAAQTGYRpqVHpPSKMelORytBaPFsnPEFAACQiJ1EmEQojX4GSWOd07gsR+6XpCVND5cjAABAEJljwlqB9V9uvJJrz8riZZWu1f2WLksEGAAAQCCrWMLe4uoyiGl67xq0+lh4jwXsS2z2CqqeXZAIMAAAgGBWEWG14xYsT6IfcSGOiLjWURqXQxA94gsAAGAiq4mwGqNncI2ebG8lwlr5Ip4AAAA2YCcRNpveQPoMB8oCAABAMP9EZwj/I7ZmCbDM3+EEAAA4BixhNvQc/4AFDAAA4GCwhMVYjWpWLlyQAAAAB4IIawuwa/Abl63djt7gfgQAAEgI7sh+Rg5ytdjhKPnAOTspAQAAkoIIG8P7RP1fHt7fpgQAAIBgEGFtSp9HkmBt7dKepo8AAwAASEr2b0dmoFeAvWm5BkuHxUZ9vggAAAACwRKmo/T5IM0niKR5jIAAAwAASA6WMHuBM/oB7l4QXgAAAAuBJawfz52HGgGH+AIAAFgQRJgfFmeBaT7sDQAAAHA8/ymeOCQVAAAAwBhEFgAAAAAAAAAAAAAAAAAAAAAAAAAAAAD8/Sf/D1aJs4zL1jzEAAAAAElFTkSuQmCC",
+                [[40.51830895442654, 0.06289649464905889], [42.88460041825734, 3.323239258162543]],
+                {
+}
+            );
+        
+    
+            image_overlay_3a22c0b0e481e88bf66cc09e3746431c.addTo(map_5eb7a78aee5e57435e76297085b8c736);
+        
+    
+            var feature_group_26fd81d5017f3ab084bbe87c4306b42b = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_db41fb742a29630895663493545ce59d = L.circleMarker(
+                [41.10624224206011, 1.1853554713502743],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_db41fb742a29630895663493545ce59d.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f7a326a2812e44d0f9416f0f59a9b998 = L.circleMarker(
+                [41.11096027324898, 1.1897494667103445],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_f7a326a2812e44d0f9416f0f59a9b998.bindTooltip(
+                `<div>
+                     10.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_aeda5eca333a7c76cb2b740ab2268ee9 = L.circleMarker(
+                [41.111435464466545, 1.2033604087482577],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_aeda5eca333a7c76cb2b740ab2268ee9.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e31e64b94394be26511d8aa30396c233 = L.circleMarker(
+                [41.11212514113473, 1.2029612192051493],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_e31e64b94394be26511d8aa30396c233.bindTooltip(
+                `<div>
+                     10.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ff7aedfcbbe1d2916c9ec6a9a14d9de6 = L.circleMarker(
+                [41.11444122783644, 1.1631949670124346],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_ff7aedfcbbe1d2916c9ec6a9a14d9de6.bindTooltip(
+                `<div>
+                     31.5 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_dfa1db79e52c123afb3b78f076b1a27a = L.circleMarker(
+                [41.11764158541811, 0.4360780828268422],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_dfa1db79e52c123afb3b78f076b1a27a.bindTooltip(
+                `<div>
+                     8.0 MW | type: Renewable integration zone
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0bc3b8ab9a145977fc6efeff5031be63 = L.circleMarker(
+                [41.136669497154436, 1.2262080068833219],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_0bc3b8ab9a145977fc6efeff5031be63.bindTooltip(
+                `<div>
+                     20.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e3c649ea5a3e815e5556dde65acba158 = L.circleMarker(
+                [41.14031369807742, 1.1908992671758922],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_e3c649ea5a3e815e5556dde65acba158.bindTooltip(
+                `<div>
+                     2.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0124832ecf3b45fbea80f4c6fcb5cc5f = L.circleMarker(
+                [41.20660651633423, 1.5074557845818815],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_0124832ecf3b45fbea80f4c6fcb5cc5f.bindTooltip(
+                `<div>
+                     10.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c3dc5246feab2586b4014c94c4f3064d = L.circleMarker(
+                [41.205123472684285, 1.1556319672058915],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_c3dc5246feab2586b4014c94c4f3064d.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_03a62e7aa81ab2b6107e80dd8ffe9b0a = L.circleMarker(
+                [41.313866846724146, 1.5698718276360655],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_03a62e7aa81ab2b6107e80dd8ffe9b0a.bindTooltip(
+                `<div>
+                     9.9 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f1a625c79bdff36fcb246a20c2dd4378 = L.circleMarker(
+                [41.39824908398273, 1.150030441056695],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_f1a625c79bdff36fcb246a20c2dd4378.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9a3624df6c72c0181abb161059ff7948 = L.circleMarker(
+                [41.52693650981483, 0.8260106063352516],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_9a3624df6c72c0181abb161059ff7948.bindTooltip(
+                `<div>
+                     0.1 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a13600225dbc13b1eed73478434acba5 = L.circleMarker(
+                [41.535054933096745, 1.148081323055647],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_a13600225dbc13b1eed73478434acba5.bindTooltip(
+                `<div>
+                     1.5 MW | type: Renewable integration zone
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9a19acce877a2366c5d4d507211ed29d = L.circleMarker(
+                [41.535335663554186, 1.1477395404428585],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_9a19acce877a2366c5d4d507211ed29d.bindTooltip(
+                `<div>
+                     4.2 MW | type: Renewable integration zone
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_81c841a62b5408d3213f01e7f72bb459 = L.circleMarker(
+                [41.25611270874061, 1.5970488126857627],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_81c841a62b5408d3213f01e7f72bb459.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a675449108b18401f8611cfc8325a9a5 = L.circleMarker(
+                [41.257769370905834, 1.584022107919535],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_a675449108b18401f8611cfc8325a9a5.bindTooltip(
+                `<div>
+                     0.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e54510cfc82481be2460a964cca0d4a9 = L.circleMarker(
+                [41.36494754519798, 1.7051339189473866],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_e54510cfc82481be2460a964cca0d4a9.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b580efe531c200b6b2af22d60ad9bc22 = L.circleMarker(
+                [41.37250986222138, 1.6931735369575451],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_b580efe531c200b6b2af22d60ad9bc22.bindTooltip(
+                `<div>
+                     10.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_30446da7ada8140bf7f817728585089f = L.circleMarker(
+                [41.40429050759075, 1.9879202681590822],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_30446da7ada8140bf7f817728585089f.bindTooltip(
+                `<div>
+                     10.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6e60a4d3cd22ff52b3d03537dd225f69 = L.circleMarker(
+                [41.40450075234711, 1.9880209994074463],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_6e60a4d3cd22ff52b3d03537dd225f69.bindTooltip(
+                `<div>
+                     10.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bf0f4fc3ccb9a8f8397b366c8749c187 = L.circleMarker(
+                [41.43090944934642, 1.8229373051708937],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_bf0f4fc3ccb9a8f8397b366c8749c187.bindTooltip(
+                `<div>
+                     23.5 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_de90d115a36c99b343b9bad0ed260b96 = L.circleMarker(
+                [41.467902903447566, 1.9886692113137125],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_de90d115a36c99b343b9bad0ed260b96.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a80c01c472f72ce679c1e04b9859f260 = L.circleMarker(
+                [41.467960496492985, 1.9885808282997894],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_a80c01c472f72ce679c1e04b9859f260.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1a3915828db7cdf30606bd183ba58d54 = L.circleMarker(
+                [41.468027240381886, 1.988467598205201],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_1a3915828db7cdf30606bd183ba58d54.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_fbe25073874f7ebfbdb9d5639245c335 = L.circleMarker(
+                [41.468151482674315, 1.9887477263465494],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_fbe25073874f7ebfbdb9d5639245c335.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_edb92ff540ae6753394220ecd6a43e3d = L.circleMarker(
+                [41.46813405311638, 1.9884184625869301],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_edb92ff540ae6753394220ecd6a43e3d.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c174400a31e1fe67eb51b34a6489fa22 = L.circleMarker(
+                [41.468222885440326, 1.988330006442491],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_c174400a31e1fe67eb51b34a6489fa22.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2a48a9fb4a1820fe7a0a62bc9ccbe525 = L.circleMarker(
+                [41.46828439215793, 1.9880665147427095],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_2a48a9fb4a1820fe7a0a62bc9ccbe525.bindTooltip(
+                `<div>
+                     10.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_09b08255e15af9c922f645731683c476 = L.circleMarker(
+                [41.46843516836479, 1.988133199018664],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_09b08255e15af9c922f645731683c476.bindTooltip(
+                `<div>
+                     10.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a622b853d22426ed272fb3cee415ab70 = L.circleMarker(
+                [41.46854492007235, 1.9880919507990382],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_a622b853d22426ed272fb3cee415ab70.bindTooltip(
+                `<div>
+                     10.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1a55061ea96bd9aa414aeadfcba14cb0 = L.circleMarker(
+                [41.468632688998774, 1.9881730099922685],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_1a55061ea96bd9aa414aeadfcba14cb0.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bf49690bc78884745afe3057eaa398a1 = L.circleMarker(
+                [41.47510623491097, 2.005073271934958],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_bf49690bc78884745afe3057eaa398a1.bindTooltip(
+                `<div>
+                     30.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_828516a6ab7b791f864b7789bdb14054 = L.circleMarker(
+                [41.476362782265944, 1.9973796714955314],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_828516a6ab7b791f864b7789bdb14054.bindTooltip(
+                `<div>
+                     50.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c1aa21285dfcd17ad4c49fea24c8b0ed = L.circleMarker(
+                [41.49121549051641, 1.9990724771949497],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_c1aa21285dfcd17ad4c49fea24c8b0ed.bindTooltip(
+                `<div>
+                     49.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_30dd67959b82613bec6052a3ace7adef = L.circleMarker(
+                [41.50185342043631, 1.9974766883418371],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_30dd67959b82613bec6052a3ace7adef.bindTooltip(
+                `<div>
+                     51.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_17d318844e76aa41bfc5c624bbfa8de9 = L.circleMarker(
+                [41.738021027539915, 1.861449070913311],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_17d318844e76aa41bfc5c624bbfa8de9.bindTooltip(
+                `<div>
+                     4.8 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3e72b94cdf524b898ece40e05e79c108 = L.circleMarker(
+                [41.749963930692054, 1.858599497317933],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_3e72b94cdf524b898ece40e05e79c108.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_035bc69ae704ed64b0029f2313417c35 = L.circleMarker(
+                [41.346221912886755, 2.145649051786033],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_035bc69ae704ed64b0029f2313417c35.bindTooltip(
+                `<div>
+                     49.9 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5574456ce27dbf15845b545671e4649e = L.circleMarker(
+                [41.3478279624644, 2.1219393252472973],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_5574456ce27dbf15845b545671e4649e.bindTooltip(
+                `<div>
+                     20.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_caeaf4760b0d79868caf8d3d7fd7ee02 = L.circleMarker(
+                [41.34812784560842, 2.122528861427343],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_caeaf4760b0d79868caf8d3d7fd7ee02.bindTooltip(
+                `<div>
+                     20.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a6f118dc169322ba9985eb433e658257 = L.circleMarker(
+                [41.348604860810866, 2.136709941938131],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_a6f118dc169322ba9985eb433e658257.bindTooltip(
+                `<div>
+                     20.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b3e9cec2ef98ecd9655d2f4588de6873 = L.circleMarker(
+                [41.35162437780538, 2.0936957312085447],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_b3e9cec2ef98ecd9655d2f4588de6873.bindTooltip(
+                `<div>
+                     20.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9a968df33e0b062124076f66b8059c55 = L.circleMarker(
+                [41.464992257200294, 2.2570091669466557],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_9a968df33e0b062124076f66b8059c55.bindTooltip(
+                `<div>
+                     20.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0636aba5df0ffa3392ec8a6b123dba59 = L.circleMarker(
+                [41.46757029714279, 2.270413418851646],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_0636aba5df0ffa3392ec8a6b123dba59.bindTooltip(
+                `<div>
+                     34.9 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ef1ce52462f4def5b924f98cd88b19bc = L.circleMarker(
+                [41.46824352538605, 2.008047733297023],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_ef1ce52462f4def5b924f98cd88b19bc.bindTooltip(
+                `<div>
+                     50.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2a398e59d2a59fd9b6d4b441fc3f79c4 = L.circleMarker(
+                [41.47209964730809, 2.0079545785683135],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_2a398e59d2a59fd9b6d4b441fc3f79c4.bindTooltip(
+                `<div>
+                     22.2 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d6e435f1414740fd28a90beb1e61ea42 = L.circleMarker(
+                [41.47730690660076, 2.100330189792188],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_d6e435f1414740fd28a90beb1e61ea42.bindTooltip(
+                `<div>
+                     101.8 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_af418055ea23d7efeced7041e9536bb7 = L.circleMarker(
+                [41.54805797178815, 2.1725801172637444],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_af418055ea23d7efeced7041e9536bb7.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7ea88138b7356125c85550f608ba59e8 = L.circleMarker(
+                [41.56517449471694, 2.168496095223846],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_7ea88138b7356125c85550f608ba59e8.bindTooltip(
+                `<div>
+                     20.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_909b3d1d5950080020d18789db8b29ef = L.circleMarker(
+                [41.58583884991668, 2.1960384245234104],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_909b3d1d5950080020d18789db8b29ef.bindTooltip(
+                `<div>
+                     20.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e58aaa5d8f12c6dec29674ffc1940529 = L.circleMarker(
+                [41.610421681922936, 2.1472695937551807],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_e58aaa5d8f12c6dec29674ffc1940529.bindTooltip(
+                `<div>
+                     16.6 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c228604f5a78c6d58ab9c691d0cddf5c = L.circleMarker(
+                [41.6214906738541, 2.128597634623611],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_c228604f5a78c6d58ab9c691d0cddf5c.bindTooltip(
+                `<div>
+                     12.8 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d2728d307624f5ecbbffe4d841a3e949 = L.circleMarker(
+                [41.64458866898932, 2.2581942886868713],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_d2728d307624f5ecbbffe4d841a3e949.bindTooltip(
+                `<div>
+                     18.4 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_65bd771f9fe9a20eac12cab47c0ae62e = L.circleMarker(
+                [41.80812195812853, 2.216280446867915],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_65bd771f9fe9a20eac12cab47c0ae62e.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9f7918b7835296ba4bade11bd97ea460 = L.circleMarker(
+                [42.215293805404386, 2.205694476228184],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_9f7918b7835296ba4bade11bd97ea460.bindTooltip(
+                `<div>
+                     30.0 MW | type: Saturated node surroundings
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d08ec47fbccce06b87b86fc6c6a05544 = L.circleMarker(
+                [41.47448034878396, 2.294078727534736],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_d08ec47fbccce06b87b86fc6c6a05544.bindTooltip(
+                `<div>
+                     20.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f947dc3417b158ca5a73f70c59bc8a99 = L.circleMarker(
+                [41.51976803520344, 2.338227528720376],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_f947dc3417b158ca5a73f70c59bc8a99.bindTooltip(
+                `<div>
+                     20.7 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6f1fb1d20fdcc6f125fd901471769029 = L.circleMarker(
+                [41.52064567097979, 2.3382674926472036],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_6f1fb1d20fdcc6f125fd901471769029.bindTooltip(
+                `<div>
+                     20.7 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e21b6f2901b340760b4f273e102011a0 = L.circleMarker(
+                [41.66609682937993, 2.2822302947437323],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_e21b6f2901b340760b4f273e102011a0.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9720ad0e33b6a9841024ed0228ec1df0 = L.circleMarker(
+                [41.69166773031052, 2.724741760907498],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_9720ad0e33b6a9841024ed0228ec1df0.bindTooltip(
+                `<div>
+                     20.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_641bde15a48609e02ea32ce5ae692043 = L.circleMarker(
+                [41.882401806615825, 2.8524476216520456],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_641bde15a48609e02ea32ce5ae692043.bindTooltip(
+                `<div>
+                     3.6 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d9887d3ce5b0f1e955bda7d2a19cae9d = L.circleMarker(
+                [41.942032974193495, 2.2814477889830576],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_d9887d3ce5b0f1e955bda7d2a19cae9d.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c779bb69442defe9ea583c15b68cd708 = L.circleMarker(
+                [41.94203352635785, 2.2816658583865013],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_c779bb69442defe9ea583c15b68cd708.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_cc2034eb07c181f9f421dc54d9e4a32d = L.circleMarker(
+                [41.94205321032447, 2.2819053476322866],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_cc2034eb07c181f9f421dc54d9e4a32d.bindTooltip(
+                `<div>
+                     6.3 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f8ce98977b773c2a93ca8ae8ced2f2b2 = L.circleMarker(
+                [41.94230347926862, 2.2816599060038927],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_f8ce98977b773c2a93ca8ae8ced2f2b2.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_161a7530f70d00a1109d144498a1fead = L.circleMarker(
+                [41.9423317700409, 2.2818954363857475],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_161a7530f70d00a1109d144498a1fead.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5412b83d25a2de5dbf6c85fae0e276e6 = L.circleMarker(
+                [41.95581245495264, 2.2796213422359988],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_5412b83d25a2de5dbf6c85fae0e276e6.bindTooltip(
+                `<div>
+                     30.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_be9f563b480035e58d41d07a110731b1 = L.circleMarker(
+                [41.955875484770544, 2.2701226703488255],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_be9f563b480035e58d41d07a110731b1.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_664dfae4ec338775c5f13ac71079c0e1 = L.circleMarker(
+                [41.9597105432241, 2.7999437420167586],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_664dfae4ec338775c5f13ac71079c0e1.bindTooltip(
+                `<div>
+                     15.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e7e3c7497d911a8ea9af8a8cf128704c = L.circleMarker(
+                [41.959836120314066, 2.7996472218221307],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_e7e3c7497d911a8ea9af8a8cf128704c.bindTooltip(
+                `<div>
+                     15.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8e85bcbc8923d84b8a6d2b23fe5a2d08 = L.circleMarker(
+                [41.97289625198724, 2.698120633282779],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_8e85bcbc8923d84b8a6d2b23fe5a2d08.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_498151014e9e1edd130755d20915ce56 = L.circleMarker(
+                [42.022634075085186, 2.9022712839289975],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_498151014e9e1edd130755d20915ce56.bindTooltip(
+                `<div>
+                     5.0 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e27d95e3d6f27fddc98ce94fcabec3c6 = L.circleMarker(
+                [42.06781404807831, 2.884416212137141],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_e27d95e3d6f27fddc98ce94fcabec3c6.bindTooltip(
+                `<div>
+                     148.4 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e9222d3894d48d5441ed7b7a28927a5e = L.circleMarker(
+                [42.069123573017414, 2.8819507776801343],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_e9222d3894d48d5441ed7b7a28927a5e.bindTooltip(
+                `<div>
+                     101.8 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b8011b03cd61bef2da0b83e3e26e60e0 = L.circleMarker(
+                [42.08995674163744, 2.876419669390411],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "white", "fillOpacity": 1, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4, "stroke": true, "weight": 3}
+            ).addTo(feature_group_26fd81d5017f3ab084bbe87c4306b42b);
+        
+    
+            circle_marker_b8011b03cd61bef2da0b83e3e26e60e0.bindTooltip(
+                `<div>
+                     50.9 MW | type: Load centre
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_26fd81d5017f3ab084bbe87c4306b42b.addTo(map_5eb7a78aee5e57435e76297085b8c736);
+        
+    
+            var layer_control_674a27f1bfc155838bbc09358b4a8878_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_5cd5ef059a2075c02100e3abc579d9e8,
+                },
+                overlays :  {
+                    "System-role type" : image_overlay_830dd29ead83ec2aa3ead3d45676c936,
+                    "Hard exclusions" : image_overlay_3a22c0b0e481e88bf66cc09e3746431c,
+                    "Battery projects" : feature_group_26fd81d5017f3ab084bbe87c4306b42b,
+                },
+            };
+            let layer_control_674a27f1bfc155838bbc09358b4a8878 = L.control.layers(
+                layer_control_674a27f1bfc155838bbc09358b4a8878_layers.base_layers,
+                layer_control_674a27f1bfc155838bbc09358b4a8878_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_5eb7a78aee5e57435e76297085b8c736);
+
+        
+</script>
+</html>

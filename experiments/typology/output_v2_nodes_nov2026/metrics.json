@@ -1,0 +1,58 @@
+{
+  "k": 4,
+  "n_pixels": 128436,
+  "features": [
+    "dist_substation_km",
+    "dist_substation_400kv_km",
+    "node_gen_granted_mw",
+    "node_storage_queue_mw",
+    "renewable_operating_mw_10km",
+    "renewable_pipeline_mw_10km",
+    "demand_mwh_10km",
+    "distribution_load_mw_10km",
+    "dist_distribution_substation_km"
+  ],
+  "node_source": "data/processed/grid_topology/ree_nodes_matched.csv",
+  "node_cutoff_km": 20.0,
+  "k_selection": [
+    {
+      "k": 3,
+      "silhouette": 0.268,
+      "stability_ari": 0.994,
+      "inertia": 686949
+    },
+    {
+      "k": 4,
+      "silhouette": 0.233,
+      "stability_ari": 0.993,
+      "inertia": 611358
+    },
+    {
+      "k": 5,
+      "silhouette": 0.224,
+      "stability_ari": 0.969,
+      "inertia": 559867
+    },
+    {
+      "k": 6,
+      "silhouette": 0.221,
+      "stability_ari": 0.8,
+      "inertia": 521940
+    },
+    {
+      "k": 7,
+      "silhouette": 0.205,
+      "stability_ari": 0.9,
+      "inertia": 484375
+    },
+    {
+      "k": 8,
+      "silhouette": 0.212,
+      "stability_ari": 0.813,
+      "inertia": 453910
+    }
+  ],
+  "nodes_with_storage_room": 10,
+  "tender_nodes": 3,
+  "under_construction": 6
+}

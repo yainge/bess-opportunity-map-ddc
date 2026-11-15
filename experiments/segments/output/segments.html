@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_78ebdc0221c61c86287e1004c0148076 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    <div style="position:fixed;bottom:20px;left:20px;z-index:1000;background:white;padding:10px 12px;border:1px solid #999;font:12px sans-serif;max-width:380px"><b>Battery project segments (local trial)</b><br>Ward clustering of 74 sites on size, land, grid distances, demand, renewables and node queue. Circle size = MW.<br><div><span style="background:#1b9e77;padding:0 10px;margin-right:6px">&nbsp;</span>Remote rural: small, next to renewable plants, far from the distribution grid <small>(3 sites, 14 MW, 0% authorised)</small></div><div><span style="background:#d95f02;padding:0 10px;margin-right:6px">&nbsp;</span>Small 5 MW units near 220 kV substations in mid-size towns <small>(34 sites, 274 MW, 18% authorised)</small></div><div><span style="background:#7570b3;padding:0 10px;margin-right:6px">&nbsp;</span>Metropolitan 20 MW on urban land, distribution-connected, far from 400 kV <small>(15 sites, 316 MW, 20% authorised)</small></div><div><span style="background:#e7298a;padding:0 10px;margin-right:6px">&nbsp;</span>Industrial belt 20 MW and above next to 400 kV nodes (Vallès, Baix Llobregat) <small>(22 sites, 780 MW, 23% authorised)</small></div></div>
+    
+            <div class="folium-map" id="map_78ebdc0221c61c86287e1004c0148076" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_78ebdc0221c61c86287e1004c0148076 = L.map(
+                "map_78ebdc0221c61c86287e1004c0148076",
+                {
+                    center: [41.7, 1.7],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 8,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_f13a3d55dd1b0ee6ad01df6e8774e6be = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_f13a3d55dd1b0ee6ad01df6e8774e6be.addTo(map_78ebdc0221c61c86287e1004c0148076);
+        
+    
+            var feature_group_c3f2dadafff6245be1f803b29aae8ae5 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_c2fa33015e194ceb8eb67daaf556a98e = L.circleMarker(
+                [41.11764158541811, 0.4360780828268422],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1b9e77", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.96, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_c3f2dadafff6245be1f803b29aae8ae5);
+        
+    
+            circle_marker_c2fa33015e194ceb8eb67daaf556a98e.bindTooltip(
+                `<div>
+                     <b>PBAT BESS Vilalba (PH Vilalba dels Arcs)</b> (Vilalba dels Arcs)<br>8.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node RIBA-ROJA 220 at 13.9 km | queue 0 MW | room 0 MW<br>distribution substation 14.1 km | 400 kV 15.0 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_06ee43cfa1dcf0bdb3887157b6c4c34f = L.circleMarker(
+                [41.535054933096745, 1.148081323055647],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1b9e77", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.18024, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_c3f2dadafff6245be1f803b29aae8ae5);
+        
+    
+            circle_marker_06ee43cfa1dcf0bdb3887157b6c4c34f.bindTooltip(
+                `<div>
+                     <b>PBAT Espluga 2 (PH Sant Roc)</b> (Ciutadilla)<br>1.5 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: True<br>nearest node LA ESPLUGA 400 at 14.6 km | queue 0 MW | room 0 MW<br>distribution substation 15.3 km | 400 kV 14.6 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b5f7b7f8020808cd56bd957ae476e6c1 = L.circleMarker(
+                [41.535335663554186, 1.1477395404428585],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1b9e77", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.49824, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_c3f2dadafff6245be1f803b29aae8ae5);
+        
+    
+            circle_marker_b5f7b7f8020808cd56bd957ae476e6c1.bindTooltip(
+                `<div>
+                     <b>PBAT Espluga 3 (PH Gardeny)</b> (Ciutadilla)<br>4.2 MW in 2 filing(s), 2 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: True<br>nearest node LA ESPLUGA 400 at 14.6 km | queue 0 MW | room 0 MW<br>distribution substation 15.2 km | 400 kV 14.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_c3f2dadafff6245be1f803b29aae8ae5.addTo(map_78ebdc0221c61c86287e1004c0148076);
+        
+    
+            var feature_group_231ac879f7bde4251e8e170cc2964130 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_f67cadadb769a4f1afeeee6ebd5d3430 = L.circleMarker(
+                [41.10624224206011, 1.1853554713502743],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_f67cadadb769a4f1afeeee6ebd5d3430.bindTooltip(
+                `<div>
+                     <b>BESS ASPIRAVI REVOLTA</b> (la Canonja)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node LA CANONJA 220 at 0.5 km | queue 15 MW | room 0 MW<br>distribution substation 1.2 km | 400 kV 29.7 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ee382554fce71594fc34fc0386e02e59 = L.circleMarker(
+                [41.11096027324898, 1.1897494667103445],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.2, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_ee382554fce71594fc34fc0386e02e59.bindTooltip(
+                `<div>
+                     <b>PBAT BESS CANONJA</b> (la Canonja)<br>10.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: True<br>nearest node LA CANONJA 220 at 0.3 km | queue 15 MW | room 0 MW<br>distribution substation 0.5 km | 400 kV 30.3 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e4ab221d527c1b01b303d57d9cdf5476 = L.circleMarker(
+                [41.111435464466545, 1.2033604087482577],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_e4ab221d527c1b01b303d57d9cdf5476.bindTooltip(
+                `<div>
+                     <b>PBAT Bess Tarragona III</b> (Tarragona)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node TARRAGONA 220 at 0.5 km | queue 15 MW | room 0 MW<br>distribution substation 0.6 km | 400 kV 31.2 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e4c1ec44208bada596cd905857df32c2 = L.circleMarker(
+                [41.11212514113473, 1.2029612192051493],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.2, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_e4c1ec44208bada596cd905857df32c2.bindTooltip(
+                `<div>
+                     <b>PBAT Bess Tarragona I</b> (Tarragona)<br>10.0 MW in 2 filing(s), 2 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node TARRAGONA 220 at 0.4 km | queue 15 MW | room 0 MW<br>distribution substation 0.6 km | 400 kV 31.2 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4de59cd896d0cf949bcca246c9fe8d34 = L.circleMarker(
+                [41.11444122783644, 1.1631949670124346],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.779999999999999, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_4de59cd896d0cf949bcca246c9fe8d34.bindTooltip(
+                `<div>
+                     <b>PBAT Bellissens 2</b> (Reus)<br>31.5 MW in 7 filing(s), 7 promoter(s)<br>status: Autoritzat<br>land: urban/other | EIA ordinary: False<br>nearest node BELLICENS 220 at 0.1 km | queue 188 MW | room 40 MW<br>distribution substation 0.1 km | 400 kV 28.4 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_86a6a53fd5a47d6aa167bd7d766d562d = L.circleMarker(
+                [41.136669497154436, 1.2262080068833219],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.4, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_86a6a53fd5a47d6aa167bd7d766d562d.bindTooltip(
+                `<div>
+                     <b>PBAT Bess Constantí III</b> (Tarragona)<br>20.0 MW in 4 filing(s), 4 promoter(s)<br>status: Autoritzat<br>land: urban/other | EIA ordinary: False<br>nearest node CONSTANTI 220 at 0.1 km | queue 20 MW | room 0 MW<br>distribution substation 0.3 km | 400 kV 31.2 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_59107620ec47c6e037b69c2e55fcfb83 = L.circleMarker(
+                [41.14031369807742, 1.1908992671758922],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.24, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_59107620ec47c6e037b69c2e55fcfb83.bindTooltip(
+                `<div>
+                     <b>PBAT Gavarres Green Energy</b> (Constantí)<br>2.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node CONSTANTI 220 at 2.9 km | queue 20 MW | room 0 MW<br>distribution substation 2.4 km | 400 kV 30.1 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2ba83325f22467678007c2339262c8de = L.circleMarker(
+                [41.20660651633423, 1.5074557845818815],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.2, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_2ba83325f22467678007c2339262c8de.bindTooltip(
+                `<div>
+                     <b>PBAT BESS VENDRELL 2</b> (el Vendrell)<br>10.0 MW in 2 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node CASTELLET 220 at 8.3 km | queue 15 MW | room 0 MW<br>distribution substation 0.3 km | 400 kV 18.7 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3628c6adfc9c1859c5c316ef9a25156a = L.circleMarker(
+                [41.205123472684285, 1.1556319672058915],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.5988, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_3628c6adfc9c1859c5c316ef9a25156a.bindTooltip(
+                `<div>
+                     <b>PBAT BESS Stand Alone La Selva</b> (la Selva del Camp)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node LA SELVA 220 at 0.6 km | queue 9 MW | room 0 MW<br>distribution substation 0.5 km | 400 kV 22.2 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6c3fda40332d39152ba185b48654ddc0 = L.circleMarker(
+                [41.313866846724146, 1.5698718276360655],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.188, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_6c3fda40332d39152ba185b48654ddc0.bindTooltip(
+                `<div>
+                     <b>PBAT Domenys Solar 1</b> (Sant Jaume dels Domenys)<br>9.9 MW in 2 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node CASTELLET 220 at 6.5 km | queue 15 MW | room 0 MW<br>distribution substation 6.7 km | 400 kV 14.2 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a7df0ece4d2d3305e0615ac960cff256 = L.circleMarker(
+                [41.39824908398273, 1.150030441056695],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_a7df0ece4d2d3305e0615ac960cff256.bindTooltip(
+                `<div>
+                     <b>PBAT La Romiguera (PH La Romiguera)</b> (Montblanc)<br>5.0 MW in 2 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node MONTBLANC 220 at 1.3 km | queue 0 MW | room 0 MW<br>distribution substation 1.3 km | 400 kV 2.1 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e143e1118f74759e2689c011e4cfe6c1 = L.circleMarker(
+                [41.52693650981483, 0.8260106063352516],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.01752, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_e143e1118f74759e2689c011e4cfe6c1.bindTooltip(
+                `<div>
+                     <b>PBAT VAG</b> (Juneda)<br>0.1 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node JUNEDA 220 at 0.4 km | queue 0 MW | room 0 MW<br>distribution substation 0.2 km | 400 kV 28.4 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c51e0a45211cb3816c1001d04668f237 = L.circleMarker(
+                [41.25611270874061, 1.5970488126857627],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.5988, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_c51e0a45211cb3816c1001d04668f237.bindTooltip(
+                `<div>
+                     <b>PBAT Castellet</b> (l'Arboç)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: Autoritzat<br>land: non-urban | EIA ordinary: False<br>nearest node CASTELLET 220 at 1.3 km | queue 15 MW | room 0 MW<br>distribution substation 1.0 km | 400 kV 10.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_92092b0b3cb07c62fb0420f8468576df = L.circleMarker(
+                [41.257769370905834, 1.584022107919535],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.0, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_92092b0b3cb07c62fb0420f8468576df.bindTooltip(
+                `<div>
+                     <b>PBAT BESS Arboç 2</b> (l'Arboç)<br>0.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node CASTELLET 220 at 0.3 km | queue 15 MW | room 0 MW<br>distribution substation 0.1 km | 400 kV 11.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_580b2d429b473baf6e35473f858515e7 = L.circleMarker(
+                [41.36494754519798, 1.7051339189473866],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_580b2d429b473baf6e35473f858515e7.bindTooltip(
+                `<div>
+                     <b>PBAT Penedès</b> (Vilafranca del Penedès)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: Autoritzat<br>land: non-urban | EIA ordinary: False<br>nearest node PENEDES 220 at 0.3 km | queue 496 MW | room 251 MW<br>distribution substation 0.3 km | 400 kV 12.4 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2fb7645b012dbbb3a3bfecbf16d8bb41 = L.circleMarker(
+                [41.37250986222138, 1.6931735369575451],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.2, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_2fb7645b012dbbb3a3bfecbf16d8bb41.bindTooltip(
+                `<div>
+                     <b>PBAT Coll del Bou</b> (les Cabanyes)<br>10.0 MW in 2 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node PENEDES 220 at 1.5 km | queue 496 MW | room 251 MW<br>distribution substation 1.4 km | 400 kV 13.0 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4c301e7bbee5df4fee1a3b804f0327bc = L.circleMarker(
+                [41.43090944934642, 1.8229373051708937],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.8187999999999995, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_4c301e7bbee5df4fee1a3b804f0327bc.bindTooltip(
+                `<div>
+                     <b>PBAT Sonora Subirats 1</b> (Subirats)<br>23.5 MW in 1 filing(s), 1 promoter(s)<br>status: Autoritzat<br>land: non-urban | EIA ordinary: False<br>nearest node SUBIRATS 220 at 0.4 km | queue 20 MW | room 0 MW<br>distribution substation 0.5 km | 400 kV 10.3 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_90fd04dceeacd07632799756bd894b3a = L.circleMarker(
+                [41.738021027539915, 1.861449070913311],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.576, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_90fd04dceeacd07632799756bd894b3a.bindTooltip(
+                `<div>
+                     <b>BESS PHFV Manresa</b> (Manresa)<br>4.8 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node CALDERS 400 at 6.9 km | queue 10 MW | room 0 MW<br>distribution substation 1.9 km | 400 kV 7.0 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6a07b2547a3986a992c94aecdae68e42 = L.circleMarker(
+                [41.749963930692054, 1.858599497317933],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_6a07b2547a3986a992c94aecdae68e42.bindTooltip(
+                `<div>
+                     <b>PBAT IM2 MONTSERRAT</b> (Sant Fruitós de Bages)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node CALDERS 400 at 6.6 km | queue 10 MW | room 0 MW<br>distribution substation 2.7 km | 400 kV 6.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_04cef56d12e73eac87cb2ae2cca60f13 = L.circleMarker(
+                [41.54805797178815, 2.1725801172637444],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.5988, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_04cef56d12e73eac87cb2ae2cca60f13.bindTooltip(
+                `<div>
+                     <b>PBAT CALBESS</b> (Polinyà)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node RIERA DE CALDES 220 at 0.3 km | queue 10 MW | room 0 MW<br>distribution substation 0.4 km | 400 kV 9.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_76c7167ab3d6259c1b4b1e909c63104c = L.circleMarker(
+                [41.610421681922936, 2.1472695937551807],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.997999999999999, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_76c7167ab3d6259c1b4b1e909c63104c.bindTooltip(
+                `<div>
+                     <b>PBAT BESS MENA</b> (Sentmenat)<br>16.6 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node SENTMENAT 400 at 3.1 km | queue 0 MW | room 0 MW<br>distribution substation 3.0 km | 400 kV 3.0 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_de8781f755a0bee1484d53f4d1a3154a = L.circleMarker(
+                [41.6214906738541, 2.128597634623611],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.536, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_de8781f755a0bee1484d53f4d1a3154a.bindTooltip(
+                `<div>
+                     <b>PBAT Edoras Menat 1</b> (Sentmenat)<br>12.8 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node SENTMENAT 400 at 1.4 km | queue 0 MW | room 0 MW<br>distribution substation 1.3 km | 400 kV 1.3 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c6c458dca5fc53eb43621128be63c090 = L.circleMarker(
+                [41.64458866898932, 2.2581942886868713],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.2056000000000004, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_c6c458dca5fc53eb43621128be63c090.bindTooltip(
+                `<div>
+                     <b>PBAT CONDOR</b> (l'Ametlla del Vallès)<br>18.4 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node FRANQUESES 220 at 2.1 km | queue 76 MW | room 195 MW<br>distribution substation 2.0 km | 400 kV 12.6 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_94beb03425c6f62ee03fcdd8e21750ae = L.circleMarker(
+                [41.80812195812853, 2.216280446867915],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_94beb03425c6f62ee03fcdd8e21750ae.bindTooltip(
+                `<div>
+                     <b>PBAT CENTELLES</b> (Centelles)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: True<br>nearest node CENTELLES 220 at 0.3 km | queue 9 MW | room 0 MW<br>distribution substation 0.2 km | 400 kV 17.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f57771f2653ed71e65a16b4d80b818a1 = L.circleMarker(
+                [41.66609682937993, 2.2822302947437323],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_f57771f2653ed71e65a16b4d80b818a1.bindTooltip(
+                `<div>
+                     <b>PBAT BESS Franqueses</b> (la Garriga)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: True<br>nearest node FRANQUESES 220 at 2.6 km | queue 76 MW | room 195 MW<br>distribution substation 2.4 km | 400 kV 15.0 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_58b2245591e9e4eb8a554b68d7f28e7f = L.circleMarker(
+                [41.882401806615825, 2.8524476216520456],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.432, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_58b2245591e9e4eb8a554b68d7f28e7f.bindTooltip(
+                `<div>
+                     <b>PBAT Cassà (PH Cassà)</b> (Cassà de la Selva)<br>3.6 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node RIUDARENES 220 at 13.5 km | queue 19 MW | room 0 MW<br>distribution substation 4.4 km | 400 kV 16.4 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_50ceb44d9be835945bb5aa1d2a41c774 = L.circleMarker(
+                [41.942032974193495, 2.2814477889830576],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.5988, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_50ceb44d9be835945bb5aa1d2a41c774.bindTooltip(
+                `<div>
+                     <b>PBAT BRUGEN IV</b> (Vic)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node VIC 220 at 1.7 km | queue 124 MW | room 0 MW<br>distribution substation 1.5 km | 400 kV 1.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_52f2ca73bad8006b126930320e2cbc52 = L.circleMarker(
+                [41.94203352635785, 2.2816658583865013],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.5988, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_52f2ca73bad8006b126930320e2cbc52.bindTooltip(
+                `<div>
+                     <b>PBAT BRUGEN III</b> (Vic)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node VIC 220 at 1.7 km | queue 124 MW | room 0 MW<br>distribution substation 1.5 km | 400 kV 1.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_73edd0bfebd46b7dee2ea30ae29a825d = L.circleMarker(
+                [41.94205321032447, 2.2819053476322866],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.756, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_73edd0bfebd46b7dee2ea30ae29a825d.bindTooltip(
+                `<div>
+                     <b>PBAT IM2 VIC</b> (Vic)<br>6.3 MW in 1 filing(s), 1 promoter(s)<br>status: Autoritzat<br>land: urban/other | EIA ordinary: False<br>nearest node VIC 220 at 1.7 km | queue 124 MW | room 0 MW<br>distribution substation 1.5 km | 400 kV 1.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4037bba454ad675af0531dc4c634e9bb = L.circleMarker(
+                [41.94230347926862, 2.2816599060038927],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.5988, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_4037bba454ad675af0531dc4c634e9bb.bindTooltip(
+                `<div>
+                     <b>PBAT BRUGEN I</b> (Vic)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node VIC 220 at 1.6 km | queue 124 MW | room 0 MW<br>distribution substation 1.5 km | 400 kV 1.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9ee56f7f32b413afe54bddfc5a93b3ba = L.circleMarker(
+                [41.9423317700409, 2.2818954363857475],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.5988, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_9ee56f7f32b413afe54bddfc5a93b3ba.bindTooltip(
+                `<div>
+                     <b>PBAT BRUGEN II</b> (Vic)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node VIC 220 at 1.6 km | queue 124 MW | room 0 MW<br>distribution substation 1.5 km | 400 kV 1.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_39c13fac6b089ae1dbf7004458ad2811 = L.circleMarker(
+                [41.955875484770544, 2.2701226703488255],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.5988, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_39c13fac6b089ae1dbf7004458ad2811.bindTooltip(
+                `<div>
+                     <b>Bess Stand Alone Folgueroles</b> (Gurb)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node VIC 220 at 1.0 km | queue 124 MW | room 0 MW<br>distribution substation 0.8 km | 400 kV 0.8 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_360136bff9a795b8e56479997ad864c7 = L.circleMarker(
+                [41.97289625198724, 2.698120633282779],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.5988, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_360136bff9a795b8e56479997ad864c7.bindTooltip(
+                `<div>
+                     <b>PB BESS Bescano 1</b> (Bescanó)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node BESCANO 400 at 0.2 km | queue 40 MW | room 0 MW<br>distribution substation 0.1 km | 400 kV 0.1 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8a92e3af4451200bb570e1f23d790c2c = L.circleMarker(
+                [42.022634075085186, 2.9022712839289975],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d95f02", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_231ac879f7bde4251e8e170cc2964130);
+        
+    
+            circle_marker_8a92e3af4451200bb570e1f23d790c2c.bindTooltip(
+                `<div>
+                     <b>PBAT Ebro Energy Juià - modificació</b> (Juià)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node JUIA 220 at 0.1 km | queue 97 MW | room 0 MW<br>distribution substation 0.0 km | 400 kV 4.7 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_231ac879f7bde4251e8e170cc2964130.addTo(map_78ebdc0221c61c86287e1004c0148076);
+        
+    
+            var feature_group_ba89d50c372ad6aa618068da9c624d55 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_72283fda5fe2cc5fabc3180ca60caa24 = L.circleMarker(
+                [41.40429050759075, 1.9879202681590822],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7570b3", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.2, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_ba89d50c372ad6aa618068da9c624d55);
+        
+    
+            circle_marker_72283fda5fe2cc5fabc3180ca60caa24.bindTooltip(
+                `<div>
+                     <b>PBAT CERVELLÓ I</b> (Cervelló)<br>10.0 MW in 2 filing(s), 2 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node CERVELLO 220 at 0.2 km | queue 20 MW | room 0 MW<br>distribution substation 0.3 km | 400 kV 7.8 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8d5c2ec1276604f2303984bf9cbe9314 = L.circleMarker(
+                [41.40450075234711, 1.9880209994074463],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7570b3", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.2, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_ba89d50c372ad6aa618068da9c624d55);
+        
+    
+            circle_marker_8d5c2ec1276604f2303984bf9cbe9314.bindTooltip(
+                `<div>
+                     <b>PBAT CERVELLÓ III</b> (Cervelló)<br>10.0 MW in 2 filing(s), 2 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node CERVELLO 220 at 0.2 km | queue 20 MW | room 0 MW<br>distribution substation 0.3 km | 400 kV 7.8 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_145c758d094ecd66c97704304a92a9a1 = L.circleMarker(
+                [41.346221912886755, 2.145649051786033],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7570b3", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.990400000000001, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_ba89d50c372ad6aa618068da9c624d55);
+        
+    
+            circle_marker_145c758d094ecd66c97704304a92a9a1.bindTooltip(
+                `<div>
+                     <b>PBAT BESS MOTORS</b> (Barcelona)<br>49.9 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node MOTORS 220 at 1.3 km | queue 50 MW | room 0 MW<br>distribution substation 1.0 km | 400 kV 18.1 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f50b4b02fa4cc8c244b8029ebb102658 = L.circleMarker(
+                [41.3478279624644, 2.1219393252472973],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7570b3", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.4, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_ba89d50c372ad6aa618068da9c624d55);
+        
+    
+            circle_marker_f50b4b02fa4cc8c244b8029ebb102658.bindTooltip(
+                `<div>
+                     <b>PBAT BESS Hospitalet I</b> (l'Hospitalet de Llobregat)<br>20.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node MOTORS 220 at 0.7 km | queue 50 MW | room 0 MW<br>distribution substation 0.6 km | 400 kV 16.9 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a8dbd9a7abe09937dc78c132057d7736 = L.circleMarker(
+                [41.34812784560842, 2.122528861427343],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7570b3", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.4, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_ba89d50c372ad6aa618068da9c624d55);
+        
+    
+            circle_marker_a8dbd9a7abe09937dc78c132057d7736.bindTooltip(
+                `<div>
+                     <b>PBAT BESS Hospitalet II</b> (l'Hospitalet de Llobregat)<br>20.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node MOTORS 220 at 0.7 km | queue 50 MW | room 0 MW<br>distribution substation 0.6 km | 400 kV 16.9 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_88b22b575e65c2fdcb1715d543064e60 = L.circleMarker(
+                [41.348604860810866, 2.136709941938131],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7570b3", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.4, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_ba89d50c372ad6aa618068da9c624d55);
+        
+    
+            circle_marker_88b22b575e65c2fdcb1715d543064e60.bindTooltip(
+                `<div>
+                     <b>PBAT BESS Hospitalet III</b> (l'Hospitalet de Llobregat)<br>20.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node MOTORS 220 at 0.7 km | queue 50 MW | room 0 MW<br>distribution substation 0.6 km | 400 kV 17.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_fa2913889278221a7c6936d244cde276 = L.circleMarker(
+                [41.35162437780538, 2.0936957312085447],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7570b3", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.4, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_ba89d50c372ad6aa618068da9c624d55);
+        
+    
+            circle_marker_fa2913889278221a7c6936d244cde276.bindTooltip(
+                `<div>
+                     <b>PBAT BESS Hospitalet</b> (Cornellà de Llobregat)<br>20.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node HOSPITALET 220 at 0.7 km | queue 60 MW | room 0 MW<br>distribution substation 0.8 km | 400 kV 15.2 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2606d1679e0c5f1bc602f0dac75341cb = L.circleMarker(
+                [41.464992257200294, 2.2570091669466557],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7570b3", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.4, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_ba89d50c372ad6aa618068da9c624d55);
+        
+    
+            circle_marker_2606d1679e0c5f1bc602f0dac75341cb.bindTooltip(
+                `<div>
+                     <b>PBAT FRV Guixeres</b> (Badalona)<br>20.0 MW in 1 filing(s), 1 promoter(s)<br>status: Autoritzat<br>land: non-urban | EIA ordinary: False<br>nearest node GUIXERES 220 at 0.4 km | queue 75 MW | room 0 MW<br>distribution substation 0.6 km | 400 kV 19.9 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d51fb884d1aed831876a6f2998bafe14 = L.circleMarker(
+                [41.46757029714279, 2.270413418851646],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7570b3", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.193280000000001, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_ba89d50c372ad6aa618068da9c624d55);
+        
+    
+            circle_marker_d51fb884d1aed831876a6f2998bafe14.bindTooltip(
+                `<div>
+                     <b>PBAT Guixeres I</b> (Montgat)<br>34.9 MW in 2 filing(s), 1 promoter(s)<br>status: Autoritzat<br>land: urban/other | EIA ordinary: False<br>nearest node GUIXERES 220 at 1.0 km | queue 75 MW | room 0 MW<br>distribution substation 1.1 km | 400 kV 21.2 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_95b93a6117c21fbd59bac451967af6f0 = L.circleMarker(
+                [42.215293805404386, 2.205694476228184],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7570b3", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_ba89d50c372ad6aa618068da9c624d55);
+        
+    
+            circle_marker_95b93a6117c21fbd59bac451967af6f0.bindTooltip(
+                `<div>
+                     <b>PBAT BESS Ripoll I</b> (Ripoll)<br>30.0 MW in 6 filing(s), 3 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node CERCS 220 at 29.3 km | queue 0 MW | room 0 MW<br>distribution substation 0.2 km | 400 kV 29.2 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_948e2ea3c4aa2866bb368940d1677eb8 = L.circleMarker(
+                [41.47448034878396, 2.294078727534736],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7570b3", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.4, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_ba89d50c372ad6aa618068da9c624d55);
+        
+    
+            circle_marker_948e2ea3c4aa2866bb368940d1677eb8.bindTooltip(
+                `<div>
+                     <b>PBAT BESS GUIXERES</b> (Montgat)<br>20.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node GUIXERES 220 at 3.1 km | queue 75 MW | room 0 MW<br>distribution substation 3.4 km | 400 kV 22.2 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_61e22f019b24b4ae8808f420d7606798 = L.circleMarker(
+                [41.51976803520344, 2.338227528720376],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7570b3", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.484, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_ba89d50c372ad6aa618068da9c624d55);
+        
+    
+            circle_marker_61e22f019b24b4ae8808f420d7606798.bindTooltip(
+                `<div>
+                     <b>PBAT Mateu</b> (Vilassar de Dalt)<br>20.7 MW in 1 filing(s), 1 promoter(s)<br>status: Autoritzat<br>land: non-urban | EIA ordinary: True<br>nearest node LA ROCA 220 at 7.7 km | queue 0 MW | room 195 MW<br>distribution substation 0.5 km | 400 kV 21.8 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ecc580e5a63dde854ab13f27a265c5e2 = L.circleMarker(
+                [41.69166773031052, 2.724741760907498],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7570b3", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.4, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_ba89d50c372ad6aa618068da9c624d55);
+        
+    
+            circle_marker_ecc580e5a63dde854ab13f27a265c5e2.bindTooltip(
+                `<div>
+                     <b>PBAT BESS Tordera I</b> (Palafolls)<br>20.0 MW in 4 filing(s), 4 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node RIUDARENES 220 at 13.3 km | queue 19 MW | room 0 MW<br>distribution substation 1.1 km | 400 kV 31.1 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_92565b8358b181730bcd29a10fb1c6b6 = L.circleMarker(
+                [41.9597105432241, 2.7999437420167586],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7570b3", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.8, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_ba89d50c372ad6aa618068da9c624d55);
+        
+    
+            circle_marker_92565b8358b181730bcd29a10fb1c6b6.bindTooltip(
+                `<div>
+                     <b>PBAT BESS Xirgu I</b> (Girona)<br>15.0 MW in 3 filing(s), 3 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node BESCANO 400 at 8.7 km | queue 40 MW | room 0 MW<br>distribution substation 0.6 km | 400 kV 8.6 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_69db21e8a85149e8e9098a9f9c9bcdf7 = L.circleMarker(
+                [41.959836120314066, 2.7996472218221307],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#7570b3", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_ba89d50c372ad6aa618068da9c624d55);
+        
+    
+            circle_marker_69db21e8a85149e8e9098a9f9c9bcdf7.bindTooltip(
+                `<div>
+                     <b>PBAT BESS Xirgu IV</b> (Girona)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node BESCANO 400 at 8.7 km | queue 40 MW | room 0 MW<br>distribution substation 0.6 km | 400 kV 8.6 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_ba89d50c372ad6aa618068da9c624d55.addTo(map_78ebdc0221c61c86287e1004c0148076);
+        
+    
+            var feature_group_99d0abeb953372f3b1a330e41c14ff43 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_063fa3ca638cbb302ac750f94e63b6b5 = L.circleMarker(
+                [41.467902903447566, 1.9886692113137125],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_063fa3ca638cbb302ac750f94e63b6b5.bindTooltip(
+                `<div>
+                     <b>PBAT BESS RUBI IV</b> (Castellbisbal)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node RUBI 220 at 1.9 km | queue 35 MW | room 0 MW<br>distribution substation 1.7 km | 400 kV 1.6 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_addc086695ed3a79d1b1261226b6149b = L.circleMarker(
+                [41.467960496492985, 1.9885808282997894],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_addc086695ed3a79d1b1261226b6149b.bindTooltip(
+                `<div>
+                     <b>PBAT BESS RUBI III</b> (Castellbisbal)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node RUBI 220 at 1.9 km | queue 35 MW | room 0 MW<br>distribution substation 1.7 km | 400 kV 1.6 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bc0cb899ad7509756f6d3132c1e2d77d = L.circleMarker(
+                [41.468027240381886, 1.988467598205201],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_bc0cb899ad7509756f6d3132c1e2d77d.bindTooltip(
+                `<div>
+                     <b>PBAT BES RUBI II</b> (Castellbisbal)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node RUBI 220 at 1.9 km | queue 35 MW | room 0 MW<br>distribution substation 1.7 km | 400 kV 1.6 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d92a17abd54a1da954f2cbfc3ab4f9b4 = L.circleMarker(
+                [41.468151482674315, 1.9887477263465494],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_d92a17abd54a1da954f2cbfc3ab4f9b4.bindTooltip(
+                `<div>
+                     <b>PBAT BESS RUBI V</b> (Castellbisbal)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node RUBI 220 at 1.9 km | queue 35 MW | room 0 MW<br>distribution substation 1.7 km | 400 kV 1.6 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e81b494fdef654ac138a22c7cc04f842 = L.circleMarker(
+                [41.46813405311638, 1.9884184625869301],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_e81b494fdef654ac138a22c7cc04f842.bindTooltip(
+                `<div>
+                     <b>PBAT BESS RUBI I</b> (Castellbisbal)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node RUBI 220 at 1.9 km | queue 35 MW | room 0 MW<br>distribution substation 1.7 km | 400 kV 1.6 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_81e0eba02fc5a8b3383f8a3df5271cf5 = L.circleMarker(
+                [41.468222885440326, 1.988330006442491],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_81e0eba02fc5a8b3383f8a3df5271cf5.bindTooltip(
+                `<div>
+                     <b>PBAT BESS RUBI VI</b> (Castellbisbal)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node RUBI 220 at 1.9 km | queue 35 MW | room 0 MW<br>distribution substation 1.7 km | 400 kV 1.6 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_918b9110030a1ec2acaa46e0ac7526ae = L.circleMarker(
+                [41.46828439215793, 1.9880665147427095],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.2, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_918b9110030a1ec2acaa46e0ac7526ae.bindTooltip(
+                `<div>
+                     <b>PBAT BESS RUBI VII</b> (Castellbisbal)<br>10.0 MW in 2 filing(s), 2 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node RUBI 220 at 1.9 km | queue 35 MW | room 0 MW<br>distribution substation 2.1 km | 400 kV 2.1 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_7954ed4f4ee26f0bb00c6f0e28c9549b = L.circleMarker(
+                [41.46854492007235, 1.9880919507990382],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.2, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_7954ed4f4ee26f0bb00c6f0e28c9549b.bindTooltip(
+                `<div>
+                     <b>PBAT BESS CAN JARDI III</b> (Castellbisbal)<br>10.0 MW in 2 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node RUBI 220 at 1.9 km | queue 35 MW | room 0 MW<br>distribution substation 1.7 km | 400 kV 1.6 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_42ded0ffbdc8cc3b5183445581bdc5be = L.circleMarker(
+                [41.468632688998774, 1.9881730099922685],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_42ded0ffbdc8cc3b5183445581bdc5be.bindTooltip(
+                `<div>
+                     <b>PBAT BESS CAN JARDI IV</b> (Castellbisbal)<br>5.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node RUBI 220 at 1.9 km | queue 35 MW | room 0 MW<br>distribution substation 1.7 km | 400 kV 1.6 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_afe580bfc0b6fe3bd62e6bc20abf0697 = L.circleMarker(
+                [41.47510623491097, 2.005073271934958],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.596399999999999, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_afe580bfc0b6fe3bd62e6bc20abf0697.bindTooltip(
+                `<div>
+                     <b>PB Babor 29</b> (Rubí)<br>30.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node RUBI 220 at 0.4 km | queue 35 MW | room 0 MW<br>distribution substation 0.6 km | 400 kV 0.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d83bd1bfaf9bcdc0bade34dcbbc16cb8 = L.circleMarker(
+                [41.476362782265944, 1.9973796714955314],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.9988, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_d83bd1bfaf9bcdc0bade34dcbbc16cb8.bindTooltip(
+                `<div>
+                     <b>PBAT Babor 30</b> (Rubí)<br>50.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node RUBI 220 at 1.1 km | queue 35 MW | room 0 MW<br>distribution substation 1.2 km | 400 kV 1.2 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_222feca844a88ad1295a3141dee77b4f = L.circleMarker(
+                [41.49121549051641, 1.9990724771949497],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.879999999999999, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_222feca844a88ad1295a3141dee77b4f.bindTooltip(
+                `<div>
+                     <b>PBAT FRV Rubí</b> (Rubí)<br>49.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node RUBI 220 at 2.2 km | queue 35 MW | room 0 MW<br>distribution substation 2.2 km | 400 kV 2.2 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_614b82f044a776ddea47591a9eb8adf2 = L.circleMarker(
+                [41.50185342043631, 1.9974766883418371],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.120000000000001, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_614b82f044a776ddea47591a9eb8adf2.bindTooltip(
+                `<div>
+                     <b>PBAT Las Regañas</b> (Rubí)<br>51.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació al Ministerio<br>land: non-urban | EIA ordinary: False<br>nearest node RUBI 220 at 3.3 km | queue 35 MW | room 0 MW<br>distribution substation 3.2 km | 400 kV 3.2 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ff508c9f6c422e9087ec4ec25fc51018 = L.circleMarker(
+                [41.46824352538605, 2.008047733297023],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.0, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_ff508c9f6c422e9087ec4ec25fc51018.bindTooltip(
+                `<div>
+                     <b>PBAT BESS Cova Solera</b> (Rubí)<br>50.0 MW in 1 filing(s), 1 promoter(s)<br>status: Autoritzat<br>land: urban/other | EIA ordinary: False<br>nearest node RUBI 220 at 0.6 km | queue 35 MW | room 0 MW<br>distribution substation 0.5 km | 400 kV 0.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_31dd1073b4e8ee88199b6a1d43284c37 = L.circleMarker(
+                [41.47209964730809, 2.0079545785683135],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.67, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_31dd1073b4e8ee88199b6a1d43284c37.bindTooltip(
+                `<div>
+                     <b>PBAT Can Jardí Almacena</b> (Rubí)<br>22.2 MW in 1 filing(s), 1 promoter(s)<br>status: Autoritzat<br>land: urban/other | EIA ordinary: False<br>nearest node RUBI 220 at 0.2 km | queue 35 MW | room 0 MW<br>distribution substation 0.1 km | 400 kV 0.1 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2a8efcfb14f0aeba68810bf3a64b49b7 = L.circleMarker(
+                [41.47730690660076, 2.100330189792188],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.216, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_2a8efcfb14f0aeba68810bf3a64b49b7.bindTooltip(
+                `<div>
+                     <b>PBAT BESS Can Magí</b> (Cerdanyola del Vallès)<br>101.8 MW in 5 filing(s), 2 promoter(s)<br>status: Autoritzat; En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node CODONYERS 220 at 0.1 km | queue 98 MW | room 0 MW<br>distribution substation 0.0 km | 400 kV 7.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5c7ea49f22512918912afdc1f5b1190d = L.circleMarker(
+                [41.56517449471694, 2.168496095223846],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.4, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_5c7ea49f22512918912afdc1f5b1190d.bindTooltip(
+                `<div>
+                     <b>PBAT NARSIL PALAU 1</b> (Palau-solità i Plegamans)<br>20.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node PALAU 220 at 1.8 km | queue 100 MW | room 0 MW<br>distribution substation 1.4 km | 400 kV 7.8 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f0200f85a81a6ade1fcade72058c6b2a = L.circleMarker(
+                [41.58583884991668, 2.1960384245234104],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.4, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_f0200f85a81a6ade1fcade72058c6b2a.bindTooltip(
+                `<div>
+                     <b>PBAT FRV Palau</b> (Palau-solità i Plegamans)<br>20.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: non-urban | EIA ordinary: False<br>nearest node PALAU 220 at 1.9 km | queue 100 MW | room 0 MW<br>distribution substation 2.2 km | 400 kV 7.7 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6dbfb1f34572deff052efffb175f4ab5 = L.circleMarker(
+                [41.95581245495264, 2.2796213422359988],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.6, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_6dbfb1f34572deff052efffb175f4ab5.bindTooltip(
+                `<div>
+                     <b>PBAT VIC 1, 2, 3, 4, 5 i 6</b> (Vic)<br>30.0 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació<br>land: urban/other | EIA ordinary: False<br>nearest node VIC 220 at 0.3 km | queue 124 MW | room 0 MW<br>distribution substation 0.3 km | 400 kV 0.3 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_574ce33ff8805e1d911c6d104aae05e6 = L.circleMarker(
+                [42.06781404807831, 2.884416212137141],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 21.808, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_574ce33ff8805e1d911c6d104aae05e6.bindTooltip(
+                `<div>
+                     <b>PBAT La Farga Bess</b> (Vilademuls)<br>148.4 MW in 1 filing(s), 1 promoter(s)<br>status: Autoritzat pel Ministerio<br>land: non-urban | EIA ordinary: False<br>nearest node LA FARGA 220 at 0.6 km | queue 428 MW | room 0 MW<br>distribution substation 5.2 km | 400 kV 0.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1dbd6935b8ae2badee52a529990d8cd8 = L.circleMarker(
+                [42.069123573017414, 2.8819507776801343],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.216, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_1dbd6935b8ae2badee52a529990d8cd8.bindTooltip(
+                `<div>
+                     <b>PBAT Lagerung</b> (Sant Julià de Ramis)<br>101.8 MW in 1 filing(s), 1 promoter(s)<br>status: En tramitació al Ministerio<br>land: non-urban | EIA ordinary: False<br>nearest node LA FARGA 220 at 0.7 km | queue 428 MW | room 0 MW<br>distribution substation 5.2 km | 400 kV 0.5 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9014f98d7c9d254f168feb0aebc609b5 = L.circleMarker(
+                [42.08995674163744, 2.876419669390411],
+                {"bubblingMouseEvents": true, "color": "black", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#e7298a", "fillOpacity": 0.85, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.1080001836, "stroke": true, "weight": 0.6}
+            ).addTo(feature_group_99d0abeb953372f3b1a330e41c14ff43);
+        
+    
+            circle_marker_9014f98d7c9d254f168feb0aebc609b5.bindTooltip(
+                `<div>
+                     <b>PBAT Glauco Almacena</b> (Vilademuls)<br>50.9 MW in 1 filing(s), 1 promoter(s)<br>status: Autoritzat pel Ministerio<br>land: non-urban | EIA ordinary: False<br>nearest node LA FARGA 220 at 3.1 km | queue 428 MW | room 0 MW<br>distribution substation 6.7 km | 400 kV 3.1 km
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_99d0abeb953372f3b1a330e41c14ff43.addTo(map_78ebdc0221c61c86287e1004c0148076);
+        
+    
+            var layer_control_34ca3e6e31963a12343be517e93103de_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_f13a3d55dd1b0ee6ad01df6e8774e6be,
+                },
+                overlays :  {
+                    "0: Remote rural: small, next to renewable plants, far from the distribution grid" : feature_group_c3f2dadafff6245be1f803b29aae8ae5,
+                    "1: Small 5 MW units near 220 kV substations in mid-size towns" : feature_group_231ac879f7bde4251e8e170cc2964130,
+                    "2: Metropolitan 20 MW on urban land, distribution-connected, far from 400 kV" : feature_group_ba89d50c372ad6aa618068da9c624d55,
+                    "3: Industrial belt 20 MW and above next to 400 kV nodes (Vall\u00e8s, Baix Llobregat)" : feature_group_99d0abeb953372f3b1a330e41c14ff43,
+                },
+            };
+            let layer_control_34ca3e6e31963a12343be517e93103de = L.control.layers(
+                layer_control_34ca3e6e31963a12343be517e93103de_layers.base_layers,
+                layer_control_34ca3e6e31963a12343be517e93103de_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_78ebdc0221c61c86287e1004c0148076);
+
+        
+</script>
+</html>

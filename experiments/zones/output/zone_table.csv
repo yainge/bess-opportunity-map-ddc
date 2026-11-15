@@ -1,0 +1,69 @@
+region_key,nodes,n_nodes,kv,room_injection_mw,room_charging_mw,static_zone_margin_mw,dyn1_margin_mw,limiting_criterion,gen_granted_mw,storage_granted_mw,storage_pending_mw,tender_nodes,under_construction,status,status_charging,gen_reason,area_km2,project_rows,project_mw
+E204_SEPE,ALBATARREC 220; TORRES DE SEGRE 220,2,220,0.0,0.0,37,0,,311.0,0.0,0.0,0,0,"no capacity, reason not stated",reference value not agreed,,680.0,0.0,0.0
+E209_SEPE,ADRALL 220; CENTELLES 220; CERCS 220,3,220,0.0,0.0,0,1165,,157.0,9.0,0.0,0,0,"no capacity, reason not stated",reference value not agreed,,4462.0,7.0,35.0
+E26_SEPE,PONT DE SUERT 220,1,220,0.0,255.0,18,480,Est_Alm_Zona,189.0,0.0,0.0,0,0,"no capacity, reason not stated",room (charging),,362.0,0.0,0.0
+"E289_SEPE, E405_SEPE",MATA 220; TANGER CATALUÑA 220,2,220,0.0,0.0,178,0,,0.0,0.0,0.0,0,0,"no capacity, reason not stated",reference value not agreed,,12.0,0.0,0.0
+"E30_SEPE, E209_SEPE",LLAVORSI 220; TABESCAN 220,2,220,0.0,0.0,0,1077,,830.0,88.0,0.0,0,0,"no capacity, reason not stated",reference value not agreed,,1114.0,0.0,0.0
+E31_SEPE,LES CORTS 220; URGELL 220,2,220,0.0,0.0,405,0,Din1_Zona,0.0,0.0,0.0,0,0,"no capacity, reason not stated",no room / no figure,,13.0,0.0,0.0
+E405_SEPE,EIXAMPLE 220; VILANOVA 220,2,220,0.0,0.0,215,0,,0.0,0.0,0.0,0,0,"no capacity, reason not stated",reference value not agreed,,18.0,0.0,0.0
+node: ASCÓ 220; ASCÓ 400,ASCÓ 220; ASCÓ 400,2,400/220,0.0,0.0,1392,0,Din1_Zona,2686.0,0.0,0.0,0,0,"no capacity, reason not stated",no room / no figure,,421.0,0.0,0.0
+node: BESOS NUEVO 220,BESOS NUEVO 220,1,220,0.0,0.0,288,0,,1684.0,0.0,0.0,0,0,"no capacity, reason not stated",reference value not agreed,,3.0,0.0,0.0
+node: CALDERS 400,CALDERS 400,1,400,0.0,0.0,237,0,,266.0,10.0,0.0,0,0,"no capacity, reason not stated",reference value not agreed,,986.0,2.0,9.8
+node: CAN BARBA 400,CAN BARBA 400,1,400,0.0,0.0,946,0,Din1_Zona,28.0,0.0,0.0,0,0,"no capacity, reason not stated",no room / no figure,,134.0,0.0,0.0
+node: CODONYERS 220,CODONYERS 220,1,220,0.0,0.0,106,0,,10.0,98.0,0.0,0,0,"no capacity, reason not stated",reference value not agreed,Limitación de capacidad por posición,46.0,5.0,101.8
+node: COLLBLANC 220,COLLBLANC 220,1,220,0.0,0.0,339,0,,0.0,0.0,0.0,0,0,"no capacity, reason not stated",reference value not agreed,,8.0,0.0,0.0
+node: FACULTATS 220,FACULTATS 220,1,220,0.0,0.0,414,0,Din1_Zona,0.0,0.0,0.0,0,0,"no capacity, reason not stated",no room / no figure,,8.0,0.0,0.0
+node: GUIXERES 220,GUIXERES 220,1,220,0.0,0.0,376,0,Din1_Zona,0.0,75.0,0.0,0,0,"no capacity, reason not stated",no room / no figure,,41.0,4.0,74.944
+node: ISONA 220; ISONA 400,ISONA 220; ISONA 400,2,400/220,0.0,0.0,680,0,Din1_Zona,0.0,0.0,0.0,0,2,"no capacity, reason not stated",no room / no figure,,1889.0,0.0,0.0
+node: MARAGALL 220,MARAGALL 220,1,220,0.0,0.0,359,0,Din1_Zona,0.0,0.0,0.0,0,0,"no capacity, reason not stated",no room / no figure,,6.0,0.0,0.0
+node: SALLENTE 400,SALLENTE 400,1,400,0.0,0.0,576,0,Din1_Zona,0.0,446.0,0.0,0,0,"no capacity, reason not stated",no room / no figure,,1187.0,0.0,0.0
+node: SANT ANDREU 220,SANT ANDREU 220,1,220,0.0,0.0,307,0,,2.0,165.0,0.0,0,0,"no capacity, reason not stated",reference value not agreed,,8.0,0.0,0.0
+node: SANT CUGAT 220,SANT CUGAT 220,1,220,0.0,0.0,131,0,Din1_Zona,1.0,15.0,0.0,0,0,"no capacity, reason not stated",no room / no figure,,27.0,0.0,0.0
+node: SENTMENAT 220; SENTMENAT 400,SENTMENAT 220; SENTMENAT 400,2,400/220,0.0,0.0,2512,0,Din1_Zona,8.0,67.0,0.0,0,0,"no capacity, reason not stated",no room / no figure,,216.0,2.0,29.45
+node: SUBIRATS 220,SUBIRATS 220,1,220,0.0,0.0,474,0,Din1_Zona,74.0,20.0,0.0,0,0,"no capacity, reason not stated",no room / no figure,,141.0,1.0,23.49
+node: TRINITAT 220,TRINITAT 220,1,220,0.0,0.0,381,0,Din1_Zona,9.0,0.0,0.0,0,0,"no capacity, reason not stated",no room / no figure,,4.0,0.0,0.0
+E277_SEPE,JUIA 220; LA FARGA 220; LA FARGA 400,3,400/220,0.0,0.0,1619,0,Din1_Zona,436.0,453.0,72.0,0,0,no connection possible,reference value not agreed,Sin posibilidad de conexión. ,1138.0,4.0,306.10000153
+"E290_SEPE, E402_SEPE",AENA OESTE 220; AEROPUERTO BARCELONA 220,2,220,0.0,0.0,0,0,,22.0,0.0,0.0,0,0,no connection possible,reference value not agreed,Sin posibilidad de conexión. ,48.0,0.0,0.0
+E29_SEPE,RIBA-ROJA 220; VANDELLOS 400; VANDELLOS CN 220,3,400/220,0.0,0.0,3082,0,Din1_Zona,2750.0,0.0,0.0,1,0,no connection possible,reference value not agreed,Sin posibilidad de conexión. ,1059.0,1.0,8.0
+E32_SEPE,BADALONA 220; TRANSBADALONA 220,2,220,0.0,0.0,315,0,Din1_Zona,0.0,0.0,0.0,0,0,no connection possible,no room / no figure,Sin posibilidad de conexión. ,5.0,0.0,0.0
+"E347_SEPE, E364_SEPE",EL MORELL 220; FRANCOLI 220,2,220,0.0,0.0,138,0,,0.0,0.0,0.0,0,0,no connection possible,reference value not agreed,Sin posibilidad de conexión. ,46.0,0.0,0.0
+E402_SEPE,CERDA 220; HOSPITALET 220; MOTORS 220; NUDO VIARIO 220; ZAL 220; ZONA FRANCA 220,6,220,0.0,0.0,0,0,,895.0,130.0,0.0,1,0,no connection possible,reference value not agreed,Sin posibilidad de conexión. ,45.0,5.0,129.92000000000002
+node: BARO DE VIVER 220,BARO DE VIVER 220,1,220,0.0,0.0,378,0,Din1_Zona,0.0,0.0,0.0,0,0,no connection possible,no room / no figure,Sin posibilidad de conexión. ,5.0,0.0,0.0
+node: CANYET 220,CANYET 220,1,220,0.0,0.0,576,0,Din1_Zona,0.0,0.0,0.0,0,0,no connection possible,no room / no figure,Sin posibilidad de conexión. ,14.0,0.0,0.0
+node: GAVARROT 220,GAVARROT 220,1,220,0.0,0.0,422,0,Din1_Zona,0.0,0.0,0.0,0,0,no connection possible,no room / no figure,Sin posibilidad de conexión. ,3.0,0.0,0.0
+"E152_SEPE_Bin; E152_SEPE_Bin, E411_SEPE",CAN JARDI (CAN JARDI B) 220; CAN JARDI 220; CAN JARDI 400,3,400/220,0.0,0.0,689,0,Din1_Zona,25.0,85.0,100.0,0,0,reserved for tender (concurso),reference value not agreed,Sin posibilidad de conexión. Margen zonal reservado concurso por resolución SEE/posible concurso/NTJ. ,26.0,0.0,0.0
+node: MAS FIGUERES 220,MAS FIGUERES 220,1,220,0.0,0.0,310,0,Din1_Zona,9.0,0.0,100.0,0,0,reserved for tender (concurso),no room / no figure,Concurso por resolución SEE. ,1042.0,0.0,0.0
+node: BESCANO 220; BESCANO 400,BESCANO 220; BESCANO 400,2,400/220,0.0,0.0,1199,0,Din1_Zona,6.0,5.0,35.0,0,0,reserved for tender (concurso),no room / no figure,Concurso por resolución SEE. ,723.0,5.0,24.990000000000002
+E154_SEPE_Bin,GRAMANET (GRAMANET B) 220; GRAMANET 220,2,220,0.0,0.0,440,0,,29.0,0.0,30.0,0,0,reserved for tender (concurso),reference value not agreed,Concurso por resolución SEE. ,21.0,0.0,0.0
+node: PALAU 220,PALAU 220,1,220,0.0,0.0,811,0,Din1_Zona,1.0,80.0,20.0,0,0,reserved for tender (concurso),no room / no figure,Concurso por resolución SEE. ,59.0,2.0,40.0
+E156_SEPE_Bin,VILADECANS (VILADECANS B) 220; VILADECANS 220; VILADECANS 400,3,400/220,0.0,0.0,1300,0,Din1_Zona,18.0,0.0,15.0,0,0,reserved for tender (concurso),reference value not agreed,Concurso por resolución SEE. ,49.0,0.0,0.0
+node: FOIX 220,FOIX 220,1,220,0.0,0.0,520,0,Din1_Zona,0.0,0.0,15.0,0,0,reserved for tender (concurso),no room / no figure,Concurso por resolución SEE. ,46.0,0.0,0.0
+node: VIC 220; VIC 400,VIC 220; VIC 400,2,400/220,0.0,0.0,1653,0,Din1_Zona,151.0,114.0,10.0,0,0,reserved for tender (concurso),no room / no figure,Concurso por resolución SEE. ,1449.0,7.0,61.25
+E205_SEPE,ABRERA 220; PUJALT 220,2,220,0.0,0.0,0,1027,,263.0,138.0,0.0,0,0,reserved for tender (concurso),reference value not agreed,Concurso por resolución SEE. Limitación de capacidad por posición,1814.0,0.0,0.0
+E206_SEPE,FRANQUESES 220; LA ROCA 220,2,220,0.0,195.0,250,815,Est_Alm_Zona,66.0,76.0,0.0,0,0,reserved for tender (concurso),room (charging),Concurso por resolución SEE. ,397.0,3.0,44.08
+"E27_SEPE, E364_SEPE",LA CANONJA 220; TARRAGONA 220,2,220,0.0,0.0,138,0,,211.0,30.0,0.0,0,0,reserved for tender (concurso),reference value not agreed,Concurso por resolución SEE. ,24.0,5.0,30.0
+E299_SEPE,MANGRANERS 220,1,220,0.0,0.0,63,0,,379.0,0.0,0.0,0,0,reserved for tender (concurso),reference value not agreed,Concurso por resolución SEE. ,995.0,0.0,0.0
+E352_SEPE,LA SAGRERA 220; VERNEDA 220,2,220,0.0,0.0,360,0,Din1_Zona,0.0,0.0,0.0,0,0,reserved for tender (concurso),no room / no figure,Concurso por resolución SEE. ,7.0,0.0,0.0
+E357_SEPE,FARNERS 220; FARNERS 400; RIUDARENES 220,3,400/220,0.0,0.0,1642,0,Din1_Zona,88.0,19.0,0.0,0,2,reserved for tender (concurso),no room / no figure,Concurso por resolución SEE. ,1017.0,5.0,23.6
+E411_SEPE,CERVELLO 220; SANT BOI 220,2,220,0.0,0.0,0,0,,56.0,20.0,0.0,0,0,reserved for tender (concurso),reference value not agreed,Concurso por resolución SEE. ,75.0,4.0,20.0
+node: ANOIA 220,ANOIA 220,1,220,0.0,122.0,122,940,Est_Alm_Nudo,111.0,0.0,0.0,0,0,reserved for tender (concurso),room (charging),Concurso por resolución SEE. ,405.0,0.0,0.0
+node: CASTELLBISBAL 220,CASTELLBISBAL 220,1,220,0.0,0.0,97,0,,3.0,45.0,0.0,0,0,reserved for tender (concurso),reference value not agreed,Concurso por resolución SEE. ,47.0,0.0,0.0
+node: CASTELLET 220,CASTELLET 220,1,220,0.0,0.0,459,0,Din1_Zona,76.0,15.0,0.0,0,0,reserved for tender (concurso),no room / no figure,Concurso por resolución SEE. ,341.0,6.0,24.89
+node: ELS AUBALS 220; ELS AUBALS 400,ELS AUBALS 220; ELS AUBALS 400,2,400/220,0.0,0.0,1537,0,Din1_Zona,82.0,0.0,0.0,0,0,reserved for tender (concurso),no room / no figure,Concurso por resolución SEE. ,874.0,0.0,0.0
+node: GARRAF 400,GARRAF 400,1,400,0.0,0.0,838,0,,90.0,30.0,0.0,0,0,reserved for tender (concurso),reference value not agreed,Concurso por resolución SEE. ,145.0,0.0,0.0
+node: JUNEDA 220,JUNEDA 220,1,220,0.0,0.0,378,0,Din1_Zona,163.0,0.0,0.0,0,0,reserved for tender (concurso),no room / no figure,Concurso por resolución SEE. ,1073.0,1.0,0.146
+node: MAIALS 400,MAIALS 400,1,400,0.0,0.0,383,0,Din1_Zona,483.0,0.0,0.0,0,0,reserved for tender (concurso),no room / no figure,Concurso por resolución SEE. ,441.0,0.0,0.0
+node: MASDENVERGE 400,MASDENVERGE 400,1,400,0.0,0.0,1216,0,Din1_Zona,139.0,0.0,0.0,0,0,reserved for tender (concurso),no room / no figure,Concurso por resolución SEE. ,1629.0,0.0,0.0
+node: MONTBLANC 220,MONTBLANC 220,1,220,0.0,0.0,645,0,Din1_Zona,51.0,0.0,0.0,0,0,reserved for tender (concurso),no room / no figure,Concurso por resolución SEE. ,297.0,2.0,5.0
+node: POBLA 220,POBLA 220,1,220,0.0,379.0,175,577,Est_Alm_Nudo,187.0,0.0,0.0,0,0,reserved for tender (concurso),room (charging),Concurso por resolución SEE. ,650.0,0.0,0.0
+node: SANT CELONI 220,SANT CELONI 220,1,220,0.0,0.0,238,815,,32.0,0.0,0.0,0,0,reserved for tender (concurso),reference value not agreed,Concurso por resolución SEE. ,528.0,0.0,0.0
+node: SANT JUST 220,SANT JUST 220,1,220,0.0,0.0,84,0,Din1_Zona,0.0,0.0,0.0,0,0,reserved for tender (concurso),no room / no figure,Concurso por resolución SEE. ,41.0,0.0,0.0
+node: SANTA LLOGAIA 400,SANTA LLOGAIA 400,1,400,0.0,0.0,1302,0,Din1_Zona,119.0,0.0,0.0,0,0,reserved for tender (concurso),no room / no figure,Concurso por resolución SEE. ,588.0,0.0,0.0
+E208_SEPE,PENEDES 220; PUIGPELAT 220,2,220,307.0,0.0,186,0,,295.0,109.0,1072.0,1,0,room for storage (injection),reference value not agreed,,739.0,3.0,15.0
+node: RUBIO 220,RUBIO 220,1,220,39.0,282.0,327,750,Est_Alm_Nudo,263.0,58.0,179.0,0,0,room for storage (injection),room (charging),,468.0,0.0,0.0
+E364_SEPE,BELLICENS 220; CONSTANTI 220; LA SECUITA 220; LA SECUITA 400; LA SELVA 220; PERAFORT 220,6,400/220,40.0,0.0,1401,0,Din1_Zona,916.0,110.0,126.0,0,2,room for storage (injection),reference value not agreed,Concurso por resolución SEE. ,809.0,13.0,58.49
+E150_SEPE_Bin,BEGUES (BEGUES B) 220; BEGUES 220; BEGUES 400,3,400/220,7.0,0.0,1033,0,Din1_Zona,0.0,609.0,0.0,0,0,room for storage (injection),no room / no figure,Concurso por resolución SEE. ,174.0,0.0,0.0
+node: PIEROLA 220; PIEROLA 400,PIEROLA 220; PIEROLA 400,2,400/220,0.0,0.0,884,0,Din1_Zona,368.0,0.0,150.0,0,0,zonal margin reserved for tender,no room / no figure,Concurso por resolución SEE. Margen zonal reservado concurso por resolución SEE/posible concurso/NTJ. ,202.0,0.0,0.0
+node: RUBI 220; RUBI 400,RUBI 220; RUBI 400,2,400/220,0.0,0.0,1921,0,Din1_Zona,188.0,214.0,50.0,0,0,zonal margin reserved for tender,no room / no figure,Concurso por resolución SEE. Margen zonal reservado concurso por resolución SEE/posible concurso/NTJ. ,32.0,17.0,307.21
+E207_SEPE,RIERA DE CALDES 220; SANT FOST 220,2,220,0.0,0.0,224,0,,23.0,25.0,0.0,0,0,zonal margin reserved for tender,reference value not agreed,Concurso por resolución SEE. Margen zonal reservado concurso por resolución SEE/posible concurso/NTJ. ,96.0,1.0,4.99
+node: LA ESPLUGA 220; LA ESPLUGA 400,LA ESPLUGA 220; LA ESPLUGA 400,2,400/220,0.0,0.0,1234,0,Din1_Zona,593.0,0.0,0.0,0,0,zonal margin reserved for tender,no room / no figure,Concurso por resolución SEE. Margen zonal reservado concurso por resolución SEE/posible concurso/NTJ. ,632.0,3.0,5.654
