@@ -1,0 +1,105 @@
+site_id,name,voltages_kv,lat,lon,in_catalonia,n_connections,has_plant,operator,osm_members,ree_nodes,n_ree_nodes,storage_available_gen_mode_MW,storage_available_dem_mode_MW,storage_granted_MW,gen_granted_MW,occupied_2023_MW,any_under_construction,location_check
+S001,Subestació eléctrica Sant Boi,220,41.33861,2.03182,True,1,False,Red Eléctrica de España,w463719831:-; w1453952680:ET; w1352034385:-; w1453285525:ET; w463726606:Subestació eléctrica Sant Boi,SANT BOI 220,1.0,0.0,0.0,0.0,53.0,151.0,False,name match
+S002,(unnamed OSM substation w1124718346),,41.54007,0.80943,False,2,True,,w1124718346:-; w179492315:-; w179492314:-; w863521632:-,,,,,,,,,
+S003,Subestació de Trinitat,220,41.4501,2.18415,True,3,True,REE;Endesa,w401922040:Subestació Via Favència; r8259893:Subestació de Trinitat; w443790723:-; w443790725:-,SANT ANDREU 220; TRINITAT 220,2.0,0.0,0.0,165.0,11.0,11.0,False,name match
+S004,SET Ascó,400/110,41.20168,0.56774,True,5,True,Endesa; Red Eléctrica de España,r4525578:Central nuclear d'Ascó; w145302696:SET Ascó; w145302700:-,ASCÓ 220; ASCÓ 400,2.0,0.0,0.0,0.0,2686.0,2785.0,False,manual review
+S005,Subestació elèctrica de Les Comes,400/220,41.40448,1.12529,True,5,False,Adif; Red Eléctrica de España,w169523042:Subestació elèctrica de Les Comes; w169523046:Subestació elèctrica de l'Espluga de Francolí; w931032666:Subestació elèctrica de l'Espluga de Francolí,LA ESPLUGA 220; LA ESPLUGA 400,2.0,0.0,0.0,0.0,593.0,1099.0,False,name match
+S006,Subestació Castellet i la Gornal,220,41.25735,1.57978,True,5,True,Adif; Fecsa Endesa,w1479367783:-; w169528510:Subestació Castellet i la Gornal; w195665633:-,CASTELLET 220,1.0,0.0,0.0,15.0,76.0,435.0,False,name match
+S007,(unnamed OSM substation w455953185),,41.33163,2.04886,True,2,False,,w455953185:-; w455940339:-; w455924711:-,NUDO VIARIO 220,1.0,0.0,0.0,0.0,0.0,0.0,False,manual review
+S008,Subestació de Santa Llogaia d'Àlguema,400/320,42.23001,2.94637,True,1,False,Adif; INELFE; Red Eléctrica de España,w256334221:Estació transformadora de Santa Llogaia d'Àlguema; w223307054:Subestació de Santa Llogaia d'Àlguema; w340399370:Estació transmissora de Santa Llogaia d'Àlguema,SANTA LLOGAIA 400,1.0,0.0,0.0,0.0,119.0,354.0,False,name match
+S009,SET Escatrón,400/220/132/110,41.29635,-0.34174,False,1,False,Endesa; Red Eléctrica de España,w1167717789:SET Escatrón; w169867109:-,,,,,,,,,
+S010,SET Sur,400/132,41.22793,-0.26258,False,2,True,"MEDIOMONTE SOLAR, S.L.",r14654452:Mediomonte Solar; w1100866837:SET Sur,,,,,,,,,
+S011,Subestació elèctrica de Maials,400/132,41.38809,0.50534,True,2,False,Red Eléctrica de España,w145312949:Subestació elèctrica de Maials; w1266109989:Subestació elèctrica de Maials,MAIALS 400,1.0,0.0,0.0,0.0,483.0,518.0,False,name match
+S012,Subestació de Juneda,220,41.53156,0.8271,True,2,True,Red Eléctrica de España,w179492338:Subestació de Juneda; r17696078:Estació fotovoltaica de Juneda,JUNEDA 220,1.0,0.0,0.0,0.0,163.0,165.0,False,name match
+S013,SET Central nuclear de Vandellòs,,40.95223,0.86624,True,2,True,,w1258181130:SET Central nuclear de Vandellòs; r12029607:Central nuclear de Vandellòs II,,,,,,,,,
+S014,Subestació de Vandellòs,400,40.97517,0.87786,True,3,False,Red Eléctrica de España,w140011919:Subestació de Vandellòs; w140011922:Subestació de Vandellòs,VANDELLOS 400; VANDELLOS CN 220,2.0,0.0,0.0,0.0,2140.0,2595.0,False,name match
+S015,(unnamed OSM substation w264348139),220,41.20071,1.22765,True,1,False,,w264348139:-; w1249583127:-,EL MORELL 220; FRANCOLI 220,2.0,0.0,0.0,0.0,0.0,0.0,False,manual review
+S016,Estació receptora de Perafort,220,41.19603,1.24737,True,1,False,Red Eléctrica de España,w930811476:-; w506058990:Estació receptora de Perafort,PERAFORT 220,1.0,0.0,0.0,0.0,283.0,432.0,False,name match
+S017,SET Foix,220,41.21031,1.65846,True,2,False,Endesa,w399055749:-; w1254549658:SET Foix,FOIX 220,1.0,0.0,0.0,0.0,0.0,0.0,False,manual review
+S018,Subestació de Viladecans,220,41.32536,2.02881,True,7,False,Endesa; Red Eléctrica de España,w165580300:Subestació de Viladecans; w1254602302:SET Viladecans,GAVARROT 220; VILADECANS (VILADECANS B) 220; VILADECANS 220; VILADECANS 400,4.0,0.0,0.0,0.0,18.0,14.0,False,manual review
+S019,Subestació de Pierola,400/220/132/110,41.52266,1.82954,True,5,False,Endesa; Red Eléctrica de España,w1251647548:SET Pierola; w75606778:Subestació de Pierola,PIEROLA 220; PIEROLA 400,2.0,0.0,0.0,0.0,368.0,1817.0,False,name match
+S020,(unnamed OSM substation w1382736351),,41.36092,2.00637,True,2,False,,w1382736351:-; w1382982607:-,,,,,,,,,
+S021,(unnamed OSM substation w170643308),,41.42081,2.09689,True,2,False,Endesa,w170643308:-; w1174021185:-,,,,,,,,,
+S022,(unnamed OSM substation w1347207236),,41.58461,0.74415,False,2,True,,w1347207236:-; w961519538:-,,,,,,,,,
+S023,SET Mediano,220,42.31301,0.21267,False,1,True,ENHER; Red Eléctrica de España,w370803224:SET Mediano; w370803225:Central de Mediano III,,,,,,,,,
+S024,SET Pobla,220,42.25142,0.97386,True,5,True,Hidrodata; Red Eléctrica de España,w169882239:SET Pobla; w300630045:Estació receptora de la Pobla de Segur,POBLA 220,1.0,0.0,379.0,0.0,187.0,139.0,False,name match
+S025,(unnamed OSM substation w1376779311),,41.61439,2.01625,True,3,False,,w1376779311:-; w1376977369:-,,,,,,,,,
+S026,(unnamed OSM substation w110506713),220,41.56627,2.18271,True,4,False,Red Eléctrica de España,w110506713:-; w1259095335:-,PALAU 220,1.0,0.0,0.0,80.0,1.0,115.0,False,manual review
+S027,Subestació de Sentmenat,400/220,41.61933,2.1134,True,9,False,Red Eléctrica de España,w776510563:-; w104020696:Subestació de Sentmenat,SENTMENAT 220; SENTMENAT 400,2.0,0.0,0.0,67.0,8.0,44.0,False,name match
+S028,Subestación Eléctrica Aragón,400,41.2173,-0.28047,False,1,False,Red Eléctrica de España,w127787669:Subestación Eléctrica Aragón,,,,,,,,,
+S029,(unnamed OSM substation w814591947),,41.10415,0.59245,True,2,False,,w814591947:-,,,,,,,,,
+S030,(unnamed OSM substation w145305469),,41.08268,0.68226,False,2,True,,w145305469:-,,,,,,,,,
+S031,Subestació els Aubals,220,41.11844,0.64171,True,2,False,Endesa,w145316518:Subestació els Aubals,ELS AUBALS 220; ELS AUBALS 400,2.0,0.0,0.0,0.0,82.0,172.0,False,name match
+S032,Subestación de Mequinenza,400/220,41.36822,0.27693,False,2,False,Red Eléctrica de España,w129767234:Subestación de Mequinenza,,,,,,,,,
+S033,SET La Fatarella,220/132,41.18848,0.47137,True,1,False,,w217979941:SET La Fatarella,,,,,,,,,
+S034,Central hidroelèctrica de Riba-roja,220,41.24225,0.43087,True,3,False,Red Eléctrica de España,w145302702:Central hidroelèctrica de Riba-roja,RIBA-ROJA 220,1.0,0.0,0.0,0.0,610.0,613.0,False,manual review
+S035,Subestació de Torres de Segre,220,41.50019,0.49376,True,2,False,Red Eléctrica de España,w169703140:Subestació de Torres de Segre,TORRES DE SEGRE 220,1.0,0.0,0.0,0.0,0.0,0.0,False,name match
+S036,Central tèrmica de Cicle Combinat Plana del Vent,,40.95954,0.86937,False,2,True,Alpiq,w265660236:Central tèrmica de Cicle Combinat Plana del Vent,,,,,,,,,
+S037,(unnamed OSM substation w169723928),220,41.11538,1.1635,True,1,False,,w169723928:-,BELLICENS 220,1.0,40.0,0.0,81.0,508.0,539.0,False,manual review
+S039,(unnamed OSM substation w169723926),220,41.13539,1.225,True,3,False,,w169723926:-,CONSTANTI 220,1.0,0.0,0.0,20.0,74.0,69.0,False,manual review
+S040,SET Montblanc,220,41.39585,1.13449,True,6,False,REE;Endesa,w169641331:SET Montblanc,MONTBLANC 220,1.0,0.0,0.0,0.0,51.0,66.0,False,name match
+S041,SET Parc eòlic de la Serra del Tallat,220,41.47402,1.12293,True,2,False,,w196634589:SET Parc eòlic de la Serra del Tallat,,,,,,,,,
+S042,SET les Forques,220,41.49646,1.20158,True,2,False,Subestació elèctrica de les Forques,w210411778:SET les Forques,,,,,,,,,
+S043,SET Puigpelat,220,41.2834,1.29141,True,2,False,Red Eléctrica de España,w169680270:SET Puigpelat,PUIGPELAT 220,1.0,307.0,0.0,0.0,273.0,285.0,False,name match
+S044,(unnamed OSM substation w210396114),,41.50495,1.272,True,2,False,Subestació elèctrica de Conesa,w210396114:-,,,,,,,,,
+S045,Subestació Garraf,400,41.25505,1.71926,True,3,False,Red Eléctrica de España,w200253359:Subestació Garraf,GARRAF 400,1.0,0.0,0.0,30.0,90.0,460.0,False,name match
+S046,(unnamed OSM substation w204791374),,41.30543,1.72749,False,2,True,,w204791374:-,,,,,,,,,
+S047,SET Penedés,220,41.36445,1.70825,True,4,False,,w970599107:SET Penedés,PENEDES 220,1.0,251.0,0.0,109.0,22.0,387.0,False,name match
+S048,(unnamed OSM substation w930756131),,41.36268,1.71926,True,2,False,,w930756131:-,,,,,,,,,
+S049,(unnamed OSM substation w930748470),,41.41353,1.78464,True,3,False,,w930748470:-,,,,,,,,,
+S050,(unnamed OSM substation w332628680),,41.4039,1.97493,True,4,False,,w332628680:-,,,,,,,,,
+S051,TRF,,41.38019,2.01766,True,4,False,,w335888366:TRF,,,,,,,,,
+S052,SET Sant Feliu,,41.39585,2.03546,True,5,False,Endesa,w1251738582:SET Sant Feliu,,,,,,,,,
+S053,Subestació de Sant Just,220,41.39242,2.07959,True,3,False,,w180545587:Subestació de Sant Just,SANT JUST 220,1.0,0.0,0.0,0.0,0.0,0.0,False,name match
+S054,(unnamed OSM substation w816255022),,41.38709,2.09612,True,3,False,,w816255022:-,,,,,,,,,
+S055,SET Santa Creu d'Olorda,110,41.41648,2.05993,True,2,False,Endesa,w284989310:SET Santa Creu d'Olorda,,,,,,,,,
+S056,Estació receptora de Castellbisbal,,41.44558,1.98601,True,4,False,,w149962802:Estació receptora de Castellbisbal,CASTELLBISBAL 220,1.0,0.0,0.0,45.0,3.0,0.0,False,name match
+S057,SET SEO,110,41.49798,1.91361,True,4,False,Endesa,w830085423:SET SEO,,,,,,,,,
+S058,Subestació de Abrera,220,41.5077,1.89436,True,5,False,Red Eléctrica de España,w75619319:Subestació de Abrera,ABRERA 220,1.0,0.0,0.0,0.0,44.0,96.0,False,name match
+S059,(unnamed OSM substation w378952506),,41.50665,1.92252,False,1,True,,w378952506:-,,,,,,,,,
+S060,Subestació de Rubí,400/220,41.47325,2.00987,True,8,False,Red Eléctrica de España,w124121964:Subestació de Rubí,RUBI 220; RUBI 400,2.0,0.0,0.0,214.0,188.0,1257.0,False,name match
+S061,Subestació elèctrica de Can Jardí,400/220,41.47481,2.02381,True,8,False,,w124121959:Subestació elèctrica de Can Jardí,CAN JARDI (CAN JARDI B) 220; CAN JARDI 220; CAN JARDI 400,3.0,0.0,0.0,85.0,25.0,714.0,False,name match
+S062,(unnamed OSM substation w126100935),220,41.48692,2.07649,True,2,False,Red Eléctrica de España,w126100935:-,SANT CUGAT 220,1.0,0.0,0.0,15.0,1.0,1.0,False,manual review
+S063,SET Llobregat,110,41.33612,2.10334,True,2,False,Endesa,w178128619:SET Llobregat,,,,,,,,,
+S064,Subcentral Elèctrica de la Feixa Llarga,220,41.34607,2.09991,True,1,False,Red Eléctrica de España,w76353093:Subcentral Elèctrica de la Feixa Llarga,HOSPITALET 220,1.0,0.0,0.0,60.0,1.0,0.0,False,manual review
+S065,Estació receptora de Collblanc,220/110,41.37703,2.1055,True,1,False,,w209332566:Estació receptora de Collblanc,COLLBLANC 220,1.0,0.0,0.0,0.0,0.0,0.0,False,name match
+S066,(unnamed OSM substation w640235754),,41.43083,2.21088,True,2,False,,w640235754:-,,,,,,,,,
+S067,(unnamed OSM substation w640523310),,41.42696,2.22108,True,1,False,,w640523310:-,,,,,,,,,
+S068,(unnamed OSM substation w688655192),,41.43992,2.12931,True,2,False,Endesa,w688655192:-,,,,,,,,,
+S069,Codonyers,220,41.47802,2.09916,True,2,False,Red Eléctrica de España,w158620489:Codonyers,CODONYERS 220,1.0,0.0,0.0,98.0,10.0,10.0,False,name match
+S070,(unnamed OSM substation w899491130),,41.44962,2.15988,True,3,False,,w899491130:-,,,,,,,,,
+S071,(unnamed OSM substation w403027546),,41.44899,2.1976,True,3,False,,w403027546:-,BARO DE VIVER 220,1.0,0.0,0.0,0.0,0.0,0.0,False,manual review
+S072,Subestació de Santa Coloma,220/132,41.46036,2.19109,True,4,False,R.E.E.;Endesa,w586348408:Subestació de Santa Coloma,GRAMANET (GRAMANET B) 220; GRAMANET 220,2.0,0.0,0.0,0.0,29.0,28.0,False,manual review
+S073,Subestació de Canyet,220,41.46612,2.23465,True,2,False,,w93349144:Subestació de Canyet,CANYET 220,1.0,0.0,0.0,0.0,0.0,0.0,False,name match
+S074,Sant Fost,220,41.51153,2.21792,True,3,False,Red Eléctrica de España,w1257151190:Sant Fost,SANT FOST 220,1.0,0.0,0.0,15.0,9.0,156.0,False,name match
+S075,(unnamed OSM substation w169703139),220,41.62871,0.49708,True,1,False,Adif,w169703139:-,,,,,,,,,
+S076,Subestació d'Albatàrrec,220,41.57749,0.622,True,2,False,Red Eléctrica de España,w169703141:Subestació d'Albatàrrec,ALBATARREC 220,1.0,0.0,0.0,0.0,311.0,315.0,False,name match
+S077,Subestació Els Magraners,220,41.61187,0.66854,True,2,False,Red Eléctrica de España,w1246090890:Subestació Els Magraners,MANGRANERS 220,1.0,0.0,0.0,0.0,379.0,405.0,False,name match
+S078,SET Parc eòlic de Montagùll,220,41.55436,1.36029,True,1,False,,w207915691:SET Parc eòlic de Montagùll,,,,,,,,,
+S079,Estació Elèctrica de Pujalt,220,41.67965,1.44602,True,4,False,Red Eléctrica de España,w190249315:Estació Elèctrica de Pujalt,PUJALT 220,1.0,0.0,0.0,138.0,219.0,219.0,False,name match
+S080,Subestació elèctrica Anoia,220,41.57706,1.66714,True,3,False,Red Eléctrica de España,w190249507:Subestació elèctrica Anoia,ANOIA 220,1.0,0.0,122.0,0.0,111.0,177.0,False,name match
+S081,Subestació transformadora de Rubió,220,41.64853,1.59158,True,2,False,Red Eléctrica de España,w169882238:Subestació transformadora de Rubió,RUBIO 220,1.0,39.0,282.0,58.0,263.0,525.0,False,name match
+S082,(unnamed OSM substation w970001482),,42.13687,0.96178,False,3,True,,w970001482:-,,,,,,,,,
+S084,SET Escalona,220,42.46981,0.14476,False,1,False,Red Eléctrica de España,w190289523:SET Escalona,,,,,,,,,
+S085,Central de Moralets,220,42.56905,0.75645,False,1,False,,w169995134:Central de Moralets,,,,,,,,,
+S086,Subestació de Sallente,,42.50685,0.99164,True,1,False,,w700727868:Subestació de Sallente,SALLENTE 400,1.0,0.0,0.0,446.0,0.0,448.0,False,name match
+S087,(unnamed OSM substation w1252514183),220,42.49597,1.21282,True,3,False,Red Eléctrica de España,w1252514183:-,LLAVORSI 220,1.0,0.0,0.0,88.0,830.0,918.0,False,manual review
+S088,Subestació Tavascan,220,42.64613,1.25938,True,1,False,Fecsa Endesa,w196076112:Subestació Tavascan,TABESCAN 220,1.0,0.0,0.0,0.0,0.0,0.0,False,name match
+S089,Subestació elèctrica de Can Barba,400,41.55195,2.05697,True,1,False,Red Eléctrica de España,w1258384938:Subestació elèctrica de Can Barba,CAN BARBA 400,1.0,0.0,0.0,0.0,28.0,15.0,False,name match
+S090,Estació receptora de Can Figueres,220/132,41.55514,2.04781,True,5,False,Endesa,w71796402:Estació receptora de Can Figueres,,,,,,,,,
+S091,SE Pla de Bages,,41.77017,1.8775,True,2,False,Endesa,w708912591:SE Pla de Bages,,,,,,,,,
+S092,(unnamed OSM substation w169769013),220,41.54869,2.17278,True,2,False,,w169769013:-,RIERA DE CALDES 220,1.0,0.0,0.0,10.0,14.0,110.0,False,manual review
+S093,(unnamed OSM substation w87824689),,41.64252,2.28216,True,1,False,,w87824689:-,FRANQUESES 220,1.0,0.0,195.0,76.0,41.0,14.0,False,manual review
+S094,(unnamed OSM substation w111402009),220,41.58778,2.32021,True,1,False,Red Eléctrica de España,w111402009:-,LA ROCA 220,1.0,0.0,195.0,0.0,25.0,10.0,False,manual review
+S095,(unnamed OSM substation w283815525),,41.59524,2.32113,True,2,False,,w283815525:-,,,,,,,,,
+S096,Subestació de Sant Celoni,220/110,41.70665,2.47069,True,3,False,Red Eléctrica de España,w111584995:Subestació de Sant Celoni,SANT CELONI 220,1.0,0.0,0.0,0.0,32.0,98.0,False,name match
+S097,Subestació de Centelles,220,41.80812,2.21229,True,1,False,Red Eléctrica de España,w169874396:Subestació de Centelles,CENTELLES 220,1.0,0.0,0.0,9.0,30.0,31.0,False,name match
+S098,Subestació de Vic,400/220,41.95704,2.28218,True,4,False,"Red Eléctrica de España, S.A.",w178294745:Subestació de Vic,VIC 220; VIC 400,2.0,0.0,0.0,114.0,151.0,392.0,False,name match
+S099,SET Cercs,220/110,42.17436,1.85484,True,3,False,,w1255236015:SET Cercs,CERCS 220,1.0,0.0,0.0,0.0,59.0,67.0,False,name match
+S100,Subestació de Bescanó (MAT),400/132,41.97248,2.69583,True,5,False,Red Eléctrica de España,w169729505:Subestació de Bescanó (MAT),BESCANO 220; BESCANO 400,2.0,0.0,0.0,5.0,6.0,55.0,False,name match
+S101,La Farga,400/220,42.06246,2.88311,True,4,False,Red Eléctrica de España,w683892938:La Farga,LA FARGA 220; LA FARGA 400,2.0,0.0,0.0,428.0,28.0,606.0,False,name match
+S102,Subestació de Juià,220,42.02287,2.90083,True,1,False,Red Eléctrica de España,w105579046:Subestació de Juià,JUIA 220,1.0,0.0,0.0,25.0,408.0,608.0,False,name match
+S103,Parc Eòlic Tres Termes,,41.10909,0.36213,False,2,True,"Eòlica Tramuntana 72, SL",r19593791:Parc Eòlic Tres Termes,,,,,,,,,
+S104,Subestació de Begues,400/220,41.35544,1.90239,True,10,False,Red Eléctrica de España,r16809528:Subestació de Begues,BEGUES (BEGUES B) 220; BEGUES 220; BEGUES 400,3.0,7.0,0.0,609.0,0.0,622.0,False,name match
+S105,Central del Pont de Suert,220,42.40366,0.73847,True,4,False,Red Eléctrica de España,r17678185:Central del Pont de Suert,PONT DE SUERT 220,1.0,0.0,255.0,0.0,189.0,189.0,False,manual review
+S106,Estació receptora de Calders,400,41.76693,1.93506,True,4,False,,r10295969:Estació receptora de Calders,CALDERS 400,1.0,0.0,0.0,10.0,266.0,224.0,False,name match
