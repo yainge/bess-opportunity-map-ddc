@@ -1,0 +1,6 @@
+{
+  "0": "Far from the transmission grid (nearest node distant, planned or under construction)",
+  "1": "Mountain / Pyrenees: weak 220 kV nodes, little load or generation",
+  "2": "Load centre: high demand and distribution load, storage queue at nodes",
+  "3": "Renewable integration zone: operating and pipeline renewables, active nodes"
+}

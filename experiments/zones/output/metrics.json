@@ -1,0 +1,17 @@
+{
+  "n_nodes": 117,
+  "n_regions": 68,
+  "shared_zones": 27,
+  "status_counts": {
+    "no capacity, reason not stated": 44,
+    "reserved for tender (concurso)": 33,
+    "zonal margin reserved for tender": 21,
+    "no connection possible": 14,
+    "room for storage (injection)": 5
+  },
+  "charging_status_counts": {
+    "no room / no figure": 56,
+    "reference value not agreed": 55,
+    "room (charging)": 6
+  }
+}

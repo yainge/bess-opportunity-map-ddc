@@ -1,0 +1,5 @@
+segment,n_sites,n_rows,total_mw,median_mw,share_split_filing,share_urban_land,share_authorised,share_ministry,share_eia_ordinary,median_dist_substation_km,median_dist_400kv_km,median_dist_distribution_sub_km,median_demand_gwh_10km,median_renewables_10km_mw,median_node_queue_mw,share_node_with_room,n_promoters,top_promoter_share,median_year,municipalities
+0,3,4,14.0,4.2,0.33,0.0,0.0,0.0,0.67,6.4,14.6,15.2,20.0,449.0,0.0,0.0,3,0.33,2024.0,"Ciutadilla, Vilalba dels Arcs"
+1,34,48,274.0,5.0,0.21,0.44,0.18,0.0,0.09,1.5,11.9,1.1,679.0,47.0,17.0,0.15,34,0.03,2025.0,"Vic, Tarragona, la Canonja, l'Arboç"
+2,15,28,316.0,20.0,0.33,0.8,0.2,0.0,0.07,5.3,17.5,0.6,3736.0,6.0,50.0,0.07,13,0.13,2025.0,"l'Hospitalet de Llobregat, Cervelló, Montgat, Girona"
+3,22,28,780.0,21.1,0.09,0.34,0.23,0.18,0.0,1.6,1.6,1.7,4235.0,10.0,35.0,0.0,18,0.14,2024.0,"Castellbisbal, Rubí, Palau-solità i Plegamans, Vilademuls"

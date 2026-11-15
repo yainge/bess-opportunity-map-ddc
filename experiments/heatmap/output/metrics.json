@@ -1,0 +1,22 @@
+{
+  "n_land_pixels": 128436,
+  "n_positive_pixels": 72,
+  "n_bess_sites": 76,
+  "cell_m": 500,
+  "auc_spatial_cv": 0.89,
+  "auc_in_sample": 0.94,
+  "auc_baseline_dist_substation": 0.892,
+  "block_km": 25,
+  "excluded_share_of_land": 0.382,
+  "features": [
+    "dist_substation_km",
+    "dist_substation_400kv_km",
+    "access_capacity_nearest_node_mw",
+    "renewable_operating_mw_10km",
+    "renewable_pipeline_mw_10km",
+    "demand_mwh_10km",
+    "dist_distribution_substation_km",
+    "dist_major_road_km",
+    "suitable_land_share_1km"
+  ]
+}

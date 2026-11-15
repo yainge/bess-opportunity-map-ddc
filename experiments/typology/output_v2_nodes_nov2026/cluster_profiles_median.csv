@@ -1,0 +1,5 @@
+cluster,dist_substation_km,dist_substation_400kv_km,node_gen_granted_mw,node_storage_queue_mw,renewable_operating_mw_10km,renewable_pipeline_mw_10km,demand_mwh_10km,distribution_load_mw_10km,dist_distribution_substation_km,node_storage_room_mw,dist_ree_node_km,suitable_land_share_1km,excluded,n_pixels,area_share,share_pixels_node_with_room
+0,27.94,46.62,0.0,0.0,0.0,0.15,45828.84,10.38,7.23,0.0,24.19,0.52,0.0,33456,0.26,0.0
+1,14.56,61.66,59.0,0.0,0.0,0.0,14841.41,0.0,11.86,0.0,13.89,0.32,0.0,31223,0.24,0.14
+2,8.32,14.3,74.0,15.0,0.15,25.58,362742.36,103.79,4.85,0.0,7.63,0.52,0.0,42502,0.33,0.14
+3,9.56,19.59,219.0,0.0,75.77,117.67,37807.52,14.62,8.89,0.0,11.72,0.73,0.0,21255,0.16,0.1

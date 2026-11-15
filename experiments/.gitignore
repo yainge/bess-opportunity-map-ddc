@@ -1,0 +1,6 @@
+# Local experiments: scripts, READMEs and light outputs are tracked.
+# Not tracked: the Python environment, the full 500 m pixel grids (45-57 MB each, rebuilt by the
+# scripts in about 30 s) and the intermediate overlay images that folium already embeds in the HTML.
+.venv/
+*_grid_500m.gpkg
+_*_overlay.png
