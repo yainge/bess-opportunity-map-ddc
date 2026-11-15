@@ -1,0 +1,244 @@
+<title>BESS Map Project Update</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single reading column (~72ch) with full-width tables; status encoded as pills like a substation status board */
+:root {
+  --bg: #f6f7f5;
+  --surface: #ffffff;
+  --ink: #18221f;
+  --muted: #5b6863;
+  --line: #d9dfdb;
+  --accent: #0f6b5c;      /* grid teal */
+  --accent-soft: #e2f0ec;
+  --ok: #2f7d32;  --ok-bg: #e5f2e5;
+  --wip: #9a6400; --wip-bg: #fbf0d9;
+  --gap: #b3261e; --gap-bg: #fbe5e3;
+  --decide: #3d4fa8; --decide-bg: #e6e9f8;
+  --f-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121816; --surface: #19211e; --ink: #e4ebe8; --muted: #9aa8a2; --line: #2c3833;
+  --accent: #5cc4ae; --accent-soft: #1c3530;
+  --ok: #8fd18f; --ok-bg: #1d3320; --wip: #f0c36a; --wip-bg: #3a2e14;
+  --gap: #f4a39b; --gap-bg: #3d1f1c; --decide: #aab6f3; --decide-bg: #232a4a;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #121816; --surface: #19211e; --ink: #e4ebe8; --muted: #9aa8a2; --line: #2c3833;
+  --accent: #5cc4ae; --accent-soft: #1c3530;
+  --ok: #8fd18f; --ok-bg: #1d3320; --wip: #f0c36a; --wip-bg: #3a2e14;
+  --gap: #f4a39b; --gap-bg: #3d1f1c; --decide: #aab6f3; --decide-bg: #232a4a;
+  color-scheme: dark }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15.5px; line-height: 1.6; }
+.wrap { max-width: 920px; margin: 0 auto; padding-block: 40px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { display: grid; gap: 10px; padding-bottom: 24px; border-bottom: 2px solid var(--ink); }
+.eyebrow { font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(30px, 5vw, 42px); line-height: 1.08; margin: 0; text-wrap: balance; }
+h2 { font-family: var(--f-display); font-weight: 700; font-size: 24px; margin: 0; text-wrap: balance; }
+h3 { font-family: var(--f-display); font-weight: 600; font-size: 18px; margin: 0; }
+p { margin: 0; max-width: 72ch; }
+.lede { font-size: 17px; color: var(--ink); max-width: 68ch; }
+.meta { font-size: 13px; color: var(--muted); }
+section { display: grid; gap: 16px; padding-block: 32px; border-bottom: 1px solid var(--line); }
+section:last-of-type { border-bottom: 0; }
+ul, ol { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; max-width: 74ch; }
+code { font-family: var(--f-mono); font-size: .88em; background: var(--accent-soft); padding: 1px 5px; border-radius: 3px; }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.fact { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; display: grid; gap: 2px; align-content: start; }
+.fact .n { font-family: var(--f-display); font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.fact .l { font-size: 13px; color: var(--muted); line-height: 1.4; }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th { font-family: var(--f-mono); font-size: 11.5px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--bg); }
+tr:last-child td { border-bottom: 0; }
+td.k { font-weight: 600; white-space: nowrap; }
+.date { font-family: var(--f-mono); font-size: 13px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.pill { display: inline-block; font-family: var(--f-mono); font-size: 11px; font-weight: 500; letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.ok { color: var(--ok); background: var(--ok-bg); }
+.wip { color: var(--wip); background: var(--wip-bg); }
+.gap { color: var(--gap); background: var(--gap-bg); }
+.decide { color: var(--decide); background: var(--decide-bg); }
+
+.timeline { display: grid; gap: 0; border-left: 2px solid var(--line); margin-left: 6px; }
+.tl { position: relative; padding: 0 0 18px 22px; display: grid; gap: 4px; }
+.tl::before { content: ""; position: absolute; left: -7px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); }
+.tl.now::before { background: var(--accent); }
+.tl .date { color: var(--accent); }
+
+.decisions { display: grid; gap: 12px; }
+.dec { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; display: grid; gap: 6px; }
+.dec .rec { font-size: 14px; }
+.dec .rec b { color: var(--accent); }
+
+.weeks { display: grid; gap: 12px; }
+.week { display: grid; grid-template-columns: 150px 1fr; gap: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; }
+.week .when { display: grid; gap: 4px; align-content: start; }
+.week .goal { font-weight: 600; }
+.week ul { font-size: 14.5px; }
+.who { font-family: var(--f-mono); font-size: 12px; color: var(--muted); }
+.note { font-size: 13.5px; color: var(--muted); border-left: 3px solid var(--line); padding-left: 12px; max-width: 74ch; }
+@media (max-width: 560px) { .week { grid-template-columns: 1fr; gap: 8px; } }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">UPC Data-Driven Challenges · Catalonia BESS Opportunity Map</span>
+  <h1>Project update and plan to the final presentation</h1>
+  <p class="lede">Where we stand on 14 November 2026, what we have agreed, where the code and the agreed method have drifted apart, and a week-by-week plan to the final presentation on 17 / 18 December.</p>
+  <p class="meta">Sources: Granola notes from our class sessions (10 Sep, 17 Sep, 15 Oct, 22 Oct, 5 Nov) and the GitHub repo <code>yainge/bess-opportunity-map-ddc</code> at commit <code>0eb90e0</code> (2 Nov). There are no notes on this project after 5 Nov, so anything later is marked “to confirm”.</p>
+</header>
+
+<section>
+  <h2>In one paragraph</h2>
+  <p>We are building a site-selection filter for battery storage developers in Catalonia: a map that scores locations on grid connection readiness, congestion, demand, renewables and land, and highlights candidate sites. The data layer is largely done: 117 REE substations, renewables, municipal demand and all GIS layers are in the pipeline and produce rankings, an ML check and sensitivity figures. The main gaps are congestion (ERNI) data, the scoring weights (still placeholders), and the fact that the method we agreed on 5 Nov (a heat map of scored points plus node clustering) is not what the code currently produces (a ranked list of nodes). With about five weeks left, the priority is to freeze the method this week, close that gap, and spend December on validation, the business case and the presentation.</p>
+</section>
+
+<section>
+  <h2>What exists today</h2>
+  <div class="facts">
+    <div class="fact"><span class="n">117</span><span class="l">REE transmission nodes with generation and demand access capacity</span></div>
+    <div class="fact"><span class="n">610</span><span class="l">renewable installations with valid coordinates (120 operating)</span></div>
+    <div class="fact"><span class="n">947</span><span class="l">municipalities with demand data joined to boundaries (2013–2024)</span></div>
+    <div class="fact"><span class="n">6</span><span class="l">GIS layers: land cover, protected areas, flood zones, zoning, roads, boundaries</span></div>
+    <div class="fact"><span class="n">0.90</span><span class="l">cross-validated ROC AUC of the ML classifier; 11 nodes flagged as opportunities</span></div>
+    <div class="fact"><span class="n">0</span><span class="l">nodes with ERNI (congestion) values: still missing</span></div>
+  </div>
+
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Workstream</th><th>Owner</th><th>Status</th><th>Detail</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Grid nodes</td><td>Polo</td><td><span class="pill ok">Real data in</span></td><td>117 REE nodes with access capacity. The 5 Nov task (identify which extra database fields matter for scoring) is not yet reflected in the repo. e-distribución interim tables exist but aren't in the pipeline.</td></tr>
+      <tr><td class="k">Congestion</td><td>Hsiang Wei</td><td><span class="pill gap">Missing</span></td><td>Matching code is ready, but there is no real ERNI data. The REE reports are PDFs and only the top-30 nodes have GWh values.</td></tr>
+      <tr><td class="k">Demand</td><td>Fernando</td><td><span class="pill ok">Real data in</span></td><td>ICAEN municipal consumption, joined after the 1 Nov fix (6- vs 5-digit municipality codes). The source URL and publication date are still unverified.</td></tr>
+      <tr><td class="k">Transmission lines</td><td>Fernando</td><td><span class="pill wip">Partial</span></td><td>High-voltage line data pulled but incomplete: only 10 of 29 nodes are connected in it. Agreed use is cluster feasibility only. Not in the repo.</td></tr>
+      <tr><td class="k">Renewables</td><td>Isabella</td><td><span class="pill ok">Real data in</span></td><td>Generalitat solar parks and wind farms (downloaded 15 Oct).</td></tr>
+      <tr><td class="k">Scoring (MCA)</td><td>Isabella</td><td><span class="pill wip">In progress</span></td><td>5 Nov task: define variables, normalisation and first weights. The repo still uses illustrative placeholder weights.</td></tr>
+      <tr><td class="k">GIS / maps</td><td>Yuki</td><td><span class="pill ok">Real data in</span></td><td>All layers in the pipeline; static and interactive maps; sensitivity analysis and presentation figures.</td></tr>
+      <tr><td class="k">Clustering</td><td>Yuki</td><td><span class="pill wip">In progress</span></td><td>5 Nov task: test clustering on node coordinates, scattered points and a 0.01° grid. Not in the repo yet.</td></tr>
+      <tr><td class="k">Integration coordinator</td><td>—</td><td><span class="pill decide">Not assigned</span></td><td>Nobody has this role yet. It matters more now that several branches have to come together.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2>How we got here</h2>
+  <div class="timeline">
+    <div class="tl"><span class="date">10 Sep</span><p>Course kick-off. First ideas: renewable mix and batteries for data centres, with Finland or Spain as the location.</p></div>
+    <div class="tl"><span class="date">17 Sep</span><p>Chose the battery-storage map over a battery-sizing tool, with Catalonia as the region. We gave ourselves two weeks to find usable data before pivoting, and split the data search between us.</p></div>
+    <div class="tl"><span class="date">1–2 Oct</span><p>Conceptual proposal presentation.</p></div>
+    <div class="tl"><span class="date">15 Oct</span><p>Defined the output: a map plus a location rating. Agreed to prefer simple methods over theoretically optimal ones, and to run the technical and business work in parallel.</p></div>
+    <div class="tl"><span class="date">22 Oct</span><p>The professor pushed for a more data-driven, ML-based approach. We discussed clustering and classification of grid areas and planned to confirm the direction with Ferran. Everyone's data was wired into the repo.</p></div>
+    <div class="tl"><span class="date">26 Oct – 2 Nov</span><p>Repo: ML opportunity classifier, interactive maps, sensitivity analysis and presentation figures; demand join fixed.</p></div>
+    <div class="tl"><span class="date">5 Nov</span><p>Method agreed: score points on a map with an MCA, show one layer per criterion and then a combined heat map, cluster the nodes, no power flow. Built in levels: (1) nodes and availability, (2) land overlay, (3) self-consumption. Tasks split up for the next presentation.</p></div>
+    <div class="tl now"><span class="date">12 Nov?</span><p>Intermediate presentation, which on 5 Nov was set for the following week. <b>To confirm:</b> whether it happened and what feedback we got. There are no notes on it.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Agreed method vs. what the code does</h2>
+  <p>This is the most important finding of this update. The pipeline was built before the 5 Nov decisions, and several of them aren't in it yet.</p>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Topic</th><th>Agreed on 5 Nov</th><th>Repo today</th><th>Gap</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Output</td><td>Heat map of scored geographic points, one layer per criterion, then combined (red to green), zoomable</td><td>Ranked list of 117 nodes, with 5 / 10 / 20 km buffers, plus node maps</td><td><span class="pill gap">Large</span></td></tr>
+      <tr><td class="k">Connection readiness</td><td>Availability category (open / possible later / none) and capacity margin, plus distance to the nearest available substation</td><td>Headroom proxy min(generation, demand) per node. No “open to request” status and no distance surface</td><td><span class="pill gap">Large</span></td></tr>
+      <tr><td class="k">Clustering</td><td>Data-driven, geographically contiguous clusters of nodes</td><td>None. An ML classifier learns from where developers placed renewables instead</td><td><span class="pill wip">Medium</span></td></tr>
+      <tr><td class="k">Demand</td><td>Monthly, split by residential / industrial / commercial, with different scores per type</td><td>Annual municipal total plus industrial share</td><td><span class="pill wip">Medium</span></td></tr>
+      <tr><td class="k">Congestion</td><td>Included as a scoring factor (ERNI)</td><td>Code ready, no data</td><td><span class="pill gap">Data</span></td></tr>
+      <tr><td class="k">Weights</td><td>Team-defined, summing to 1</td><td>Placeholder weights in <code>config/scoring.yaml</code></td><td><span class="pill wip">Pending Isabella</span></td></tr>
+      <tr><td class="k">Node count</td><td>About 40 of about 107 substations have available capacity</td><td>117 REE nodes</td><td><span class="pill decide">Reconcile</span></td></tr>
+      <tr><td class="k">Power flow</td><td>Out of scope</td><td>Not implemented</td><td><span class="pill ok">Aligned</span></td></tr>
+      <tr><td class="k">Land feasibility</td><td>Level 2 overlay</td><td>Done: suitable land net of protected areas, flood zones and zoning</td><td><span class="pill ok">Ahead</span></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note">These two views fit together. Node scores can drive the heat map: each map point inherits the score of its nearest available node, discounted by distance. So we don't have to choose one; we have to build the surface on top of what exists.</p>
+</section>
+
+<section>
+  <h2>Decisions we need this week</h2>
+  <div class="decisions">
+    <div class="dec"><h3>1 · How do the heat map and the node ranking fit together?</h3>
+      <p class="rec"><b>Recommendation:</b> keep nodes as the scoring unit (it's built and defensible) and generate the heat map as a 0.01° point grid. Each point gets the score of its nearest available node, reduced by distance, then masked by land suitability. That delivers the agreed visual without redoing the data work.</p></div>
+    <div class="dec"><h3>2 · Congestion: get ERNI, or drop it with a stated limitation?</h3>
+      <p class="rec"><b>Recommendation:</b> give Hsiang Wei until 21 Nov to extract the top-30 node values from the REE PDFs. If that isn't possible, drop ERNI from the scoring and state it clearly as a limitation; the method already handles missing indicators.</p></div>
+    <div class="dec"><h3>3 · Which clustering input do we use?</h3>
+      <p class="rec"><b>Recommendation:</b> decide from Yuki's three-way test (node coordinates, scattered points, 0.01° grid). Pick the option whose clusters are contiguous and easiest to explain. Use Fernando's line data only to check feasibility, with the stated assumption that unconnected nodes link to the nearest node.</p></div>
+    <div class="dec"><h3>4 · What happens to the ML classifier?</h3>
+      <p class="rec"><b>Recommendation:</b> keep it as supporting evidence, not the main method. It shows that our indicators line up with real developer choices (AUC 0.90). It answers the professor's call for a data-driven element without the scoring depending on it. Confirm with Ferran, since the 22 Oct sign-off isn't recorded.</p></div>
+    <div class="dec"><h3>5 · Scope cut: level 3 (self-consumption)</h3>
+      <p class="rec"><b>Recommendation:</b> drop it from the deliverable and mention it as future work. Five weeks isn't enough to do it well alongside the business case.</p></div>
+    <div class="dec"><h3>6 · Name an integration coordinator</h3>
+      <p class="rec"><b>Recommendation:</b> one person merges branches into <code>main</code> and owns the final run that produces every figure in the presentation.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Plan to the final presentation</h2>
+  <p class="meta">Fixed dates: business-plan sessions on 19 and 26 Nov (innovation track), final presentation on 17 / 18 Dec (30 min plus questions, everyone presents, whole project plus business case). Everything else below is a proposal for the team to adjust.</p>
+  <div class="weeks">
+    <div class="week"><div class="when"><span class="date">16 – 22 Nov</span><span class="pill decide">Freeze method</span></div>
+      <div><p class="goal">Make the six decisions above and finish the 5 Nov tasks.</p>
+      <ul>
+        <li>Isabella: MCA spec (variables, normalisation, first weights summing to 1) moved into <code>config/scoring.yaml</code>.</li>
+        <li>Polo and Hsiang Wei: node availability fields (open / possible / none, capacity margin) added to the grid dataset; reconcile 40 / 107 / 117 nodes.</li>
+        <li>Hsiang Wei: ERNI extraction attempt; go / no-go by 21 Nov.</li>
+        <li>Yuki: clustering comparison and recommendation. Fernando: line-connectivity table.</li>
+        <li>All: 19 Nov business session. Start the value proposition and market sizing.</li>
+      </ul></div></div>
+    <div class="week"><div class="when"><span class="date">23 – 29 Nov</span><span class="pill wip">Build level 1</span></div>
+      <div><p class="goal">The agreed output works on real data.</p>
+      <ul>
+        <li>Pipeline: availability categories and distance-to-available-node surface on a 0.01° point grid; heat-map layers per criterion plus the combined map.</li>
+        <li>Clustering stage in the repo with contiguity; clusters shown on the map.</li>
+        <li>Demand by type, if Fernando's monthly data supports it.</li>
+        <li>All: 26 Nov business session. Draft the business model, costs and go-to-market.</li>
+      </ul></div></div>
+    <div class="week"><div class="when"><span class="date">30 Nov – 6 Dec</span><span class="pill wip">Validate</span></div>
+      <div><p class="goal">Show the results are believable.</p>
+      <ul>
+        <li>Level 2 land overlay on the heat map; re-run sensitivity with the real weights.</li>
+        <li>Validation: compare the top-ranked areas with BESS projects already in permitting in Catalonia (the first is expected around 2027).</li>
+        <li>Case studies: three candidate areas, each with a map and the reasons it scores high.</li>
+        <li>Freeze the code: final run, figures saved to <code>results/reports/</code> with run IDs.</li>
+      </ul></div></div>
+    <div class="week"><div class="when"><span class="date">7 – 13 Dec</span><span class="pill wip">Write and rehearse</span></div>
+      <div><p class="goal">Deck and report finished.</p>
+      <ul>
+        <li>Deck story: problem, avenues explored, method chosen, results, validation, business case, limitations.</li>
+        <li>One section per person, matching their workstream.</li>
+        <li>Report draft; full rehearsal with timing (30 min).</li>
+      </ul></div></div>
+    <div class="week"><div class="when"><span class="date">14 – 18 Dec</span><span class="pill ok">Deliver</span></div>
+      <div><p class="goal">Final rehearsal and presentation on 17 / 18 Dec.</p>
+      <ul><li>Second rehearsal including likely questions on weights, missing congestion data and the screening-only scope.</li></ul></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Risks and open questions</h2>
+  <ul>
+    <li><b>Intermediate presentation feedback is unknown.</b> If Ferran or the professor redirected us, this plan needs adjusting before 19 Nov.</li>
+    <li><b>Congestion data may never be usable.</b> Plan the story so it still works without ERNI.</li>
+    <li><b>Weights will be challenged.</b> Ground them in a short rationale (developer interviews, literature or a stated assumption) and show the sensitivity results next to the map.</li>
+    <li><b>The ML labels describe renewable siting, not BESS siting.</b> Present the classifier as a consistency check, not a prediction of where batteries should go.</li>
+    <li><b>Demand provenance is still unverified.</b> Record the ICAEN source URL and publication date before the final report.</li>
+    <li><b>Optional validation lead.</b> At the Siemens session on 10 Nov, Sincal's hosting-capacity analysis was suggested as relevant, with possible academic licensing. It's only worth pursuing if there is spare time after 6 Dec.</li>
+  </ul>
+</section>
+</div>
