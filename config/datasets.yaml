@@ -159,31 +159,61 @@ demo:
 real:
   grid_nodes:
     domain: grid
+    owner: Fernando
+    # Fernando's matched node table, committed to the repo (not under data/raw).
+    path: ../processed/grid_topology/ree_nodes_matched.csv
+    format: csv
+    source_crs: EPSG:4326
+    columns:
+      ree_node: source_node_id          # name includes voltage, e.g. "ASCÓ 400" - unique
+      lon: x
+      lat: y
+      kv: voltage_kv
+      gen_available_MPE_RdT_MW: generation_available_mw
+      demand_available_RdT_noCEP_MW: demand_available_mw
+      "storage_available_MPE_RdT_MW (generation mode)": storage_available_mw
+      storage_granted_MW_genfile: storage_granted_mw
+      storage_pending_MW_genfile: storage_pending_mw
+      gen_granted_MW: generation_granted_mw
+      gen_pending_MW: generation_pending_mw
+      site_connections_220_400: line_connections
+      "tender_node (nudo de concurso)": tender_node
+    units: {generation_available_mw: MW, demand_available_mw: MW}
+    metadata:
+      dataset_name: REE transmission node access capacity, Catalonia (matched to OSM)
+      provider: REE access-capacity files (generation and demand), matched by Fernando
+      source_url: null
+      publication_date: "2026-11-03"
+      retrieval_date: "2026-11-15"
+      spatial_resolution: transmission node (117 nodes)
+      known_limitations: >-
+        Coordinates matched to OpenStreetMap substations (77 by name, 40 by hand review);
+        six nodes under construction. Storage access capacity is positive at only a few
+        nodes. Replaces Polo's sheet (Dataset_SusbtationNodes.xlsx), whose storage column
+        was the static criterion only and whose free-margin column was a derived formula.
+        demand_available_mw is published for 66 of 117 nodes.
+      verification_status: to_verify
+
+  grid_nodes_polo_sheet:
+    domain: grid
     owner: Polo
     path: Dataset_SusbtationNodes.xlsx
     format: xlsx
     source_crs: EPSG:4326
     columns:
-      Node: source_node_id     # node name includes voltage level, e.g. "ASCÓ 400" – unique
-      "Coordinates y": x        # file labels lon as "Coordinates y"
-      "Coordinates x": y        # file labels lat as "Coordinates x"
+      Node: source_node_id
+      "Coordinates y": x
+      "Coordinates x": y
       Voltage kV: voltage_kv
       "AvailableStorage CPE MPE [MW]": generation_available_mw
       "Not occupied margin [MW]": demand_available_mw
-    units: {generation_available_mw: MW, demand_available_mw: MW}
     metadata:
-      dataset_name: REE transmission node access capacity, Catalonia
-      provider: REE (Red Eléctrica de España) – RETE access-capacity portal
-      source_url: null
-      publication_date: null
-      retrieval_date: "2026-10-22"
-      spatial_resolution: transmission node (117 nodes)
+      dataset_name: REE node sheet (superseded, kept for reference)
+      provider: REE RETE portal, about 1 Oct 2026
       known_limitations: >-
-        Transmission (RdT) nodes only; e-distribución distribution nodes not included.
-        generation_available_mw is the BESS-specific CEP MPE storage margin (may be 0
-        even where general headroom exists); demand_available_mw is the general unoccupied
-        margin and is used as the primary capacity screening metric.
-      verification_status: to_verify
+        Superseded on 2026-11-16 by grid_nodes. Storage column is the static criterion only;
+        "Not occupied margin" is a derived formula, not an REE figure.
+      verification_status: superseded
 
   demand_municipal:
     domain: demand
@@ -215,24 +245,37 @@ real:
   congestion_erni:
     domain: congestion
     owner: Hsiang Wei
-    path: null
+    # Built from the REE monthly PDFs by scripts/build_erni_records.py
+    path: ../interim/congestion/erni_monthly_pdbf_fase1.csv
     format: csv
-    columns: {}
+    columns:
+      erni_node_id: source_node_id
+      erni_node_name: source_node_name
+      month: period_start
+      erni_mwh: erni_mwh
+      level: network_level
     units: {erni_mwh: MWh}
     metadata:
-      dataset_name: Non-integrated renewable energy (ERNI) / curtailment
-      provider: REE / ESIOS
-      verification_status: investigating
+      dataset_name: Non-integrated renewable energy (ERNI) by node, peninsular D-1 restrictions
+      provider: REE / ESIOS, "Publicación mensual por nudo de la ERNI" (PDBF Fase I)
+      source_url: https://www.esios.ree.es/es/documentacion
+      observation_period: 2025-11 to 2026-10 (monthly)
+      spatial_resolution: transmission node (nodes shown in each month's chart)
+      known_limitations: >-
+        Values read from the vector bar chart of each PDF (Top 30 rows match the report
+        table within 0.005 GWh). Nodes not in a month's chart have no notable ERNI that
+        month. Day-ahead (D-1) restrictions only.
+      verification_status: to_verify
   congestion_crosswalk:
     domain: congestion
     owner: Hsiang Wei
-    path: null
+    path: ../interim/congestion/erni_crosswalk_catalonia.csv
     format: csv
     columns: {}
     metadata:
-      dataset_name: Manual crosswalk ERNI node -> grid node
-      provider: project team (manual, reviewed)
-      verification_status: investigating
+      dataset_name: Crosswalk REE ERNI 8-character node codes -> grid nodes
+      provider: scripts/build_erni_records.py (name prefix + voltage, manual overrides)
+      verification_status: to_verify
 
   renewables_installations:
     domain: renewables

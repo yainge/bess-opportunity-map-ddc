@@ -116,7 +116,7 @@ def test_real_mode_optional_stages_skipped(project):
     status = {s["stage"]: s["status"] for s in rec["stage_results"]}
     assert status == {"grid": "ran", "demand": "skipped", "congestion": "skipped",
                       "renewables": "skipped", "gis": "skipped", "integrate": "ran",
-                      "score": "ran", "export": "ran"}
+                      "score": "ran", "ml": "skipped", "export": "ran"}
     assert (project / "results" / "real" / "bess_master.gpkg").exists()
     assert not (project / "results" / "demo").exists()
 

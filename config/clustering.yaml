@@ -6,8 +6,12 @@ status: exploratory
 
 # Node attributes used for similarity. Coordinates are deliberately NOT features:
 # geography enters only through the neighbour graph of the constrained variants.
+# Storage access capacity (bess_headroom_proxy_mw) is NOT a feature since 2026-11-16: with
+# REE's real figure it is positive at only 5 of 117 nodes, so it cannot separate nodes. It is
+# shown on the maps instead. Node activity replaces it (as in Isabella's typology v2).
 features:
-  - bess_headroom_proxy_mw
+  - storage_queue_mw            # storage granted + pending at the node (REE, MW)
+  - generation_granted_mw       # generation access granted at the node (REE, MW)
   - renewable_mw_10km
   - renewable_pipeline_mw_10km
   - nearby_demand_mwh_10km
@@ -30,8 +34,9 @@ stability:
   random_state: 42
 
 # Line topology for variant C (from_node_id,to_node_id per row, matching node_id).
-# Built by scripts/build_line_edges.py from the PyPSA-Eur OSM prebuilt network (approximate,
-# not official REE topology). Nodes absent from that source fall back to their nearest
-# geographic neighbours. Set to null to skip variant C.
+# Built by scripts/build_line_edges_topology.py from Fernando's matched workbook (OSM lines
+# between substations matched to REE nodes). scripts/build_line_edges.py (PyPSA-Eur) is the
+# older approximate alternative. Nodes without a located substation fall back to their
+# nearest geographic neighbours. Set to null to skip variant C.
 line_edges_csv: data/interim/grid/line_edges.csv
 line_fallback_neighbours: 3

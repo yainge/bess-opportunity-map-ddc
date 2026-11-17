@@ -33,7 +33,9 @@ COLORS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#62
 MARKERS = ["o", "s", "^", "D", "v", "P", "X", "*"]
 VARIANTS = {"A_features": "A. Features only", "B_spatial": "B. Geographic neighbours",
             "C_grid": "C. Transmission lines"}
-FEAT = {"bess_headroom_proxy_mw": "BESS headroom proxy",
+FEAT = {"bess_headroom_proxy_mw": "Storage access capacity",
+        "storage_queue_mw": "Storage granted + pending",
+        "generation_granted_mw": "Generation granted",
         "renewable_mw_10km": "Operating renewables, 10 km",
         "renewable_pipeline_mw_10km": "Pipeline renewables, 10 km",
         "nearby_demand_mwh_10km": "Nearby demand, 10 km",
@@ -42,7 +44,7 @@ FEAT = {"bess_headroom_proxy_mw": "BESS headroom proxy",
         "suitable_land_ha_5km": "Suitable land, 5 km",
         "distance_to_major_road_km": "Distance to major road"}
 NOTE = ("Exploratory. Clusters are similarity groups, not evidence of congestion or curtailment. "
-        "Lines in C are approximate (OpenStreetMap via PyPSA-Eur), not official REE topology.")
+        "Lines in C: OpenStreetMap lines matched to REE nodes, not an electrical model.")
 
 plt.rcParams.update({
     "figure.facecolor": SURFACE, "axes.facecolor": SURFACE, "savefig.facecolor": SURFACE,
@@ -174,6 +176,9 @@ def main() -> None:
     figures.mkdir(parents=True, exist_ok=True)
 
     df = pd.read_csv(tables / "nodes_integrated.csv")
+    if {"storage_granted_mw", "storage_pending_mw"} <= set(df.columns):
+        df["storage_queue_mw"] = df["storage_granted_mw"].fillna(0) + df[
+            "storage_pending_mw"].fillna(0)
     nodes = gpd.GeoDataFrame(
         df, geometry=gpd.points_from_xy(df.lon, df.lat), crs=project["project"]["geographic_crs"]
     ).to_crs(project["project"]["analysis_crs"])

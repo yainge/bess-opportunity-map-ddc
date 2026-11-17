@@ -5,8 +5,10 @@ joins onto. Headroom proxy:
 
     bess_headroom_proxy_mw = min(generation_available_mw, demand_available_mw)
 
-computed only when both values exist, are non-negative and (if capacity dates are given)
-refer to the same publication date. It is an indicative bidirectional screening metric -
+or, when ``grid.headroom_column`` is configured and present, that column (real mode: REE's
+storage access capacity). The min() form is computed only when both values exist, are
+non-negative and (if capacity dates are given) refer to the same publication date.
+It is an indicative bidirectional screening metric -
 NOT a guarantee that a BESS of that size can connect (see docs/assumptions.md).
 """
 
@@ -118,8 +120,14 @@ def process(loaded: Loaded, ctx: RunContext) -> gpd.GeoDataFrame:
     for col in ("generation_available_mw", "demand_available_mw"):
         if col in df:
             df.loc[df[col] < 0, col] = np.nan
-    df["bess_headroom_proxy_mw"], df["headroom_note"] = headroom_proxy(
-        df, cfg.project["grid"]["require_same_capacity_date"])
+    column = cfg.project["grid"].get("headroom_column")
+    if column and column in df:
+        df["bess_headroom_proxy_mw"] = df[column].where(df[column] >= 0)
+        df["headroom_note"] = pd.Series(pd.NA, index=df.index, dtype="string")
+        df.loc[df[column].isna(), "headroom_note"] = f"{column} missing"
+    else:
+        df["bess_headroom_proxy_mw"], df["headroom_note"] = headroom_proxy(
+            df, cfg.project["grid"]["require_same_capacity_date"])
     gdf = points_from_xy(df, "x", "y", loaded.spec.source_crs, loaded.report)
     gdf = add_lonlat(gdf, cfg.geographic_crs)
     gdf = gdf[in_bbox(gdf["lon"], gdf["lat"], cfg.project["project"]["region_bbox_wgs84"])]

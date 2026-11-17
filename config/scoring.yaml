@@ -10,44 +10,88 @@ status: illustrative
 # missing:        reweight -> indicator dropped for that node, remaining weights renormalised
 #                 worst    -> missing value receives the worst normalised score (0)
 #                 exclude  -> node is not ranked in scenarios that use this indicator
+# Six categories, following the team's methodology deck (15 Nov 2026, "How we evaluate
+# grid-node opportunities"). Category weights per scenario are the deck's; inside a category
+# the weight is split as in the deck's baseline matrix. Metric choices for real data:
+#   Grid access   = bess_headroom_proxy_mw (REE storage access capacity, generation mode)
+#                   + demand_available_mw (REE demand access capacity), half each
+#   ERNI          = erni_12m_gwh (REE monthly ERNI by node, 12-month total)
+#   Renewables    = renewable_mw_10km (2/3) + renewable_pipeline_mw_10km (1/3)
+#   Demand        = nearby_demand_mwh_10km
+#   Land          = suitable_land_ha_5km (industrial / zoned land not yet available)
+#   Accessibility = distance_to_major_road_km
 indicators:
   bess_headroom_proxy_mw:     {direction: higher_better, normalization: minmax, missing: worst}
   generation_available_mw:    {direction: higher_better, normalization: minmax, missing: worst}
   demand_available_mw:        {direction: higher_better, normalization: minmax, missing: worst}
-  erni_12m_gwh:               {direction: higher_better, normalization: minmax, missing: reweight}
+  # Nodes absent from REE's monthly charts had no notable ERNI, so missing counts as zero.
+  erni_12m_gwh:               {direction: higher_better, normalization: minmax, missing: worst}
   renewable_mw_10km:          {direction: higher_better, normalization: minmax, missing: reweight}
   renewable_pipeline_mw_10km: {direction: higher_better, normalization: minmax, missing: reweight}
   nearby_demand_mwh_10km:     {direction: higher_better, normalization: minmax, missing: reweight}
   suitable_land_ha_5km:       {direction: higher_better, normalization: minmax, missing: reweight}
   distance_to_major_road_km:  {direction: lower_better,  normalization: minmax, missing: reweight}
 
+# Category weights per scenario (documentation; the model uses the indicator weights below).
+categories:
+  #                       grid  erni  renew demand land  access
+  baseline:              [0.30, 0.20, 0.15, 0.10, 0.20, 0.05]
+  renewable_absorption:  [0.25, 0.30, 0.25, 0.05, 0.10, 0.05]
+  connection_readiness:  [0.35, 0.10, 0.10, 0.05, 0.30, 0.10]
+  load_grid_support:     [0.30, 0.25, 0.10, 0.25, 0.05, 0.05]
+
 # Nodes with less than this share of the scenario weight available are left unranked.
 min_weight_coverage: 0.5
 
 # Hard screening filters applied before ranking (boolean columns; true = excluded).
-exclude_if_true: [protected_area_conflict]
+# Empty since 17 Nov 2026: protected_area_conflict (a protected area within 1 km) removed
+# 38 of 117 nodes, including 18 of the 46 nodes with REE storage requests (2.1 of 5.3 GW).
+# Protected land is already removed from suitable land (spatial.yaml, role: hard), so
+# excluding the whole node counted it twice. The flag stays in the outputs for reference.
+exclude_if_true: []
 
 scenarios:
+  baseline:
+    description: Balanced starting hypothesis across all six categories.
+    weights:
+      bess_headroom_proxy_mw: 0.15
+      demand_available_mw: 0.15
+      erni_12m_gwh: 0.20
+      renewable_mw_10km: 0.10
+      renewable_pipeline_mw_10km: 0.05
+      nearby_demand_mwh_10km: 0.10
+      suitable_land_ha_5km: 0.20
+      distance_to_major_road_km: 0.05
   renewable_absorption:
     description: Where could storage absorb renewable output that is currently curtailed?
     weights:
-      erni_12m_gwh: 0.35
-      renewable_mw_10km: 0.20
-      renewable_pipeline_mw_10km: 0.15
-      generation_available_mw: 0.15
-      suitable_land_ha_5km: 0.15
+      bess_headroom_proxy_mw: 0.125
+      demand_available_mw: 0.125
+      erni_12m_gwh: 0.30
+      renewable_mw_10km: 0.1667
+      renewable_pipeline_mw_10km: 0.0833
+      nearby_demand_mwh_10km: 0.05
+      suitable_land_ha_5km: 0.10
+      distance_to_major_road_km: 0.05
   connection_readiness:
     description: Where does grid access and land availability look easiest to develop?
     weights:
-      bess_headroom_proxy_mw: 0.40
-      suitable_land_ha_5km: 0.30
-      distance_to_major_road_km: 0.20
+      bess_headroom_proxy_mw: 0.175
+      demand_available_mw: 0.175
       erni_12m_gwh: 0.10
+      renewable_mw_10km: 0.0667
+      renewable_pipeline_mw_10km: 0.0333
+      nearby_demand_mwh_10km: 0.05
+      suitable_land_ha_5km: 0.30
+      distance_to_major_road_km: 0.10
   load_grid_support:
     description: Where could storage support demand and local grid stability?
     weights:
-      nearby_demand_mwh_10km: 0.35
-      demand_available_mw: 0.25
-      erni_12m_gwh: 0.15
       bess_headroom_proxy_mw: 0.15
-      suitable_land_ha_5km: 0.10
+      demand_available_mw: 0.15
+      erni_12m_gwh: 0.25
+      renewable_mw_10km: 0.0667
+      renewable_pipeline_mw_10km: 0.0333
+      nearby_demand_mwh_10km: 0.25
+      suitable_land_ha_5km: 0.05
+      distance_to_major_road_km: 0.05

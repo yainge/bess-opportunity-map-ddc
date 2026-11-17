@@ -20,7 +20,7 @@ def test_dataset_spec_resolution(cfg):
     assert spec.columns["kv"] == "voltage_kv"
     real = cfg.dataset("real", "grid_nodes")
     assert real.path is not None
-    assert real.columns["Node"] == "source_node_id"
+    assert real.columns["ree_node"] == "source_node_id"
 
 
 def test_unknown_mode_rejected(cfg):

@@ -34,6 +34,10 @@ grid:
   # Headroom proxy min(generation, demand) is computed only when both values are present,
   # non-negative and (if capacity dates are supplied) published for the same date.
   require_same_capacity_date: true
+  # If set and present in the input, this column is used as bess_headroom_proxy_mw instead of
+  # min(generation, demand). Real mode: REE's storage access capacity (minimum over the
+  # short-circuit, static and dynamic criteria, generation mode) from the 3 Nov 2026 files.
+  headroom_column: storage_available_mw
 
 congestion:
   # Matching order: explicit crosswalk -> identical source id -> unique normalised name.
